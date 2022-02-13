@@ -31,7 +31,8 @@ public class SecondActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         Resources resources = getResources();
-        String text = String.format(resources.getString(R.string.hello), bundle.getString("name"));
+        String text = String.format(resources.getString(R.string.hello),
+                bundle.getString("name"));
 
         TextView textView = findViewById(R.id.textView);
         textView.setText(text);
