@@ -25,15 +25,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                Log.d(this.getLocalClassName(), "TODO: Implement search");
-                return true;
-            case R.id.action_settings:
-                Log.d(this.getLocalClassName(),"TODO: Implement settings");
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_search) {
+            Log.d(this.getLocalClassName(), "TODO: Implement search");
+            return true;
+        } else if (item.getItemId() == R.id.action_settings) {
+            Log.d(this.getLocalClassName(), "TODO: Implement settings");
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
