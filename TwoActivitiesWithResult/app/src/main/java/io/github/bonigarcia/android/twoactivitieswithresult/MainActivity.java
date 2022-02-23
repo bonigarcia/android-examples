@@ -36,16 +36,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void sendName(View view) {
-        Intent intent = new Intent(this, SecondActivity.class);
-        EditText nameText = findViewById(R.id.editText);
-        Bundle bundle = new Bundle();
-        bundle.putString("name", nameText.getText().toString());
-        intent.putExtras(bundle);
-
-        activityResultLauncher.launch(intent);
-    }
-
     ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -57,5 +47,15 @@ public class MainActivity extends AppCompatActivity {
                             "Result message: " + result.getData().getExtras().get("message"));
                 }
             });
+
+    public void sendName(View view) {
+        Intent intent = new Intent(this, SecondActivity.class);
+        EditText nameText = findViewById(R.id.editText);
+        Bundle bundle = new Bundle();
+        bundle.putString("name", nameText.getText().toString());
+        intent.putExtras(bundle);
+
+        activityResultLauncher.launch(intent);
+    }
 
 }
