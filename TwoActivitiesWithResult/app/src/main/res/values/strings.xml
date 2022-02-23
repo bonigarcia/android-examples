@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Two Activities With Result</string>
+    <string name="edit_message">What is your name?</string>
+    <string name="button_send">Send</string>
+    <string name="hello">Hello, %1$s!</string>
+    <string name="ok_button">Ok</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="ok_message">The user clicked on ok</string>
+    <string name="cancel_message">The user clicked on cancel</string>
+</resources>
