@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtras(bundle);
 
         activityResultLauncher.launch(intent);
-
     }
 
     ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
