@@ -16,6 +16,10 @@
  */
 package io.github.bonigarcia.android.takepicture;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -37,8 +41,6 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
-
     String currentPhotoPath;
 
     @Override
@@ -46,6 +48,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+
+    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Bitmap miBitmap = BitmapFactory.decodeFile(currentPhotoPath);
+
+                        ImageView imageView = findViewById(R.id.image);
+                        imageView.setImageBitmap(miBitmap);
+
+                        TextView textView = findViewById(R.id.text);
+                        textView.setText(currentPhotoPath);
+                    }
+                }
+            });
 
     public void onClickButton(View v) throws IOException {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -58,22 +77,8 @@ public class MainActivity extends AppCompatActivity {
                         "io.github.bonigarcia.android.takepicture.provider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                activityResultLauncher.launch(takePictureIntent);
             }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bitmap miBitmap = BitmapFactory.decodeFile(currentPhotoPath);
-
-            ImageView imageView = findViewById(R.id.image);
-            imageView.setImageBitmap(miBitmap);
-
-            TextView miTexto = findViewById(R.id.text);
-            miTexto.setText(currentPhotoPath);
         }
     }
 
