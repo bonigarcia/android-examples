@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"/>
+
+
+    <EditText
+        android:id="@+id/in_date"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:id="@+id/btn_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/in_date"
+        android:layout_toEndOf="@+id/in_date"
+        android:layout_toRightOf="@+id/in_date"
+        android:text="@string/select_date"
+        android:onClick="datePicker" />
+
+    <EditText
+        android:id="@+id/in_time"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/in_date"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:id="@+id/btn_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_date"
+        android:layout_alignStart="@+id/btn_date"
+        android:layout_alignLeft="@+id/btn_date"
+        android:text="@string/select_time"
+        android:onClick="timePicker"/>
+
+    <Button
+        android:id="@+id/btn_long_toast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_date"
+        android:layout_alignStart="@+id/btn_date"
+        android:layout_alignLeft="@+id/btn_date"
+        android:text="@string/btn_long_toast"
+        android:onClick="showLongToast"/>
+
+    <Button
+        android:id="@+id/btn_short_toast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_date"
+        android:layout_alignStart="@+id/btn_date"
+        android:layout_alignLeft="@+id/btn_date"
+        android:text="@string/btn_short_toast"
+        android:onClick="showShortToast"/>
+
+</LinearLayout>
