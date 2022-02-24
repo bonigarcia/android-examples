@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private void configureReceiver() {
         IntentFilter filter = new IntentFilter();
         filter.addAction("io.github.bonigarcia.sendbroadcast");
-        filter.addAction("android.intent.action.ACTION_POWER_CONNECTED");
-        filter.addAction("android.intent.action.ACTION_POWER_DISCONNECTED");
+        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         receiver = new MyReceiver();
         registerReceiver(receiver, filter);
     }
