@@ -25,7 +25,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,12 +42,11 @@ public class MainActivity extends AppCompatActivity {
         EditText nameText = findViewById(R.id.editText);
         String name = nameText.getText().toString();
 
-        String filename = "myfile.txt";
-        try (FileOutputStream outputStream = openFileOutput(filename,
-                Context.MODE_PRIVATE)) {
-            outputStream.write(name.getBytes());
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                openFileOutput("file.txt", Context.MODE_PRIVATE)))) {
+            bw.write(name);
         } catch (Exception e) {
-            Log.e(this.getLocalClassName(), "Exception writing " + filename, e);
+            Log.e(this.getLocalClassName(), "Exception writing file", e);
         }
 
         Intent intent = new Intent(this, SecondActivity.class);

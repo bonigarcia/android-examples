@@ -35,12 +35,11 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
 
         String name = "";
-        String filename = "myfile.txt";
-        try (FileInputStream inputStream = openFileInput(filename)) {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            name = bufferedReader.readLine();
+        try (BufferedReader br =
+                     new BufferedReader(new InputStreamReader(openFileInput("myfile.txt")))) {
+            name = br.readLine();
         } catch (Exception e) {
-            Log.e(this.getLocalClassName(), "Exception reading from " + filename, e);
+            Log.e(this.getLocalClassName(), "Exception reading file", e);
         }
 
         Resources resources = getResources();
