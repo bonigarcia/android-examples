@@ -28,6 +28,6 @@
 
     <SwitchPreference
         android:defaultValue="false"
-        android:key="night_mode"
-        android:title="@string/pref_title_night" />
+        android:key="pro_user"
+        android:title="@string/pref_title_pro" />
 </PreferenceScreen>

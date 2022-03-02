@@ -16,34 +16,39 @@
  */
 package io.github.bonigarcia.android.settingsdemo;
 
+import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class AboutActivity extends ParentActivity {
+public class AboutFragment extends Fragment {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_about, container, false);
 
         // Load preferences to display textView elements
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
 
         // Name
         String name = prefs.getString("name", getResources().getString(R.string.not_defined));
-        TextView textViewName = findViewById(R.id.textViewName);
+        TextView textViewName = view.findViewById(R.id.textViewName);
         textViewName.setText(textViewName.getText() + ": " + name);
 
         // Role
         String role = prefs.getString("role", getResources().getString(R.string.not_defined));
-        TextView textViewRole = findViewById(R.id.textViewRole);
+        TextView textViewRole = view.findViewById(R.id.textViewRole);
         textViewRole.setText(textViewRole.getText() + ": " + role);
 
         // Preferred programming language
-        TextView textViewLang = findViewById(R.id.textViewLang);
+        TextView textViewLang = view.findViewById(R.id.textViewLang);
         String lang = textViewLang.getText() + ":";
         if (prefs.getBoolean("prog_java", false)) {
             lang += " " + getResources().getString(R.string.pref_java);
@@ -58,6 +63,14 @@ public class AboutActivity extends ParentActivity {
             lang += " " + getResources().getString(R.string.not_defined);
         }
         textViewLang.setText(lang);
+
+        // Pro user
+        boolean pro = prefs.getBoolean("pro_user", false);
+        TextView textViewPro = view.findViewById(R.id.textViewPro);
+        textViewPro.setText(textViewPro.getText() + ": " + pro);
+
+        return view;
     }
+
 
 }
