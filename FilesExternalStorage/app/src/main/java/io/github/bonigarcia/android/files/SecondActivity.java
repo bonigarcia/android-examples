@@ -42,8 +42,7 @@ public class SecondActivity extends AppCompatActivity {
 
         String name = "";
         if (checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            String state = Environment.getExternalStorageState();
-            if (Environment.MEDIA_MOUNTED.equals(state)) {
+            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
                 File file = new File(getExternalFilesDir(null),
                         "myfile.txt");
                 try (BufferedReader br = new BufferedReader(new FileReader(file))) {
