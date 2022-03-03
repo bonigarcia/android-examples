@@ -36,7 +36,7 @@ public class SecondActivity extends AppCompatActivity {
 
         String name = "";
         try (BufferedReader br =
-                     new BufferedReader(new InputStreamReader(openFileInput("myfile.txt")))) {
+                     new BufferedReader(new InputStreamReader(openFileInput("file.txt")))) {
             name = br.readLine();
         } catch (Exception e) {
             Log.e(this.getLocalClassName(), "Exception reading file", e);
