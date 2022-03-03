@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        Log.d("SettingsActivity", key + " changed");
+        Log.d(this.getLocalClassName(), key + " changed");
     }
 
 }
