@@ -33,10 +33,10 @@ public class NotesAdapter {
     public static final String KEY_TITLE = "title";
     public static final String KEY_BODY = "body";
 
-    private static final String DATABASE_CREATE = "create table " + DATABASE_TABLE + " (" +
-            KEY_ROWID + " integer primary key autoincrement, " +
-            KEY_TITLE + " text not null, " +
-            KEY_BODY + " text not null);";
+    private static final String DATABASE_CREATE = "CREATE TABLE IF NOT EXISTS "
+            + DATABASE_TABLE + " (" + KEY_ROWID + " INTEGER PRIMARY KEY " +
+            "AUTOINCREMENT, " + KEY_TITLE + " TEXT NOT NULL, " +
+            KEY_BODY + " TEXT NOT NULL);";
 
     private DatabaseHelper helper;
     private SQLiteDatabase db;
