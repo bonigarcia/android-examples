@@ -20,16 +20,13 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.FileUtils;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadDataBase() {
-        SharedPreferences mPreferences = this.getSharedPreferences("first_time", Context.MODE_PRIVATE);
-        Boolean firstTime = mPreferences.getBoolean("firstTime", true);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Boolean firstTime = prefs.getBoolean("firstTime", true);
         if (firstTime) {
             try {
                 String destPath = "/data/data/" + getPackageName() +
@@ -101,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 out.flush();
                 out.close();
 
-                SharedPreferences.Editor editor = mPreferences.edit();
+                SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("firstTime", false);
                 editor.commit();
 
