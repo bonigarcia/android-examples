@@ -42,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getPosts();
+        getUsers();
     }
 
-    private void getPosts() {
-        List<String> postTitles = new ArrayList<>();
-        List<String> postBodies = new ArrayList<>();
+    private void getUsers() {
+        List<String> nameList = new ArrayList<>();
+        List<String> emailList = new ArrayList<>();
         ArrayAdapter listAdapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, postTitles);
+                android.R.layout.simple_list_item_1, nameList);
         ListView list = findViewById(R.id.list);
         list.setAdapter(listAdapter);
 
@@ -57,30 +57,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView,
                                     View view, int pos, long id) {
-                Toast.makeText(view.getContext(), postBodies.get(pos),
+                Toast.makeText(view.getContext(), emailList.get(pos),
                         Toast.LENGTH_SHORT).show();
             }
         });
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://jsonplaceholder.typicode.com")
+                .baseUrl("https://gorest.co.in/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        PostService postService = retrofit.create(PostService.class);
-        Call<List<Post>> call = postService.getPost();
+        UsersService usersService = retrofit.create(UsersService.class);
+        Call<List<User>> call = usersService.getUsers();
 
-        call.enqueue(new Callback<List<Post>>() {
+        call.enqueue(new Callback<List<User>>() {
             @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                for (Post post : response.body()) {
-                    postTitles.add(post.getTitle());
-                    postBodies.add(post.getBody());
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                for (User user : response.body()) {
+                    nameList.add(user.getName());
+                    emailList.add(user.getEmail());
                 }
                 listAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
+            public void onFailure(Call<List<User>> call, Throwable t) {
                 Log.e(this.getClass().getSimpleName(), "Exception calling endpoint", t);
             }
         });

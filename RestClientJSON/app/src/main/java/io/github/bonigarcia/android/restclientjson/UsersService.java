@@ -16,41 +16,14 @@
  */
 package io.github.bonigarcia.android.restclientjson;
 
-public class Post {
-    private int userId;
-    private int id;
-    private String title;
-    private String body;
+import java.util.List;
 
-    public int getUserId() {
-        return userId;
-    }
+import retrofit2.Call;
+import retrofit2.http.GET;
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+public interface UsersService {
 
-    public int getId() {
-        return id;
-    }
+    @GET("/public/v2/users")
+    Call<List<User>> getUsers();
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
 }
