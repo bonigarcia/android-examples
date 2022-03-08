@@ -23,9 +23,7 @@ import retrofit2.http.GET;
 
 public interface PostService {
 
-    String API_ROUTE = "/posts";
-
-    @GET(API_ROUTE)
+    @GET("/posts")
     Call<List<Post>> getPost();
 
 }

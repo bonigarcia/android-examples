@@ -21,8 +21,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +47,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void getPosts() {
         List<String> postTitles = new ArrayList<>();
+        List<String> postBodies = new ArrayList<>();
         ArrayAdapter listAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, postTitles);
         ListView list = findViewById(R.id.list);
         list.setAdapter(listAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView,
+                                    View view, int pos, long id) {
+                Toast.makeText(view.getContext(), postBodies.get(pos),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://jsonplaceholder.typicode.com")
@@ -62,14 +74,14 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 for (Post post : response.body()) {
                     postTitles.add(post.getTitle());
+                    postBodies.add(post.getBody());
                 }
                 listAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
-                Log.e(this.getClass().getSimpleName(), "Exception calling " +
-                        "endpoint", t);
+                Log.e(this.getClass().getSimpleName(), "Exception calling endpoint", t);
             }
         });
     }
