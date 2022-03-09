@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package io.github.bonigarcia.android.restclientjson;
+package io.github.bonigarcia.android.restclient;
 
 public class User {
     private int id;
