@@ -29,6 +29,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.bonigarcia.android.gorest.User;
+import io.github.bonigarcia.android.gorest.UsersService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

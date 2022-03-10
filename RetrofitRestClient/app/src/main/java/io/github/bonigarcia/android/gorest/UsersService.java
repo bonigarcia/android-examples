@@ -14,10 +14,11 @@
  * limitations under the License.
  *
  */
-package io.github.bonigarcia.android.restclient;
+package io.github.bonigarcia.android.gorest;
 
 import java.util.List;
 
+import io.github.bonigarcia.android.gorest.User;
 import retrofit2.Call;
 import retrofit2.http.GET;
 

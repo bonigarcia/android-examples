@@ -14,14 +14,14 @@
  * limitations under the License.
  *
  */
-package io.github.bonigarcia.android.restclient;
+package io.github.bonigarcia.android.gorest;
 
 public class User {
-    private int id;
-    private String name;
-    private String email;
-    private String gender;
-    private String status;
+    public int id;
+    public String name;
+    public String email;
+    public String gender;
+    public String status;
 
     public int getId() {
         return id;
