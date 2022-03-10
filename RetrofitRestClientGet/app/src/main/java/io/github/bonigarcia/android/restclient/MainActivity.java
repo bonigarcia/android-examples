@@ -44,17 +44,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getUsers();
-    }
-
-    private void getUsers() {
         List<String> nameList = new ArrayList<>();
         List<String> emailList = new ArrayList<>();
         ArrayAdapter listAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, nameList);
         ListView list = findViewById(R.id.list);
         list.setAdapter(listAdapter);
-
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView,
@@ -64,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        getUsers(listAdapter, nameList, emailList);
+    }
+
+    private void getUsers(ArrayAdapter listAdapter, List<String> nameList, List<String> emailList) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://gorest.co.in/")
                 .addConverterFactory(GsonConverterFactory.create())
