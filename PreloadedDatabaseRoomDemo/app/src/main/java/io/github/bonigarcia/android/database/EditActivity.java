@@ -19,16 +19,13 @@ package io.github.bonigarcia.android.database;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 public class EditActivity extends AppCompatActivity {
 
-    private static final String DATABASE_NAME = "my-notes";
-
     private AppDatabase db;
-
     private EditText titleText;
     private EditText bodyText;
     private Long mRowId;
@@ -38,21 +35,18 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DATABASE_NAME)
-                .allowMainThreadQueries()
-                .build();
+        db = AppDatabase.getInstance(getApplicationContext());
 
         titleText = findViewById(R.id.title);
         bodyText = findViewById(R.id.body);
 
         Bundle extras = getIntent().getExtras();
-        mRowId = extras != null ? extras.getLong("id") : null;
-        if (mRowId != null) {
+        if (extras != null) {
+            mRowId = extras.getLong("id");
             Note note = db.notesDao().findById(mRowId);
             titleText.setText(note.getTitle());
             bodyText.setText(note.getBody());
         }
-
     }
 
     public void saveNote(View view) {
@@ -62,12 +56,15 @@ public class EditActivity extends AppCompatActivity {
         if (mRowId == null) {
             Note note = new Note(title, body);
             long id = db.notesDao().insert(note);
-            if (id > 0) {
-                mRowId = id;
-            }
+            Toast.makeText(getApplicationContext(), "Created note with id " + id,
+                    Toast.LENGTH_LONG).show();
+
         } else {
             Note note = new Note(mRowId, title, body);
             db.notesDao().update(note);
+
+            Toast.makeText(getApplicationContext(), "Updated note with id " + mRowId,
+                    Toast.LENGTH_LONG).show();
         }
         setResult(RESULT_OK);
         finish();
