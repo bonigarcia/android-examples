@@ -24,6 +24,7 @@ import androidx.room.RoomDatabase;
 
 @Database(entities = {Note.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
+
     private static final String DB_NAME = "my-database.db";
     private static volatile AppDatabase instance;
 

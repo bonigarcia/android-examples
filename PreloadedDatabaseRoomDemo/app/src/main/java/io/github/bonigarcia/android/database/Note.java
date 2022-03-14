@@ -33,13 +33,13 @@ public class Note {
     @ColumnInfo(name = "body")
     public String body;
 
-    @Ignore
     public Note(long id, String title, String body) {
         this.id = id;
         this.title = title;
         this.body = body;
     }
 
+    @Ignore
     public Note(String title, String body) {
         this.title = title;
         this.body = body;
