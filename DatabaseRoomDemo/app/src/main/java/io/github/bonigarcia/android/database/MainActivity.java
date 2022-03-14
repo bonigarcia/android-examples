@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             titles.add(note.getTitle());
         }
 
-        ArrayAdapter listAdapter = new ArrayAdapter(listView.getContext(),
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(listView.getContext(),
                 android.R.layout.simple_list_item_1, titles);
         listView.setAdapter(listAdapter);
     }
