@@ -23,6 +23,7 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Note {
+
     @PrimaryKey(autoGenerate = true)
     public long id;
 
