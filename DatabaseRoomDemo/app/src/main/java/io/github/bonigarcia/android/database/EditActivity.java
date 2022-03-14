@@ -22,12 +22,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 public class EditActivity extends AppCompatActivity {
 
     private AppDatabase db;
-
     private EditText titleText;
     private EditText bodyText;
     private Long mRowId;
@@ -37,8 +35,7 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "my-notes").allowMainThreadQueries().build();
+        db = AppDatabase.getInstance(getApplicationContext());
 
         titleText = findViewById(R.id.title);
         bodyText = findViewById(R.id.body);
