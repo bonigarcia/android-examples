@@ -40,7 +40,7 @@ public interface NotesDao {
     Notes findByTitle(String title);
 
     @Insert
-    long insert(Notes note);
+    long insert(Notes notes);
 
     @Insert
     long[] insertAll(Notes... notes);
@@ -49,6 +49,6 @@ public interface NotesDao {
     public void update(Notes... notes);
 
     @Delete
-    void delete(Notes note);
+    void delete(Notes notes);
 
 }
