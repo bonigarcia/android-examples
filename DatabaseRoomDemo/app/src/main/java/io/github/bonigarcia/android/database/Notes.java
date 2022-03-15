@@ -22,7 +22,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Note {
+public class Notes {
 
     @PrimaryKey(autoGenerate = true)
     public long id;
@@ -33,14 +33,14 @@ public class Note {
     @ColumnInfo(name = "body")
     public String body;
 
-    public Note(long id, String title, String body) {
+    public Notes(long id, String title, String body) {
         this.id = id;
         this.title = title;
         this.body = body;
     }
 
     @Ignore
-    public Note(String title, String body) {
+    public Notes(String title, String body) {
         this.title = title;
         this.body = body;
     }

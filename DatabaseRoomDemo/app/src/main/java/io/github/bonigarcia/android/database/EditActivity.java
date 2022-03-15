@@ -43,7 +43,7 @@ public class EditActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mRowId = extras.getLong("id");
-            Note note = db.notesDao().findById(mRowId);
+            Notes note = db.notesDao().findById(mRowId);
             titleText.setText(note.getTitle());
             bodyText.setText(note.getBody());
         }
@@ -54,13 +54,13 @@ public class EditActivity extends AppCompatActivity {
         String body = bodyText.getText().toString();
 
         if (mRowId == null) {
-            Note note = new Note(title, body);
+            Notes note = new Notes(title, body);
             long id = db.notesDao().insert(note);
             Toast.makeText(getApplicationContext(), "Created note with id " + id,
                     Toast.LENGTH_LONG).show();
 
         } else {
-            Note note = new Note(mRowId, title, body);
+            Notes note = new Notes(mRowId, title, body);
             db.notesDao().update(note);
 
             Toast.makeText(getApplicationContext(), "Updated note with id " + mRowId,
@@ -69,4 +69,5 @@ public class EditActivity extends AppCompatActivity {
         setResult(RESULT_OK);
         finish();
     }
+
 }
