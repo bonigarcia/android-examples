@@ -92,16 +92,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fillData() {
-        List<Note> notes = db.notesDao().getAllNotes();
+        List<Notes> notesList = db.notesDao().getAllNotes();
 
         // Create another list only containing the titles
         List<String> titles = new ArrayList<>();
-        for (Note note : notes) {
-            titles.add(note.getTitle());
+        for (Notes notes : notesList) {
+            titles.add(notes.getTitle());
         }
 
         ArrayAdapter<String> listAdapter = new ArrayAdapter<>(listView.getContext(),
                 android.R.layout.simple_list_item_1, titles);
         listView.setAdapter(listAdapter);
     }
+
 }

@@ -27,27 +27,28 @@ import java.util.List;
 @Dao
 public interface NotesDao {
 
-    @Query("SELECT * FROM note")
-    List<Note> getAllNotes();
+    @Query("SELECT * FROM Notes")
+    List<Notes> getAllNotes();
 
-    @Query("SELECT * FROM note WHERE id IN (:notesIds)")
-    List<Note> loadAllByIds(long[] notesIds);
+    @Query("SELECT * FROM Notes WHERE id IN (:notesIds)")
+    List<Notes> loadAllByIds(long[] notesIds);
 
-    @Query("SELECT * FROM note WHERE id=:id")
-    Note findById(long id);
+    @Query("SELECT * FROM Notes WHERE id=:id")
+    Notes findById(long id);
 
-    @Query("SELECT * FROM note WHERE title LIKE :title LIMIT 1")
-    Note findByTitle(String title);
-
-    @Insert
-    long insert(Note note);
+    @Query("SELECT * FROM Notes WHERE title LIKE :title LIMIT 1")
+    Notes findByTitle(String title);
 
     @Insert
-    long[] insertAll(Note... notes);
+    long insert(Notes notes);
+
+    @Insert
+    long[] insertAll(Notes... notes);
 
     @Update
-    public void update(Note... notes);
+    public void update(Notes... notes);
 
     @Delete
-    void delete(Note note);
+    void delete(Notes notes);
+
 }
