@@ -40,7 +40,7 @@ public class MyService extends Service {
 
     @Override public void onDestroy() {
         super.onDestroy();
-        Log.d(this.getClass().getCanonicalName(), "Service destoyed");
+        Log.d(this.getClass().getCanonicalName(), "Service destroyed");
     }
 
 }
