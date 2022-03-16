@@ -25,8 +25,7 @@ public class MyService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null; // This service does not provide binding
     }
 
     @Override public void onCreate() {
@@ -40,8 +39,8 @@ public class MyService extends Service {
     }
 
     @Override public void onDestroy() {
-        Log.d(this.getClass().getCanonicalName(), "Service destoyed");
         super.onDestroy();
+        Log.d(this.getClass().getCanonicalName(), "Service destoyed");
     }
 
 }
