@@ -34,8 +34,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
-    private LocationManager locationManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         if (Geocoder.isPresent()) {
             Geocoder gc = new Geocoder(this, Locale.getDefault());
             try {
-                // Reverse Geocoding
                 List<Address> addresses =
                         gc.getFromLocation(location.getLatitude(), location.getLongitude(), 10);
                 String addressesStr = "";
