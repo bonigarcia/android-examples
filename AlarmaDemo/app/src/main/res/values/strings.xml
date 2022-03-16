@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Alarm Demo</string>
+    <string name="button">Start Alarm</string>
+    <string name="hello">Hello, %1$s!</string>
+</resources>
