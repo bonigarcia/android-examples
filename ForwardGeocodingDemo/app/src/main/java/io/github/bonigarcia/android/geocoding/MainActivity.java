@@ -16,13 +16,8 @@
  */
 package io.github.bonigarcia.android.geocoding;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -32,36 +27,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
-
-    private LocationManager locationManager;
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-
-        LocationManager locationManager =
-                (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
         if (Geocoder.isPresent()) {
             Geocoder gc = new Geocoder(this, Locale.getDefault());
             try {
-                // Reverse Geocoding
-                List<Address> addresses =
-                        gc.getFromLocation(location.getLatitude(), location.getLongitude(), 10);
-                String addressesStr = "";
+                String myAddress = "UC3M Leganés";
+                List<Address> addresses = gc.getFromLocationName(myAddress, 10);
+                String addressesStr = myAddress + ":\r\n";
                 for (Address address : addresses) {
                     addressesStr += address.getAddressLine(0) + "\r\n";
+                    addressesStr += address.getLatitude() + ", " + address.getLongitude() + "\r\n";
                 }
                 TextView textView = findViewById(R.id.msg);
                 textView.setText(addressesStr);
