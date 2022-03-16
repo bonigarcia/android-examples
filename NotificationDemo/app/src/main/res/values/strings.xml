@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Notification Demo</string>
+    <string name="start_service">Start notification</string>
+    <string name="stop_service">Stop notification</string>
+</resources>
