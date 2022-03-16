@@ -23,16 +23,15 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String CHANNEL_ID = "io.github.bonigarcia.android.notification.notify_001";
-    private static final String CHANNEL_NAME = "My notification channel";
-
     private NotificationManager notificationManager;
+    private int notificationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,26 +44,23 @@ public class MainActivity extends AppCompatActivity {
                 notificationManager = (NotificationManager) context
                         .getSystemService(context.NOTIFICATION_SERVICE);
 
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(context, CHANNEL_ID);
-                mBuilder.setContentTitle("My notification title");
-                mBuilder.setContentText("My notification content");
-                mBuilder.setSmallIcon(R.drawable.ic_android_black_24dp);
+                NotificationCompat.Builder builder =
+                        new NotificationCompat.Builder(context,
+                                "io.github.bonigarcia.android.notification.notify_001");
+                builder.setContentTitle("My notification title");
+                builder.setContentText("My notification content");
+                builder.setSmallIcon(R.drawable.ic_android_black_24dp);
+                builder.setLargeIcon(
+                        BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
-                            NotificationManager.IMPORTANCE_DEFAULT);
-                    notificationManager.createNotificationChannel(channel);
-                    mBuilder.setChannelId(CHANNEL_ID);
-                }
-
-                notificationManager.notify(0, mBuilder.build());
+                notificationId = 0;
+                notificationManager.notify(notificationId, builder.build());
             }
         });
 
         findViewById(R.id.stop_button).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
-                notificationManager.cancel(0);
+                notificationManager.cancel(notificationId);
             }
         });
     }
