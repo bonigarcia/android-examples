@@ -19,7 +19,6 @@ package io.github.bonigarcia.android.googlemaps;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -47,17 +46,14 @@ public class MainActivity extends AppCompatActivity
         map.setOnPoiClickListener(this);
 
         float zoomLevel = map.getMaxZoomLevel() - 5;
-        LatLng uc3m = new LatLng(40.332690215919904,
-                -3.765110001822394); // UC3M Leganés
+        LatLng uc3m = new LatLng(40.332690215919904, -3.765110001822394); // UC3M Leganés
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(uc3m, zoomLevel));
     }
 
     @Override
-    public void onPoiClick(@NonNull PointOfInterest poi) {
-        Toast.makeText(this, "Clicked: " +
-                        poi.name + "\nPlace ID:" + poi.placeId +
-                        "\nLatitude:" + poi.latLng.latitude +
-                        " Longitude:" + poi.latLng.longitude,
-                Toast.LENGTH_SHORT).show();
+    public void onPoiClick(PointOfInterest poi) {
+        Toast.makeText(this, "Clicked: " + poi.name + "\nPlace ID:" + poi.placeId + "\nLatitude:" +
+                poi.latLng.latitude + " Longitude:" + poi.latLng.longitude, Toast.LENGTH_SHORT)
+                .show();
     }
 }
