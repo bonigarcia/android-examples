@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             Geocoder gc = new Geocoder(this, Locale.getDefault());
             try {
                 List<Address> addresses =
-                        gc.getFromLocation(location.getLatitude(), location.getLongitude(), 10);
+                        gc.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 String addressesStr = "";
                 for (Address address : addresses) {
                     addressesStr += address.getAddressLine(0) + "\r\n";
