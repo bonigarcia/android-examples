@@ -30,6 +30,9 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String CHANNEL_ID = "io.github.bonigarcia.android.notification.notify_001";
+    private static final String CHANNEL_NAME = "My notification channel";
+
     private NotificationManager notificationManager;
     private int notificationId;
 
@@ -45,13 +48,17 @@ public class MainActivity extends AppCompatActivity {
                         .getSystemService(context.NOTIFICATION_SERVICE);
 
                 NotificationCompat.Builder builder =
-                        new NotificationCompat.Builder(context,
-                                "io.github.bonigarcia.android.notification.notify_001");
+                        new NotificationCompat.Builder(context, CHANNEL_ID);
                 builder.setContentTitle("My notification title");
                 builder.setContentText("My notification content");
                 builder.setSmallIcon(R.drawable.ic_android_black_24dp);
-                builder.setLargeIcon(
-                        BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
+                            NotificationManager.IMPORTANCE_DEFAULT);
+                    notificationManager.createNotificationChannel(channel);
+                    builder.setChannelId(CHANNEL_ID);
+                }
 
                 notificationId = 0;
                 notificationManager.notify(notificationId, builder.build());
