@@ -16,13 +16,12 @@
  */
 package io.github.bonigarcia.android.twoactivities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,15 +29,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), SecondActivity.class);
+                EditText nameText = findViewById(R.id.editText);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", nameText.getText().toString());
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+        });
     }
 
-    public void sendName(View view) {
-        Intent intent = new Intent(this, SecondActivity.class);
-        EditText nameText = findViewById(R.id.editText);
-        Bundle bundle = new Bundle();
-        bundle.putString("name", nameText.getText().toString());
-        intent.putExtras(bundle);
-
-        startActivity(intent);
-    }
 }
