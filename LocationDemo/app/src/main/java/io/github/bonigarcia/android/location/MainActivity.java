@@ -16,6 +16,7 @@
  */
 package io.github.bonigarcia.android.location;
 
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -24,7 +25,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
