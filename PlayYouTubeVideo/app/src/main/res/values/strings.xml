@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Play YouTube video</string>
+    <string name="button_send">Open video</string>
+</resources>
