@@ -43,8 +43,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_PERMISSION_ACCESS_FINE_LOCATION);
-        }
-        else {
+        } else {
             LocationManager locationManager =
                     (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     finish();
-                    startActivity(new Intent(this, this.getClass()));
+                    startActivity(getIntent());
                 }
                 break;
             }
