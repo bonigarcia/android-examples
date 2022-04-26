@@ -17,6 +17,7 @@
 package io.github.bonigarcia.android.location;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -25,6 +26,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
@@ -39,14 +41,24 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
-        LocationManager locationManager =
-                (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
     }
 
     @Override
     public void onLocationChanged(Location location) {
         TextView textView = findViewById(R.id.msg);
         textView.setText("Location: " + location.getLatitude() + ", " + location.getLongitude());
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            LocationManager locationManager =
+                    (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
+        }
     }
 }
