@@ -19,6 +19,7 @@ package io.github.bonigarcia.android.location;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -31,6 +32,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
+    private final int REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +41,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_PERMISSION_ACCESS_FINE_LOCATION);
         }
-
+        else {
+            LocationManager locationManager =
+                    (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
+        }
     }
 
     @Override
@@ -49,16 +57,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         textView.setText("Location: " + location.getLatitude() + ", " + location.getLongitude());
     }
 
-    @SuppressLint("MissingPermission")
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            LocationManager locationManager =
-                    (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
+        switch (requestCode) {
+            case REQUEST_PERMISSION_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    finish();
+                    startActivity(new Intent(this, this.getClass()));
+                }
+                break;
+            }
         }
     }
 }
