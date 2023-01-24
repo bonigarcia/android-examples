@@ -6,7 +6,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "io.github.bonigarcia.android.asynctaskbasicdemo"
+        applicationId "es.uc3m.android.asynctaskbasic"
         minSdk 23
         targetSdk 32
         versionCode 1

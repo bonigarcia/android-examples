@@ -6,7 +6,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "io.github.bonigarcia.android.location"
+        applicationId "es.uc3m.android.location"
         minSdk 23
         targetSdk 32
         versionCode 1

@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/nav_fragment"
-        android:name="io.github.bonigarcia.android.navigation.HomeFragment"
+        android:name="es.uc3m.android.navigation.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@id/bottom_nav_view"

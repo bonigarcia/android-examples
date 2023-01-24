@@ -6,7 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "io.github.bonigarcia.android.alarm"
+        applicationId "es.uc3m.android.alarm"
         minSdk 23
         targetSdk 31
         versionCode 1

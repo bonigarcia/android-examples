@@ -6,7 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "io.github.bonigarcia.android.linearlayout"
+        applicationId "es.uc3m.android.linearlayout"
         minSdk 23
         targetSdk 31
         versionCode 1
@@ -28,7 +28,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'

@@ -6,7 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "io.github.bonigarcia.android.youtube"
+        applicationId "es.uc3m.android.youtube"
         minSdk 23
         targetSdk 31
         versionCode 1
