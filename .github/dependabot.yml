@@ -1,6 +1,181 @@
 version: 2
 updates:
   - package-ecosystem: "gradle"
-    directory: "/"
+    directory: "/Alarm"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/AppBar"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/AsyncTaskBasic"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/AsyncTaskRestClient"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/BottomNavigationView"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/BroadcastReceiver"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/ConstraintLayout"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/Database"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/DatabasePreloaded"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/Dialogs"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/FilesExternalStorage"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/FilesInternalStorage"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/Fragments"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/Geocoding"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/GoogleMaps"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/GoogleMapsPoi"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/GooglePlaces"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/HelloWorld"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/HelloWorldMultiLang"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/ImplicitIntents"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/LinearLayout"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/Location"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/NavigationDrawer"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/Notifications"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/Preferences"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/RetrofitGooglePlaces"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/RetrofitRestClientGet"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/RetrofitRestClientPost"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/ReverseGeocoding"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/Services"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/TakePicture"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/TwoActivities"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/TwoActivitiesWithResult"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/ViewBinding"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/WebView"
+    schedule:
+      interval: "daily"
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/YouTubeVideo"
     schedule:
       interval: "daily"
