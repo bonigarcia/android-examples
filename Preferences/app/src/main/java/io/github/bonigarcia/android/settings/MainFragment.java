@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package io.github.bonigarcia.android.settingsdemo;
+package io.github.bonigarcia.android.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

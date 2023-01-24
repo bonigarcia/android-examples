@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Retrofit Rest Client POST"
+rootProject.name = "Retrofit Rest Client POST Demo"
 include ':app'

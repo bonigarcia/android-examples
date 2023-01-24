@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package io.github.bonigarcia.android.asynctaskbasicdemo;
+package io.github.bonigarcia.android.asynctaskbasic;
 
 import android.os.AsyncTask;
 import android.text.Html;

@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package io.github.bonigarcia.android.settingsdemo;
+package io.github.bonigarcia.android.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

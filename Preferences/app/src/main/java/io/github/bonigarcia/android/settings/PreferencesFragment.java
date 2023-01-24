@@ -14,20 +14,17 @@
  * limitations under the License.
  *
  */
-package io.github.bonigarcia.android.fragmentdemo;
+package io.github.bonigarcia.android.settings;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceFragmentCompat;
 
-public class Fragment2 extends Fragment {
+public class PreferencesFragment extends PreferenceFragmentCompat {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment2, container, false);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.settings_layout, rootKey);
     }
+
 }

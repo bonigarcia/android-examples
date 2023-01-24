@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Database Demo</string>
+    <string name="app_name">Preloaded Database Demo</string>
     <string name="insert_note">Insert note</string>
     <string name="title">Title</string>
     <string name="body">Body</string>

@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package io.github.bonigarcia.android.settingsdemo;
+package io.github.bonigarcia.android.settings;
 
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;

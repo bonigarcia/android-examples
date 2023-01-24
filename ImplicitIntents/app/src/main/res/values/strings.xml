@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Implicit Intents</string>
+    <string name="app_name">Implicit Intents Demo</string>
     <string name="button">Click me</string>
     <string name="action_view">ACTION_VIEW</string>
     <string name="action_dial">ACTION_DIAL</string>

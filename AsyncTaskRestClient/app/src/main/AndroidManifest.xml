@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RestClientJSON">
         <activity
-            android:name="io.github.bonigarcia.android.restclient.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
