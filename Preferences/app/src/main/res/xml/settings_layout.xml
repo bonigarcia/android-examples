@@ -1,0 +1,33 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <EditTextPreference
+        app:defaultValue=""
+        app:key="name"
+        app:title="@string/pref_title_name" />
+
+    <ListPreference
+        android:entries="@array/roleKeys"
+        android:entryValues="@array/roleValues"
+        android:key="role"
+        android:title="@string/pref_title_role" />
+
+    <PreferenceCategory android:title="@string/pref_title_prog_lang">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="prog_java"
+            android:title="@string/pref_java" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="prog_python"
+            android:title="@string/pref_python" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="prog_c"
+            android:title="@string/pref_c" />
+    </PreferenceCategory>
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="pro_user"
+        android:title="@string/pref_title_pro" />
+</PreferenceScreen>

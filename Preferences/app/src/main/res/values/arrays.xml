@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="roleKeys">
+        <item>dev</item>
+        <item>test</item>
+        <item>qa</item>
+        <item>manager</item>
+        <item>other</item>
+    </array>
+
+    <array name="roleValues">
+        <item>@string/role_dev</item>
+        <item>@string/role_test</item>
+        <item>@string/role_qa</item>
+        <item>@string/role_manager</item>
+        <item>@string/role_other</item>
+    </array>
+</resources>
