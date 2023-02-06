@@ -86,3 +86,7 @@ lint/tmp/
 
 # Any IntelliJ IDEA folder
 .idea
+
+# Eclipse
+.project
+.settings
