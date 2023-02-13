@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2022 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2023 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.adapter;
+package es.uc3m.android.listview;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.action_remove) {
             int count = listAdapter.getCount();
             if (count > 0) {
-                listAdapter.remove(listAdapter.getItem(0));
+                listAdapter.remove(listAdapter.getItem(count - 1));
             }
             return true;
         } else {

@@ -1,11 +1,6 @@
 version: 2
 updates:
 - package-ecosystem: "gradle"
-  directory: "/Adapter"
-  schedule:
-    interval: "daily"
-
-- package-ecosystem: "gradle"
   directory: "/Alarm"
   schedule:
     interval: "daily"
@@ -107,6 +102,11 @@ updates:
 
 - package-ecosystem: "gradle"
   directory: "/LinearLayout"
+  schedule:
+    interval: "daily"
+
+- package-ecosystem: "gradle"
+  directory: "/ListView"
   schedule:
     interval: "daily"
 

@@ -4,10 +4,10 @@ plugins {
 
 android {
     compileSdk 33
-    namespace 'es.uc3m.android.adapter'
+    namespace 'es.uc3m.android.listview'
 
     defaultConfig {
-        applicationId "es.uc3m.android.adapter"
+        applicationId "es.uc3m.android.listview"
         minSdk 23
         targetSdk 33
         versionCode 1
