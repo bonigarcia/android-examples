@@ -131,6 +131,11 @@ updates:
     interval: "daily"
 
 - package-ecosystem: "gradle"
+  directory: "/RecyclerView"
+  schedule:
+    interval: "daily"
+
+- package-ecosystem: "gradle"
   directory: "/RetrofitGooglePlaces"
   schedule:
     interval: "daily"
