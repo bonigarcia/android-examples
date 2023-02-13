@@ -18,7 +18,6 @@ package es.uc3m.android.viewbinding;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,17 +32,14 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), SecondActivity.class);
-                EditText nameText = findViewById(R.id.editText);
-                Bundle bundle = new Bundle();
-                bundle.putString("name", nameText.getText().toString());
-                intent.putExtras(bundle);
+        binding.button.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), SecondActivity.class);
+            EditText nameText = findViewById(R.id.editText);
+            Bundle bundle = new Bundle();
+            bundle.putString("name", nameText.getText().toString());
+            intent.putExtras(bundle);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
     }
 
