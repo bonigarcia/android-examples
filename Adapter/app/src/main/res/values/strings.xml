@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Adapter Demo</string>
+    <string name="add_element">Add element</string>
+</resources>
