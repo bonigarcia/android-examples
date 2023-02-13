@@ -19,10 +19,9 @@ package es.uc3m.android.appbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,18 +33,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_search) {
-            Log.d(this.getLocalClassName(), "TODO: Implement search");
+            Toast.makeText(this.getApplicationContext(), "TODO: search",
+                    Toast.LENGTH_LONG).show();
             return true;
         } else if (item.getItemId() == R.id.action_settings) {
-            Log.d(this.getLocalClassName(), "TODO: Implement settings");
+            Toast.makeText(this.getApplicationContext(), "TODO: settings",
+                    Toast.LENGTH_LONG).show();
+            return true;
+        } else if (item.getItemId() == R.id.action_about) {
+            Toast.makeText(this.getApplicationContext(), "TODO: about",
+                    Toast.LENGTH_LONG).show();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
