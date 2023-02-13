@@ -53,7 +53,13 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_add) {
             long currentTimeMillis = System.currentTimeMillis();
             String formatDate = formatDate(currentTimeMillis);
-            listAdapter.add(formatDate);
+            listAdapter.add(listAdapter.getCount() + " " + formatDate);
+            return true;
+        } else if (item.getItemId() == R.id.action_remove) {
+            int count = listAdapter.getCount();
+            if (count > 0) {
+                listAdapter.remove(listAdapter.getItem(0));
+            }
             return true;
         } else {
             return super.onOptionsItemSelected(item);

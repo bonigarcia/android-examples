@@ -7,4 +7,10 @@
         android:title="@string/add_element"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_remove"
+        android:icon="@drawable/baseline_remove_24"
+        android:title="@string/remove_element"
+        app:showAsAction="ifRoom" />
+
 </menu>
