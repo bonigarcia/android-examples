@@ -1,6 +1,11 @@
 version: 2
 updates:
 - package-ecosystem: "gradle"
+  directory: "/Adapter"
+  schedule:
+    interval: "daily"
+
+- package-ecosystem: "gradle"
   directory: "/Alarm"
   schedule:
     interval: "daily"
