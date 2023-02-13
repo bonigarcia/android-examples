@@ -39,17 +39,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         Fragment fragment;
-        switch (item.getItemId()) {
-            case R.id.profile_item:
-                fragment = new ProfileFragment();
-                break;
-            case R.id.settings_item:
-                fragment = new SettingsFragment();
-                break;
-            default:
-            case R.id.home_item:
-                fragment = new HomeFragment();
-                break;
+        int itemId = item.getItemId();
+        if (itemId == R.id.profile_item) {
+            fragment = new ProfileFragment();
+        }
+        else if (itemId == R.id.settings_item) {
+            fragment = new SettingsFragment();
+        }
+        else {
+            fragment = new HomeFragment();
         }
 
         getSupportFragmentManager().beginTransaction()
