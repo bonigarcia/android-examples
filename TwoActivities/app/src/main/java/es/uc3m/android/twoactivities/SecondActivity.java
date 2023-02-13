@@ -37,4 +37,5 @@ public class SecondActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.textView);
         textView.setText(text);
     }
+
 }
