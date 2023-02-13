@@ -16,18 +16,16 @@
  */
 package es.uc3m.android.dialogs;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 
@@ -54,14 +52,10 @@ public class SecondActivity extends AppCompatActivity {
         int mDay = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-                        EditText txtDate = findViewById(R.id.in_date);
-                        txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) +
-                                "-" + year);
-                    }
+                (view1, year, monthOfYear, dayOfMonth) -> {
+                    EditText txtDate = findViewById(R.id.in_date);
+                    txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) +
+                            "-" + year);
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
     }
@@ -72,13 +66,9 @@ public class SecondActivity extends AppCompatActivity {
         int mMinute = c.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-                        EditText txtTime = findViewById(R.id.in_time);
-                        txtTime.setText(hourOfDay + ":" + minute);
-                    }
+                (view1, hourOfDay, minute) -> {
+                    EditText txtTime = findViewById(R.id.in_time);
+                    txtTime.setText(hourOfDay + ":" + minute);
                 }, mHour, mMinute, false);
         timePickerDialog.show();
     }

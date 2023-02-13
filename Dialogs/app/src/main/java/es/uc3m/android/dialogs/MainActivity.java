@@ -19,7 +19,6 @@ package es.uc3m.android.dialogs;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -42,11 +41,7 @@ public class MainActivity extends AppCompatActivity {
             ad.setTitle(R.string.title_dialog);
             ad.setMessage(R.string.message_dialog);
             ad.setPositiveButton(R.string.button_ok,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int arg1) {
-                            dialog.cancel();
-                        }
-                    });
+                    (dialog, position) -> dialog.cancel());
             ad.show();
         } else {
             Intent intent = new Intent(this, SecondActivity.class);
