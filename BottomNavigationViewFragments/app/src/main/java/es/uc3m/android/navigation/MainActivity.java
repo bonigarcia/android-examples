@@ -18,9 +18,9 @@ package es.uc3m.android.navigation;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -38,17 +38,21 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Fragment fragment;
         int itemId = item.getItemId();
         if (itemId == R.id.profile_item) {
-            Toast.makeText(this.getApplicationContext(), "Profile",
-                    Toast.LENGTH_SHORT).show();
-        } else if (itemId == R.id.settings_item) {
-            Toast.makeText(this.getApplicationContext(), "Settings",
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this.getApplicationContext(), "Home",
-                    Toast.LENGTH_SHORT).show();
+            fragment = new ProfileFragment();
         }
+        else if (itemId == R.id.settings_item) {
+            fragment = new SettingsFragment();
+        }
+        else {
+            fragment = new HomeFragment();
+        }
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_fragment, fragment)
+                .commit();
         return true;
     }
 
