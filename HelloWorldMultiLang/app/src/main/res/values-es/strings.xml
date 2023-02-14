@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Hola Mundo</string>
+    <string name="app_name">Hola Mundo Multi Lenguaje</string>
+    <string name="hello_msg">Hola Mundo!</string>
 </resources>
