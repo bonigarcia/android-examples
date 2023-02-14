@@ -18,6 +18,7 @@ package es.uc3m.android.twoactivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button).setOnClickListener(view -> {
+        View button = findViewById(R.id.button);
+        button.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), SecondActivity.class);
             EditText nameText = findViewById(R.id.editText);
             Bundle bundle = new Bundle();
