@@ -16,13 +16,12 @@
  */
 package es.uc3m.android.dialogs;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,26 +29,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
-    public void sendName(View view) {
-        EditText nameText = findViewById(R.id.editText);
+        findViewById(R.id.button).setOnClickListener(view -> {
+            EditText nameText = findViewById(R.id.editText);
+            String name = nameText.getText().toString();
 
-        String name = nameText.getText().toString();
-        if (name.isEmpty()) {
-            AlertDialog.Builder ad = new AlertDialog.Builder(this);
-            ad.setTitle(R.string.title_dialog);
-            ad.setMessage(R.string.message_dialog);
-            ad.setPositiveButton(R.string.button_ok,
-                    (dialog, position) -> dialog.cancel());
-            ad.show();
-        } else {
-            Intent intent = new Intent(this, SecondActivity.class);
-            Bundle b = new Bundle();
-            b.putString("name", name);
-            intent.putExtras(b);
-            startActivity(intent);
-        }
+            if (name.isEmpty()) {
+                AlertDialog.Builder ad = new AlertDialog.Builder(this);
+                ad.setTitle(R.string.title_dialog);
+                ad.setMessage(R.string.message_dialog);
+                ad.setPositiveButton(R.string.button_ok,
+                        (dialog, position) -> dialog.cancel());
+                ad.show();
+            } else {
+                Intent intent = new Intent(this, SecondActivity.class);
+                Bundle b = new Bundle();
+                b.putString("name", name);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
     }
 
 }
