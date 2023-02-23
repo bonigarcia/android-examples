@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.androind.automatedtesting;
+package es.uc3m.android.automatedtesting;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;

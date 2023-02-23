@@ -14,28 +14,26 @@
  * limitations under the License.
  *
  */
-package es.uc3m.androind.automatedtesting;
+package es.uc3m.android.automatedtesting;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
+import android.content.Context;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.util.Calendar;
-import java.util.TimeZone;
+@RunWith(AndroidJUnit4.class)
+public class ContextTest {
 
-public class BasicUnitTest {
     @Test
-    public void dateHelperTest() {
-        // Exercise DateHelper.formatDate
-        long nowMillis = System.currentTimeMillis();
-        String formattedDate = DateHelper.formatDate(nowMillis);
-
-        // Expected outcome
-        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
-        int year = cal.get(Calendar.YEAR);
-
-        // Assertion
-        assertTrue(formattedDate.contains(String.valueOf(year)));
+    public void contextTest() {
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        String appName = context.getResources().getString(R.string.app_name);
+        assertEquals(appName, "Testing Demo");
     }
 
 }

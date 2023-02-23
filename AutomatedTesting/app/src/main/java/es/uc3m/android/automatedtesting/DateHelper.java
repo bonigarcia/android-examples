@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.androind.automatedtesting;
+package es.uc3m.android.automatedtesting;
 
 import java.text.DateFormat;
 import java.util.Date;

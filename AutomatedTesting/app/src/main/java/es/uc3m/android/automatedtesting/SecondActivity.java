@@ -14,30 +14,28 @@
  * limitations under the License.
  *
  */
-package es.uc3m.androind.automatedtesting;
+package es.uc3m.android.automatedtesting;
 
-import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class SecondActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_second);
 
-        findViewById(R.id.button).setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), SecondActivity.class);
-            EditText nameText = findViewById(R.id.editText);
-            Bundle bundle = new Bundle();
-            bundle.putString("name", nameText.getText().toString());
-            intent.putExtras(bundle);
+        Bundle bundle = getIntent().getExtras();
+        Resources resources = getResources();
+        String text = String.format(resources.getString(R.string.hello),
+                bundle.getString("name"));
+        text += " It's " + DateHelper.formatDate(System.currentTimeMillis());
 
-            startActivity(intent);
-        });
+        TextView textView = findViewById(R.id.textView);
+        textView.setText(text);
     }
-
 }

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'es.uc3m.androind.automatedtesting'
+    namespace 'es.uc3m.android.automatedtesting'
     compileSdk 33
 
     defaultConfig {
-        applicationId "es.uc3m.androind.automatedtesting"
+        applicationId "es.uc3m.android.automatedtesting"
         minSdk 23
         targetSdk 33
         versionCode 1
@@ -29,8 +29,8 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
