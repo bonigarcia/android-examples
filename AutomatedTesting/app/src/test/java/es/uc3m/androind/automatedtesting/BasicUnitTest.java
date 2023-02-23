@@ -16,18 +16,26 @@
  */
 package es.uc3m.androind.automatedtesting;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-import es.uc3m.androind.automatedtesting.helper.StringHelper;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class BasicUnitTest {
-
     @Test
-    public void stringHelperTest() {
-        String formattedText = StringHelper.format("Basic %s", "test");
-        assertEquals(formattedText, "Basic test");
+    public void dateHelperTest() {
+        // Exercise DateHelper.formatDate
+        long nowMillis = System.currentTimeMillis();
+        String formattedDate = DateHelper.formatDate(nowMillis);
+
+        // Expected outcome
+        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+        int year = cal.get(Calendar.YEAR);
+
+        // Assertion
+        assertTrue(formattedDate.contains(String.valueOf(year)));
     }
 
 }

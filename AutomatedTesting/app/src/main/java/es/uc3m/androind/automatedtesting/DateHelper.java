@@ -14,12 +14,16 @@
  * limitations under the License.
  *
  */
-package es.uc3m.androind.automatedtesting.helper;
+package es.uc3m.androind.automatedtesting;
 
-public class StringHelper {
+import java.text.DateFormat;
+import java.util.Date;
 
-    public static String format(String greetings, String name) {
-        return String.format(greetings, name);
+public class DateHelper {
+
+    public static String formatDate(long timeMillis) {
+        DateFormat formatter = DateFormat.getDateTimeInstance();
+        Date date = new Date(timeMillis);
+        return formatter.format(date);
     }
-
 }
