@@ -16,13 +16,12 @@
  */
 package es.uc3m.android.broadcastreceiver;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,13 +32,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction("io.github.bonigarcia.sendbroadcast");
-                sendBroadcast(intent);
-            }
+        findViewById(R.id.button).setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setAction("es.uc3m.android.sendbroadcast");
+            sendBroadcast(intent);
         });
 
         configureReceiver();
@@ -47,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void configureReceiver() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction("io.github.bonigarcia.sendbroadcast");
-        filter.addAction(Intent.ACTION_POWER_CONNECTED);
-        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        filter.addAction("es.uc3m.android.sendbroadcast");
+        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);  // "android.intent.action.AIRPLANE_MODE"
+        filter.addAction(Intent.ACTION_BATTERY_LOW);  // "android.intent.action.BATTERY_LOW"
         receiver = new MyReceiver();
         registerReceiver(receiver, filter);
     }
