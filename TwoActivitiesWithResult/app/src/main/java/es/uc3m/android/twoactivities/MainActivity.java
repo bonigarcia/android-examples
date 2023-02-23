@@ -18,44 +18,39 @@ package es.uc3m.android.twoactivities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                Toast.makeText(this.getApplicationContext(),
+                        result.getResultCode() + " " + result.getData().getExtras().get("message"),
+                        Toast.LENGTH_LONG).show();
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
-    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    Log.d("MainActivity",
-                            "Result code: " + result.getResultCode());
-                    Log.d("MainActivity",
-                            "Result message: " + result.getData().getExtras().get("message"));
-                }
-            });
+        View button = findViewById(R.id.button);
+        button.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), SecondActivity.class);
+            EditText nameText = findViewById(R.id.editText);
+            Bundle bundle = new Bundle();
+            bundle.putString("name", nameText.getText().toString());
+            intent.putExtras(bundle);
 
-    public void sendName(View view) {
-        Intent intent = new Intent(this, SecondActivity.class);
-        EditText nameText = findViewById(R.id.editText);
-        Bundle bundle = new Bundle();
-        bundle.putString("name", nameText.getText().toString());
-        intent.putExtras(bundle);
-
-        activityResultLauncher.launch(intent);
+            activityResultLauncher.launch(intent);
+        });
     }
 
 }

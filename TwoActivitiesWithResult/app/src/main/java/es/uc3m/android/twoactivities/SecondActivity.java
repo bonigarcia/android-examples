@@ -16,14 +16,13 @@
  */
 package es.uc3m.android.twoactivities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -41,31 +40,27 @@ public class SecondActivity extends AppCompatActivity {
         textView.setText(text);
 
         Button okButton = findViewById(R.id.ok_button);
-        okButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent result = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putString("message",
-                        getResources().getString(R.string.ok_message));
-                result.putExtras(bundle);
+        okButton.setOnClickListener(view -> {
+            Intent result = new Intent();
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("message",
+                    getResources().getString(R.string.ok_message));
+            result.putExtras(bundle1);
 
-                setResult(RESULT_OK, result);
-                finish();
-            }
+            setResult(RESULT_OK, result);
+            finish();
         });
 
         Button cancelButton = findViewById(R.id.cancel_button);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent result = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putString("message",
-                        getResources().getString(R.string.cancel_message));
-                result.putExtras(bundle);
+        cancelButton.setOnClickListener(view -> {
+            Intent result = new Intent();
+            Bundle bundle12 = new Bundle();
+            bundle12.putString("message",
+                    getResources().getString(R.string.cancel_message));
+            result.putExtras(bundle12);
 
-                setResult(RESULT_CANCELED, result);
-                finish();
-            }
+            setResult(RESULT_CANCELED, result);
+            finish();
         });
     }
 
