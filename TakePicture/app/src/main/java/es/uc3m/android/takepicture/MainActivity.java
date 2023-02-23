@@ -51,16 +51,13 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(view -> {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-            // Ensure that there's a camera activity to handle the intent
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                File photoFile = createImageFile();
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(this,
-                            "es.uc3m.android.takepicture.provider",
-                            photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    activityResultLauncher.launch(takePictureIntent);
-                }
+            File photoFile = createImageFile();
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "es.uc3m.android.takepicture.provider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                activityResultLauncher.launch(takePictureIntent);
             }
         });
     }
@@ -84,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == RESULT_OK) {
                     Bitmap miBitmap = BitmapFactory.decodeFile(currentPhotoPath);
-
                     ImageView imageView = findViewById(R.id.image);
                     imageView.setImageBitmap(miBitmap);
 
