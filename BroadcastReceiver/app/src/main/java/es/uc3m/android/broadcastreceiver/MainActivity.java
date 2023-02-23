@@ -25,29 +25,28 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    BroadcastReceiver receiver;
+    private static final String MY_BROADCAST_INTENT = "es.uc3m.android.sendbroadcast";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Receiver configuration
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MY_BROADCAST_INTENT);
+        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);  // "android.intent.action.AIRPLANE_MODE"
+        filter.addAction(Intent.ACTION_BATTERY_LOW);  // "android.intent.action.BATTERY_LOW"
+        BroadcastReceiver receiver = new MyReceiver();
+        registerReceiver(receiver, filter);
+
+        // Button listener
         findViewById(R.id.button).setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.setAction("es.uc3m.android.sendbroadcast");
+            intent.setAction(MY_BROADCAST_INTENT);
             sendBroadcast(intent);
         });
 
-        configureReceiver();
-    }
-
-    private void configureReceiver() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("es.uc3m.android.sendbroadcast");
-        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);  // "android.intent.action.AIRPLANE_MODE"
-        filter.addAction(Intent.ACTION_BATTERY_LOW);  // "android.intent.action.BATTERY_LOW"
-        receiver = new MyReceiver();
-        registerReceiver(receiver, filter);
     }
 
 }
