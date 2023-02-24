@@ -43,8 +43,11 @@ public class UserInterfaceTest {
 
     @Test
     public void basicUITest() {
+        // Exercise activity
         onView(withId(R.id.editText)).perform(typeText("John"));
         onView(withId(R.id.button)).perform(click());
+
+        // Verify outcome
         onView(withId(R.id.textView)).check(matches(withText(containsString("Hello, John!"))));
     }
 

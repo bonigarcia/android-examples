@@ -32,7 +32,11 @@ public class ContextTest {
     @Test
     public void contextTest() {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+
+        // Exercise context
         String appName = context.getResources().getString(R.string.app_name);
+
+        // Verify outcome
         assertEquals(appName, "Testing Demo");
     }
 
