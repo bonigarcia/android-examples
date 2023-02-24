@@ -34,27 +34,21 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("https://www.google.com"));
 
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
         findViewById(R.id.button2).setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:666555444"));
 
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
         findViewById(R.id.button3).setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_SEARCH);
+            intent.putExtra(SearchManager.QUERY, "Developing Android apps");
 
-            intent.putExtra(SearchManager.QUERY,"Developing Android apps");
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
     }
 
