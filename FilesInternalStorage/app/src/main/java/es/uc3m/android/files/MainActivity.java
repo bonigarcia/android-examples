@@ -34,20 +34,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        View button = findViewById(R.id.button);
+        button.setOnClickListener(view -> {
+            EditText nameText = findViewById(R.id.editText);
+            String name = nameText.getText().toString();
+
+            try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                    openFileOutput("file.txt", Context.MODE_PRIVATE)))) {
+                bw.write(name);
+            } catch (Exception e) {
+                Log.e(this.getLocalClassName(), "Exception writing file", e);
+            }
+
+            Intent intent = new Intent(this, SecondActivity.class);
+            startActivity(intent);
+        });
     }
 
-    public void sendName(View view) {
-        EditText nameText = findViewById(R.id.editText);
-        String name = nameText.getText().toString();
-
-        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-                openFileOutput("file.txt", Context.MODE_PRIVATE)))) {
-            bw.write(name);
-        } catch (Exception e) {
-            Log.e(this.getLocalClassName(), "Exception writing file", e);
-        }
-
-        Intent intent = new Intent(this, SecondActivity.class);
-        startActivity(intent);
-    }
 }
