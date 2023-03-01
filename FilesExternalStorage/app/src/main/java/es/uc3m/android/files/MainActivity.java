@@ -18,8 +18,6 @@ package es.uc3m.android.files;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -27,6 +25,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -39,17 +39,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
-    public void sendName(View view) {
-        if (checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            writeFile();
-            startNextActivity();
+        View button = findViewById(R.id.button);
+        button.setOnClickListener(view -> {
+            if (checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                writeFile();
+                startNextActivity();
 
-        } else {
-            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE},
-                    REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE);
-        }
+            } else {
+                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE},
+                        REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE);
+            }
+        });
     }
 
     private void writeFile() {
