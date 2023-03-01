@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.database;
+package es.uc3m.android.preloaded;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
