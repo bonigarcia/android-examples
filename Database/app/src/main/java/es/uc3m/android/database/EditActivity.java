@@ -18,6 +18,7 @@ package es.uc3m.android.database;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,12 +41,19 @@ public class EditActivity extends AppCompatActivity {
         titleText = findViewById(R.id.title);
         bodyText = findViewById(R.id.body);
 
+        Button confirm = findViewById(R.id.confirm);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mRowId = extras.getLong("id");
-            Notes note = db.notesDao().findById(mRowId);
-            titleText.setText(note.getTitle());
-            bodyText.setText(note.getBody());
+            Notes note = db.notesDao().selectById(mRowId);
+            titleText.setText(note.title);
+            bodyText.setText(note.body);
+
+            confirm.setText(R.string.update);
+        } else {
+            confirm.setText(R.string.add);
+            findViewById(R.id.delete).setVisibility(View.GONE);
         }
     }
 
@@ -62,10 +70,22 @@ public class EditActivity extends AppCompatActivity {
         } else {
             Notes note = new Notes(mRowId, title, body);
             db.notesDao().update(note);
-
             Toast.makeText(getApplicationContext(), "Updated note with id " + mRowId,
                     Toast.LENGTH_LONG).show();
         }
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    public void deleteNote(View view) {
+        String title = titleText.getText().toString();
+        String body = bodyText.getText().toString();
+        Notes note = new Notes(mRowId, title, body);
+
+        int delete = db.notesDao().delete(note);
+        Toast.makeText(getApplicationContext(), "Deleted note with id " + delete,
+                Toast.LENGTH_LONG).show();
+
         setResult(RESULT_OK);
         finish();
     }
