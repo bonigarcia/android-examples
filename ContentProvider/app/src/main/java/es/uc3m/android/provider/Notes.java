@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2023 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2022 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,15 @@
 package es.uc3m.android.provider;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Notes {
@@ -70,28 +74,31 @@ public class Notes {
         return notes;
     }
 
-    public long getId() {
-        return id;
+    public static List<Notes> fromCursor(Cursor cursor) {
+        List<Notes> list = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            Notes notes = new Notes();
+            int id = cursor.getColumnIndex(COLUMN_ID);
+            if (id != -1) {
+                notes.id = cursor.getLong(id);
+            }
+            int title = cursor.getColumnIndex(COLUMN_TITLE);
+            if (id != -1) {
+                notes.title = cursor.getString(title);
+            }
+            int body = cursor.getColumnIndex(COLUMN_BODY);
+            if (id != -1) {
+                notes.body = cursor.getString(body);
+            }
+            list.add(notes);
+        }
+
+        return list;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
+    @Override
+    public String toString() {
         return title;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
 }

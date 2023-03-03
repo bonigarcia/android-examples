@@ -26,6 +26,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -45,23 +46,23 @@ public class EditActivity extends AppCompatActivity {
         titleText = findViewById(R.id.title);
         bodyText = findViewById(R.id.body);
 
+        Button confirm = findViewById(R.id.confirm);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mRowId = extras.getLong("id");
 
             try (Cursor cursor = getContentResolver().query(CONTENT_URI, null,
                     String.valueOf(mRowId), null, null)) {
-                while (cursor.moveToNext()) {
-                    int title = cursor.getColumnIndex("title");
-                    if (title > 0) {
-                        titleText.setText(cursor.getString(title));
-                    }
-                    int body = cursor.getColumnIndex("body");
-                    if (body > 0) {
-                        bodyText.setText(cursor.getString(body));
-                    }
-                }
+                Notes notes = Notes.fromCursor(cursor).get(0);
+                titleText.setText(notes.title);
+                bodyText.setText(notes.body);
             }
+            confirm.setText(R.string.update);
+
+        } else {
+            confirm.setText(R.string.add);
+            findViewById(R.id.delete).setVisibility(View.GONE);
         }
     }
 
@@ -84,10 +85,19 @@ public class EditActivity extends AppCompatActivity {
             values.put(COLUMN_TITLE, title);
             values.put(COLUMN_BODY, body);
 
-            int update = getContentResolver().update(CONTENT_URI, values, null, null);
-            Toast.makeText(getApplicationContext(), "Updated note " + update,
+            getContentResolver().update(CONTENT_URI, values, null, null);
+            Toast.makeText(getApplicationContext(), "Updated note with id " + mRowId,
                     Toast.LENGTH_LONG).show();
         }
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    public void deleteNote(View view) {
+        getContentResolver().delete(CONTENT_URI, String.valueOf(mRowId), null);
+        Toast.makeText(getApplicationContext(), "Deleted note with id " + mRowId,
+                Toast.LENGTH_LONG).show();
+
         setResult(RESULT_OK);
         finish();
     }

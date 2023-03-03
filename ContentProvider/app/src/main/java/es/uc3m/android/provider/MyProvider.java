@@ -28,27 +28,9 @@ import androidx.annotation.Nullable;
 
 public class MyProvider extends ContentProvider {
 
-    static final String PROVIDER_NAME = "es.uc3m.android.provider";
-    static final String URL = "content://" + PROVIDER_NAME + "/notes";
-    static final Uri CONTENT_URI = Uri.parse(URL);
-
-    static final int uriCode = 1;
-    static final UriMatcher uriMatcher;
+    protected static final Uri CONTENT_URI = Uri.parse("content://es.uc3m.android.provider/notes");
 
     private AppDatabase db;
-
-    static {
-        // to match the content URI
-        // every time user access table under content provider
-        uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-
-        // to access whole table
-        uriMatcher.addURI(PROVIDER_NAME, "notes", uriCode);
-
-        // to access a particular row
-        // of the table
-        uriMatcher.addURI(PROVIDER_NAME, "notes/*", uriCode);
-    }
 
     @Override
     public boolean onCreate() {
@@ -59,12 +41,7 @@ public class MyProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        switch (uriMatcher.match(uri)) {
-            case uriCode:
-                return "vnd.android.cursor.dir/notes";
-            default:
-                throw new IllegalArgumentException("Unsupported URI: " + uri);
-        }
+        return "vnd.android.cursor.dir/notes";
     }
 
     @Nullable
@@ -73,11 +50,10 @@ public class MyProvider extends ContentProvider {
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         Cursor cursor;
         if (selection == null) {
-            cursor = db.notesDao().getNotes();
-        }
-        else {
+            cursor = db.notesDao().selectAll();
+        } else {
             long noteId = Long.parseLong(selection);
-            cursor = db.notesDao().getNoteById(noteId);
+            cursor = db.notesDao().selectById(noteId);
         }
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
@@ -96,7 +72,9 @@ public class MyProvider extends ContentProvider {
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection,
                       @Nullable String[] selectionArgs) {
-        return 0;
+        Notes notes = new Notes();
+        notes.id = Long.parseLong(selection);
+        return db.notesDao().delete(notes);
     }
 
     @Override

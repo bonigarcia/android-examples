@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2023 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2022 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,39 +24,22 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import java.util.List;
-
 @Dao
 public interface NotesDao {
 
     @Query("SELECT * FROM Notes")
-    List<Notes> getAllNotes();
-
-    @Query("SELECT * FROM Notes")
-    Cursor getNotes();
-
-    @Query("SELECT * FROM Notes WHERE id IN (:notesIds)")
-    List<Notes> loadAllByIds(long[] notesIds);
+    Cursor selectAll();
 
     @Query("SELECT * FROM Notes WHERE id=:id")
-    Notes findById(long id);
-
-    @Query("SELECT * FROM Notes WHERE id=:id")
-    Cursor getNoteById(long id);
-
-    @Query("SELECT * FROM Notes WHERE title LIKE :title LIMIT 1")
-    Notes findByTitle(String title);
+    Cursor selectById(long id);
 
     @Insert
     long insert(Notes notes);
 
-    @Insert
-    long[] insertAll(Notes... notes);
-
     @Update
-    int update(Notes note);
+    int update(Notes notes);
 
     @Delete
-    void delete(Notes notes);
+    int delete(Notes notes);
 
 }
