@@ -39,11 +39,25 @@
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"/>
 
-    <Button
-        android:id="@+id/confirm"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="saveNote"
-        android:text="@string/confirm" />
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="saveNote" />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="deleteNote"
+            android:text="@string/delete" />
+
+    </LinearLayout>
 
 </LinearLayout>

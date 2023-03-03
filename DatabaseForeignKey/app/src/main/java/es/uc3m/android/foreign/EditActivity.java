@@ -19,6 +19,7 @@ package es.uc3m.android.foreign;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -50,21 +51,28 @@ public class EditActivity extends AppCompatActivity {
 
         List<String> items = new ArrayList<>();
         for (Category category : db.categoryDao().getAllCategories()) {
-            items.add(category.getName());
+            items.add(category.name);
         }
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
+        Button confirm = findViewById(R.id.confirm);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mRowId = extras.getLong("id");
-            Notes note = db.notesDao().findById(mRowId);
-            titleText.setText(note.getTitle());
-            bodyText.setText(note.getBody());
-            dropdown.setSelection((int) note.getCategory() - 1);
+            Notes note = db.notesDao().selectById(mRowId);
+            titleText.setText(note.title);
+            bodyText.setText(note.body);
+            dropdown.setSelection((int) note.category - 1);
+
+            confirm.setText(R.string.update);
+        } else {
+            confirm.setText(R.string.add);
+            findViewById(R.id.delete).setVisibility(View.GONE);
         }
+
     }
 
     public void saveNote(View view) {
@@ -85,6 +93,20 @@ public class EditActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Updated note with id " + mRowId,
                     Toast.LENGTH_LONG).show();
         }
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    public void deleteNote(View view) {
+        String title = titleText.getText().toString();
+        String body = bodyText.getText().toString();
+        long category = dropdown.getSelectedItemPosition() + 1;
+        Notes note = new Notes(mRowId, title, body, category);
+
+        int delete = db.notesDao().delete(note);
+        Toast.makeText(getApplicationContext(), "Deleted note with id " + delete,
+                Toast.LENGTH_LONG).show();
+
         setResult(RESULT_OK);
         finish();
     }
