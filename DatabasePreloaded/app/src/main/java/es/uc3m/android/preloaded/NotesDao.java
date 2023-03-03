@@ -28,27 +28,21 @@ import java.util.List;
 public interface NotesDao {
 
     @Query("SELECT * FROM Notes")
-    List<Notes> getAllNotes();
-
-    @Query("SELECT * FROM Notes WHERE id IN (:notesIds)")
-    List<Notes> loadAllByIds(long[] notesIds);
+    List<Notes> selectAll();
 
     @Query("SELECT * FROM Notes WHERE id=:id")
-    Notes findById(long id);
+    Notes selectById(long id);
 
     @Query("SELECT * FROM Notes WHERE title LIKE :title LIMIT 1")
-    Notes findByTitle(String title);
+    Notes selectByTitle(String title);
 
     @Insert
     long insert(Notes notes);
 
-    @Insert
-    long[] insertAll(Notes... notes);
-
     @Update
-    public void update(Notes... notes);
+    int update(Notes notes);
 
     @Delete
-    void delete(Notes notes);
+    int delete(Notes notes);
 
 }

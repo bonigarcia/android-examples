@@ -3,5 +3,7 @@
     <string name="insert_note">Insert note</string>
     <string name="title">Title</string>
     <string name="body">Body</string>
-    <string name="confirm">Confirm</string>
+    <string name="add">Add</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
 </resources>
