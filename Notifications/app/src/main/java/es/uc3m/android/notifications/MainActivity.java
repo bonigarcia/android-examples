@@ -16,19 +16,18 @@
  */
 package es.uc3m.android.notifications;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String CHANNEL_ID = "io.github.bonigarcia.android.notification.notify_001";
+    private static final String CHANNEL_ID = "es.uc3m.android.notifications.notify_001";
     private static final String CHANNEL_NAME = "My notification channel";
 
     private NotificationManager notificationManager;
@@ -39,35 +38,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.start_button).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                Context context = view.getContext();
-                notificationManager = (NotificationManager) context
-                        .getSystemService(context.NOTIFICATION_SERVICE);
+        findViewById(R.id.start_button).setOnClickListener(view -> {
+            Context context = view.getContext();
+            notificationManager = (NotificationManager) context
+                    .getSystemService(NOTIFICATION_SERVICE);
 
-                NotificationCompat.Builder builder =
-                        new NotificationCompat.Builder(context, CHANNEL_ID);
-                builder.setContentTitle("My notification title");
-                builder.setContentText("My notification content");
-                builder.setSmallIcon(R.drawable.ic_android_black_24dp);
+            NotificationCompat.Builder builder =
+                    new NotificationCompat.Builder(context, CHANNEL_ID);
+            builder.setContentTitle("My notification title");
+            builder.setContentText("My notification content");
+            builder.setSmallIcon(R.drawable.ic_android_black_24dp);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
-                            NotificationManager.IMPORTANCE_DEFAULT);
-                    notificationManager.createNotificationChannel(channel);
-                    builder.setChannelId(CHANNEL_ID);
-                }
-
-                notificationId = 0;
-                notificationManager.notify(notificationId, builder.build());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME,
+                        NotificationManager.IMPORTANCE_DEFAULT);
+                notificationManager.createNotificationChannel(channel);
+                builder.setChannelId(CHANNEL_ID);
             }
+
+            notificationId = 0;
+            notificationManager.notify(notificationId, builder.build());
         });
 
-        findViewById(R.id.stop_button).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                notificationManager.cancel(notificationId);
-            }
-        });
+        findViewById(R.id.stop_button).setOnClickListener(
+                view -> notificationManager.cancel(notificationId));
     }
 
 }
