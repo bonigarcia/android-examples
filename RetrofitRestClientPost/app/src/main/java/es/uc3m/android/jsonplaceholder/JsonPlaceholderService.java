@@ -20,9 +20,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface JsonPlaceholderService {
+    public interface JsonPlaceholderService {
 
-    @POST("/posts")
-    Call<Post> createPost(@Body Post post);
+        @POST("/posts")
+        Call<Post> createPost(@Body Post post);
 
-}
+    }
