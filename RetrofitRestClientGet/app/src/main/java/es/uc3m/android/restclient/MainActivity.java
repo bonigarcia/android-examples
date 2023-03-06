@@ -16,15 +16,14 @@
  */
 package es.uc3m.android.restclient;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,23 +45,18 @@ public class MainActivity extends AppCompatActivity {
 
         List<String> nameList = new ArrayList<>();
         List<String> emailList = new ArrayList<>();
-        ArrayAdapter listAdapter = new ArrayAdapter(this,
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, nameList);
         ListView list = findViewById(R.id.list);
         list.setAdapter(listAdapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView,
-                                    View view, int pos, long id) {
-                Toast.makeText(view.getContext(), emailList.get(pos),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        list.setOnItemClickListener(
+                (adapterView, view, pos, id) -> Toast.makeText(view.getContext(), emailList.get(pos),
+                        Toast.LENGTH_SHORT).show());
 
         getUsers(listAdapter, nameList, emailList);
     }
 
-    private void getUsers(ArrayAdapter listAdapter, List<String> nameList, List<String> emailList) {
+    private void getUsers(ArrayAdapter<String> listAdapter, List<String> nameList, List<String> emailList) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://gorest.co.in/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -74,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 for (User user : response.body()) {
-                    nameList.add(user.getName());
-                    emailList.add(user.getEmail());
+                    nameList.add(user.name);
+                    emailList.add(user.email);
                 }
                 listAdapter.notifyDataSetChanged();
             }
