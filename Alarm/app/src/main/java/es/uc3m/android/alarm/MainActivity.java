@@ -16,15 +16,14 @@
  */
 package es.uc3m.android.alarm;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,20 +34,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                Context context = view.getContext();
+        findViewById(R.id.button).setOnClickListener(view -> {
+            Context context = view.getContext();
 
-                AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                int alarmType = AlarmManager.ELAPSED_REALTIME_WAKEUP;
-                long timeMillis = TimeUnit.SECONDS.toMillis(5);
+            AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            int alarmType = AlarmManager.ELAPSED_REALTIME_WAKEUP;
+            long timeMillis = TimeUnit.SECONDS.toMillis(5);
 
-                Intent intent = new Intent(context, SecondActivity.class);
-                intent.putExtra("name", "John Doe");
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
-                        PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-                alarms.set(alarmType, SystemClock.elapsedRealtime() + timeMillis, pendingIntent);
-            }
+            Intent intent = new Intent(context, SecondActivity.class);
+            intent.putExtra("name", "John Doe");
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+            alarms.set(alarmType, SystemClock.elapsedRealtime() + timeMillis, pendingIntent);
         });
     }
 
