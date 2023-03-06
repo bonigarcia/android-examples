@@ -31,8 +31,8 @@ import java.net.URLConnection;
 
 public class DownloadWebPageTask extends AsyncTask<String, Void, String> {
 
-    private TextView textView;
-    private ProgressBar progressBar;
+    private final TextView textView;
+    private final ProgressBar progressBar;
 
     public DownloadWebPageTask(ProgressBar progressBar, TextView textView) {
         this.textView = textView;
