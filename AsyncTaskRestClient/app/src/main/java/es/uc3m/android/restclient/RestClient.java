@@ -71,21 +71,17 @@ public class RestClient extends AsyncTask<String, Void, String> {
         ArrayAdapter listAdapter = new ArrayAdapter(listView.getContext(),
                 android.R.layout.simple_list_item_1, nameList);
         listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView,
-                                    View view, int pos, long id) {
-                Toast.makeText(view.getContext(), emailList.get(pos),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        listView.setOnItemClickListener(
+                (adapterView, view, pos, id) -> Toast.makeText(view.getContext(),
+                        emailList.get(pos),
+                        Toast.LENGTH_SHORT).show());
 
         Gson gson = new Gson();
         User[] users = gson.fromJson(result, User[].class);
 
         for (User user : users) {
-            nameList.add(user.getName());
-            emailList.add(user.getEmail());
+            nameList.add(user.name);
+            emailList.add(user.email);
         }
         listAdapter.notifyDataSetChanged();
     }
