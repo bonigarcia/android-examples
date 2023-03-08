@@ -176,6 +176,13 @@ updates:
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
+  directory: "/LinearAndRelativeLayout"
+  schedule:
+    interval: "daily"
+    time: '06:00'
+  open-pull-requests-limit: 99
+
+- package-ecosystem: gradle
   directory: "/ListView"
   schedule:
     interval: "daily"
