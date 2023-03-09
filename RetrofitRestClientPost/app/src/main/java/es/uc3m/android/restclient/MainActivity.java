@@ -33,14 +33,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Context context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        context = getApplicationContext();
         createPost("foo", "bar", 1);
     }
 
@@ -58,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         response.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
-                Toast.makeText(context, "Success: " + response.code() +
+                Toast.makeText(getApplicationContext(), "Success: " + response.code() +
                                 " (" + response.body().body + " "
                                 + response.body().title + ")",
                         Toast.LENGTH_LONG).show();
