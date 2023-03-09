@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     .build();
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             PlacesSearchResponse placesSearchResponse = PlacesApi.nearbySearchQuery(context, latLng)
-                    .radius(20)
+                    .radius(200)
                     .type(PlaceType.ATM)
                     .await();
             for (PlacesSearchResult r : placesSearchResponse.results) {
