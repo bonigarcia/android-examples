@@ -127,6 +127,13 @@ updates:
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
+  directory: "/GoogleDirections"
+  schedule:
+    interval: "daily"
+    time: '06:00'
+  open-pull-requests-limit: 99
+
+- package-ecosystem: gradle
   directory: "/GoogleMaps"
   schedule:
     interval: "daily"
