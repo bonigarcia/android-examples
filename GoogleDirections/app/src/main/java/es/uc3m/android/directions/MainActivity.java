@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng originLatLng =
                     new LatLng(originAddresses.get(0).getLatitude(),
                             originAddresses.get(0).getLongitude());
-            map.addMarker(new MarkerOptions().position(originLatLng));
+            map.addMarker(new MarkerOptions().position(originLatLng).title(origin));
 
             // Destination
             String destination = "Plaza España Leganés";
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng destLatLng =
                     new LatLng(destAddresses.get(0).getLatitude(),
                             destAddresses.get(0).getLongitude());
-            map.addMarker(new MarkerOptions().position(destLatLng));
+            map.addMarker(new MarkerOptions().position(destLatLng).title(destination));
 
             // Move camera
             float zoomLevel = map.getMaxZoomLevel() - 5;
