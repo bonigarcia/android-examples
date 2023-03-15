@@ -29,7 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
-    private final int REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 1;
+    private static final int REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
