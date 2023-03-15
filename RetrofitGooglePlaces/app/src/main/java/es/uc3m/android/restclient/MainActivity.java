@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         String type = "atm";
         boolean sensor = true;
 
-        // The value of the the API key should be in the local.properties file:
+        // The value of the API key should be in the local.properties file:
         // MAPS_API_KEY=<your-api-key>
         String key = BuildConfig.MAPS_API_KEY;
 

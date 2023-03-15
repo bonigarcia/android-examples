@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private String getAtms(Location location) {
         String atms = "";
         try {
+            // The value of the API key should be in the local.properties file:
+            // MAPS_API_KEY=<your-api-key>
             GeoApiContext context = new GeoApiContext.Builder()
                     .apiKey(BuildConfig.MAPS_API_KEY)
                     .build();
