@@ -29,29 +29,28 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String INTRO = "\r\n";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (Geocoder.isPresent()) {
-            Geocoder gc = new Geocoder(this, Locale.getDefault());
-            try {
-                String myAddress = "UC3M Leganés";
-                List<Address> addresses = gc.getFromLocationName(myAddress, 10);
-                String addressesStr = myAddress + ":\r\n";
-                for (Address address : addresses) {
-                    addressesStr += address.getAddressLine(0) + "\r\n";
-                    addressesStr += address.getLatitude() + ", " + address.getLongitude() + "\r\n";
-                }
-                TextView textView = findViewById(R.id.msg);
-                textView.setText(addressesStr);
-
-            } catch (Exception e) {
-                Log.e(this.getLocalClassName(), "Exception getting location", e);
+        Geocoder gc = new Geocoder(this, Locale.getDefault());
+        try {
+            String myAddress = "UC3M Leganés";
+            List<Address> addresses = gc.getFromLocationName(myAddress, 10);
+            String addressesStr = myAddress + ":" + INTRO;
+            for (Address address : addresses) {
+                addressesStr += address.getAddressLine(0) + INTRO;
+                addressesStr +=
+                        address.getLatitude() + ", " + address.getLongitude() + INTRO;
             }
-        } else {
-            Log.w(this.getLocalClassName(), "Geocoder not available");
+            TextView textView = findViewById(R.id.msg);
+            textView.setText(addressesStr);
+
+        } catch (Exception e) {
+            Log.e(this.getLocalClassName(), "Exception invoking geocoder", e);
         }
     }
 
