@@ -91,6 +91,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     .radius(200)
                     .type(PlaceType.ATM)
                     .await();
+
+            // To look for name (instead of type) we need the following:
+            // PlacesSearchResponse placesSearchResponse = PlacesApi.nearbySearchQuery(context, latLng)
+            //        .radius(200)
+            //        .name("restaurante")
+            //        .await();
+
             for (PlacesSearchResult r : placesSearchResponse.results) {
                 PlaceDetails details = PlacesApi.placeDetails(context, r.placeId).await();
                 atms += details.name + " " + details.vicinity + "\r\n";
