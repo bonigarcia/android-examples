@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1084226406084",
+    "project_id": "uc3m-doc-230221-441-13345-tchr",
+    "storage_bucket": "uc3m-doc-230221-441-13345-tchr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084226406084:android:845ac8fad4fcd38a17eb91",
+        "android_client_info": {
+          "package_name": "es.uc3m.android.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084226406084-2708s8b9afsv6u1ouj76ou6lg5oap6l6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWaqTRFU2k_efnEcfKlvMivjuUFvEl6c8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084226406084-2708s8b9afsv6u1ouj76ou6lg5oap6l6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
