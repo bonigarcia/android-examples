@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "es.uc3m.android.location"
-        minSdk 23
+        minSdk 24
         targetSdk 34
         versionCode 1
         versionName "1.0"
