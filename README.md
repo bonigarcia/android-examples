@@ -7,7 +7,7 @@ This project contains basic Android apps created with Java.
 
 ## About
 
-This is a project made by [Boni Garcia], Associate Professor at [Universidad Carlos III de Madrid]. Copyright &copy; 2022-2023.
+This is a project made by [Boni Garcia], Associate Professor at [Universidad Carlos III de Madrid]. Copyright &copy; 2022-2024.
 
 [Universidad Carlos III de Madrid]: https://www.it.uc3m.es/bogarcia/index.html
 [Boni Garcia]: https://bonigarcia.dev/
