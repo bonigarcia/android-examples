@@ -3,6 +3,7 @@
     <string name="edit_message">What is your name?</string>
     <string name="button_send">Send</string>
     <string name="hello">Hello, %1$s!</string>
+    <string name="text_view">TextView</string>
     <string name="ok_button">Ok</string>
     <string name="cancel_button">Cancel</string>
     <string name="ok_message">The user clicked on ok</string>
