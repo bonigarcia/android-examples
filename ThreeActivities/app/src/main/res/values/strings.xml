@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Three Activities Demo</string>
+    <string name="text_view_1">First Activity</string>
+    <string name="text_view_2">Second Activity</string>
+    <string name="text_view_3">Third Activity</string>
+    <string name="button_next">Next</string>
+</resources>
