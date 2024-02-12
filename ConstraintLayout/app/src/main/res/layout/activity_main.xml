@@ -10,8 +10,8 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="132dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="100dp"
         android:text="@string/button_1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
