@@ -18,6 +18,7 @@ package es.uc3m.android.threeactivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,4 +37,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(this.getClass().getName(), "MainActivity destroyed");
+    }
 }

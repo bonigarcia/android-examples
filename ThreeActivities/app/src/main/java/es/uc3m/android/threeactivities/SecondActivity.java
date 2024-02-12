@@ -18,6 +18,7 @@ package es.uc3m.android.threeactivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,12 @@ public class SecondActivity extends AppCompatActivity {
             Intent intent = new Intent(getBaseContext(), ThirdActivity.class);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(this.getClass().getName(), "SecondActivity destroyed");
     }
 
 }
