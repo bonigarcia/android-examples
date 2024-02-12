@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         View button = findViewById(R.id.button);
         button.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), SecondActivity.class);
+            Intent intent = new Intent(getBaseContext(), SecondActivity.class);
             EditText nameText = findViewById(R.id.editText);
             Bundle bundle = new Bundle();
             bundle.putString("name", nameText.getText().toString());
