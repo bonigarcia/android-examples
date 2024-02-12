@@ -16,11 +16,10 @@
  */
 package es.uc3m.android.twoactivities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -30,9 +29,8 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
 
         Bundle bundle = getIntent().getExtras();
-        Resources resources = getResources();
-        String text = String.format(resources.getString(R.string.hello),
-                bundle.getString("name"));
+        String name = bundle.getString("name");
+        String text = String.format(getResources().getString(R.string.hello), name);
 
         TextView textView = findViewById(R.id.textView);
         textView.setText(text);
