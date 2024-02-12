@@ -17,8 +17,8 @@
 package es.uc3m.android.navigation;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,14 +40,17 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.profile_item) {
-            Toast.makeText(this.getApplicationContext(), "Profile",
-                    Toast.LENGTH_SHORT).show();
+            Log.d(this.getClass().getName(), "User tapped profile");
+            // TODO open profile activity or fragment
+
         } else if (itemId == R.id.settings_item) {
-            Toast.makeText(this.getApplicationContext(), "Settings",
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this.getApplicationContext(), "Home",
-                    Toast.LENGTH_SHORT).show();
+            Log.d(this.getClass().getName(), "User tapped settings");
+            // TODO open settings activity or fragment
+
+        } else if (itemId == R.id.home_item) {
+            Log.d(this.getClass().getName(), "User clicked on home");
+            // TODO open home activity or fragment
+
         }
         return true;
     }
