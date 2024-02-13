@@ -29,10 +29,8 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        Bundle bundle = getIntent().getExtras();
-        Resources resources = getResources();
-        String text = String.format(resources.getString(R.string.hello),
-                bundle.getString("name"));
+        String name = getIntent().getExtras().getString("name");
+        String text = String.format(getResources().getString(R.string.hello), name);
         text += " It's " + DateHelper.formatDate(System.currentTimeMillis());
 
         TextView textView = findViewById(R.id.textView);

@@ -45,9 +45,8 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(view -> {
             Intent intent = new Intent(getBaseContext(), SecondActivity.class);
             EditText nameText = findViewById(R.id.editText);
-            Bundle bundle = new Bundle();
-            bundle.putString("name", nameText.getText().toString());
-            intent.putExtras(bundle);
+            intent.putExtra("name", nameText.getText().toString());
+            startActivity(intent);
 
             activityResultLauncher.launch(intent);
         });

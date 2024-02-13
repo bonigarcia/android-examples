@@ -28,8 +28,7 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        Bundle bundle = getIntent().getExtras();
-        String name = bundle.getString("name");
+        String name = getIntent().getExtras().getString("name");
         String text = String.format(getResources().getString(R.string.hello), name);
 
         TextView textView = findViewById(R.id.textView);
