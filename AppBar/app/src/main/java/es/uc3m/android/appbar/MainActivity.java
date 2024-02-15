@@ -16,12 +16,12 @@
  */
 package es.uc3m.android.appbar;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,16 +40,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_search) {
-            Toast.makeText(this.getApplicationContext(), "TODO: search",
-                    Toast.LENGTH_LONG).show();
+            Log.d(this.getClass().getName(), "TODO: search");
             return true;
         } else if (item.getItemId() == R.id.action_settings) {
-            Toast.makeText(this.getApplicationContext(), "TODO: settings",
-                    Toast.LENGTH_LONG).show();
+            Log.d(this.getClass().getName(), "TODO: settings");
             return true;
         } else if (item.getItemId() == R.id.action_about) {
-            Toast.makeText(this.getApplicationContext(), "TODO: about",
-                    Toast.LENGTH_LONG).show();
+            Log.d(this.getClass().getName(), "TODO: about");
             return true;
         } else {
             return super.onOptionsItemSelected(item);
