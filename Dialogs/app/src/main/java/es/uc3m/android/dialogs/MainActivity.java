@@ -43,9 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 ad.show();
             } else {
                 Intent intent = new Intent(this, SecondActivity.class);
-                Bundle b = new Bundle();
-                b.putString("name", name);
-                intent.putExtras(b);
+                intent.putExtra("name", name);
                 startActivity(intent);
             }
         });

@@ -10,6 +10,13 @@
     <string name="select_time">Select time</string>
     <string name="long_toast">This is a long toast</string>
     <string name="short_toast">This is a short toast</string>
-    <string name="btn_long_toast">Show long toast</string>
-    <string name="btn_short_toast">Show short toast</string>
+    <string name="btn_long_toast">Long toast</string>
+    <string name="btn_short_toast">Short toast</string>
+    <string name="btn_long_snackbar">Long snack</string>
+    <string name="btn_short_snackbar">Short snack</string>
+    <string name="btn_action_snackbar">Action snack</string>
+    <string name="long_snackbar">This is a long snackbar</string>
+    <string name="short_snackbar">This is a short snackbar</string>
+    <string name="message_snackbar">This is snackbar with action</string>
+    <string name="action_snackbar">Click to dispose</string>
 </resources>
