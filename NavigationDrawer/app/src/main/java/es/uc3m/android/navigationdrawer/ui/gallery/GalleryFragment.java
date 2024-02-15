@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
- package es.uc3m.android.navigationdrawer.ui.gallery;
+package es.uc3m.android.navigationdrawer.ui.gallery;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
