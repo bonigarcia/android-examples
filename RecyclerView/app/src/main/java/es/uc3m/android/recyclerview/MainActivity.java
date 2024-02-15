@@ -19,7 +19,6 @@ package es.uc3m.android.recyclerview;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     private List<String> generateData() {
         List<String> data = new ArrayList<>();
+        String listText = getResources().getString(R.string.list_text);
         for (int i = 0; i < 20; i++) {
-            data.add(i + "th element");
+            data.add(i + listText);
         }
         return data;
     }

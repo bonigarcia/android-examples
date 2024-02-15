@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Recycler View Demo</string>
+    <string name="list_text">th element</string>
 </resources>
