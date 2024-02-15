@@ -21,11 +21,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_gravity="center"
-                android:paddingBottom="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/android_icon"/>
+                android:layout_gravity="center"
+                android:paddingBottom="50dp"
+                android:src="@mipmap/android_icon" />
 
             <Button
                 android:id="@+id/button1"
