@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:layout_weight="0.15" />
 
-        <RelativeLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.7">
