@@ -22,26 +22,26 @@ import androidx.lifecycle.ViewModel;
 
 public class CounterModel extends ViewModel {
 
-    private final MutableLiveData<String> uiState;
+    private final MutableLiveData<Integer> uiState;
 
     private int counter = 0;
 
     public CounterModel() {
         uiState = new MutableLiveData<>();
-        uiState.setValue(String.valueOf(counter));
+        uiState.setValue(counter);
     }
 
-    public LiveData<String> getUiState() {
+    public LiveData<Integer> getUiState() {
         return uiState;
     }
 
     public void increment() {
         counter++;
-        uiState.setValue(String.valueOf(counter));
+        uiState.setValue(counter);
     }
 
     public void decrement() {
         counter--;
-        uiState.setValue(String.valueOf(counter));
+        uiState.setValue(counter);
     }
 }

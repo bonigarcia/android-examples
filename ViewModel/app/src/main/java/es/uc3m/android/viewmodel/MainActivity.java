@@ -48,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayCounter() {
         TextView counter = findViewById(R.id.tv_count);
-        counterModel.getUiState().observe(this, counter::setText);
+        counterModel.getUiState().observe(this, uiState -> {
+            counter.setText(String.valueOf(uiState));
+        });
     }
 
 }
