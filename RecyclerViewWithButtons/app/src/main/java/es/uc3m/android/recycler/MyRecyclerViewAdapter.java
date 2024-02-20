@@ -19,30 +19,27 @@ package es.uc3m.android.recycler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private final List<String> data;
 
     public MyRecyclerViewAdapter(List<String> data) {
         this.data = data;
     }
 
-    @NonNull @Override
-    public MyRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rowItem = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_view, parent, false);
-        return new ViewHolder(rowItem);
+        return new MyViewHolder(rowItem);
     }
 
     @Override
-    public void onBindViewHolder(MyRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.button.setText(data.get(position));
     }
 
@@ -51,18 +48,4 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return data.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        private final Button button;
-
-        public ViewHolder(View view) {
-            super(view);
-            this.button = view.findViewById(R.id.button);
-
-            this.button.setOnClickListener(
-                    view1 -> Toast.makeText(view1.getContext(), this.button.getText(),
-                            Toast.LENGTH_SHORT).show());
-        }
-
-    }
 }
