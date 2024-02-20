@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> data = new ArrayList<>();
         String listText = getResources().getString(R.string.list_text);
         for (int i = 0; i < 20; i++) {
-            data.add(i + listText);
+            data.add(listText + " " + i);
         }
         return data;
     }
