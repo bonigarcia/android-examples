@@ -31,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<MyItem> colorItems = new ArrayList<>();
+        List<MyItem> items = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
-            colorItems.add(new MyItem("Button " + i));
+            items.add(new MyItem("Button " + i));
         }
         // Create the custom adapter
-        MyAdapter myAdapter = new MyAdapter(this, colorItems);
+        MyAdapter myAdapter = new MyAdapter(this, items);
 
         // Set the adapter to the GridView
         GridView gridView = findViewById(R.id.grid_view);

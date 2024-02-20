@@ -30,9 +30,9 @@ public class MyAdapter extends BaseAdapter {
     private Context context;
     private List<MyItem> myItems;
 
-    public MyAdapter(Context context, List<MyItem> colorItems) {
+    public MyAdapter(Context context, List<MyItem> items) {
         this.context = context;
-        this.myItems = colorItems;
+        this.myItems = items;
     }
 
     @Override
