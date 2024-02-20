@@ -19,13 +19,12 @@ package es.uc3m.android.recyclerview;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private static List<String> data;
 
     public MyRecyclerViewAdapter(List<String> data) {
@@ -33,14 +32,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     @Override
-    public MyRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rowItem = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_view, parent, false);
-        return new ViewHolder(this, rowItem);
+        return new MyViewHolder(this, data, rowItem);
     }
 
     @Override
-    public void onBindViewHolder(MyRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.textView.setText(data.get(position));
     }
 
@@ -49,23 +48,4 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return data.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        private final MyRecyclerViewAdapter parent;
-        private final TextView textView;
-
-        public ViewHolder(MyRecyclerViewAdapter parent, View view) {
-            super(view);
-            view.setOnClickListener(this);
-            this.textView = view.findViewById(R.id.textview);
-            this.parent = parent;
-        }
-
-        @Override
-        public void onClick(View view) {
-            int position = getLayoutPosition();
-            data.remove(position);
-            parent.notifyDataSetChanged();
-        }
-    }
 }
