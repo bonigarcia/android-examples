@@ -23,25 +23,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class MyViewHolder extends RecyclerView.ViewHolder {
 
     public final MyRecyclerViewAdapter parent;
-
     public static List<String> data;
     public final TextView textView;
 
     public MyViewHolder(MyRecyclerViewAdapter parent, List<String> data, View view) {
         super(view);
-        view.setOnClickListener(this);
         this.textView = view.findViewById(R.id.textview);
         this.parent = parent;
         this.data = data;
+
+        view.setOnClickListener(view1 -> {
+            int position = getLayoutPosition();
+            data.remove(position);
+            parent.notifyDataSetChanged();
+        });
+
     }
 
-    @Override
-    public void onClick(View view) {
-        int position = getLayoutPosition();
-        data.remove(position);
-        parent.notifyDataSetChanged();
-    }
 }
