@@ -16,16 +16,13 @@
  */
 package es.uc3m.android.files;
 
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -39,16 +36,14 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
 
         String name = "";
-        if (checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                File file = new File(getExternalFilesDir(null),
-                        "myfile.txt");
-                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                    name = br.readLine();
-                } catch (Exception e) {
-                    Log.e(this.getLocalClassName(), "Exception reading file",
-                            e);
-                }
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            File file = new File(getExternalFilesDir(null),
+                    "myfile.txt");
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                name = br.readLine();
+            } catch (Exception e) {
+                Log.e(this.getLocalClassName(), "Exception reading file",
+                        e);
             }
         }
 
