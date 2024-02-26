@@ -16,28 +16,25 @@
  */
 package es.uc3m.android.automatedtesting;
 
-import static org.junit.Assert.assertEquals;
-
 import android.content.Context;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@RunWith(AndroidJUnit4.class)
-public class ContextTest {
+@RunWith(AndroidJUnit4.class) public class ContextTest {
 
-    @Test
-    public void contextTest() {
+    @Test public void contextTest() {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         // Exercise context
         String appName = context.getResources().getString(R.string.app_name);
 
         // Verify outcome
-        assertEquals(appName, "Testing Demo");
+        Assert.assertEquals(appName, "Testing Demo");
     }
 
 }

@@ -16,8 +16,7 @@
  */
 package es.uc3m.android.automatedtesting;
 
-import static org.junit.Assert.assertTrue;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -35,7 +34,7 @@ public class BasicUnitTest {
         int year = cal.get(Calendar.YEAR);
 
         // Assertion
-        assertTrue(formattedDate.contains(String.valueOf(year)));
+        Assert.assertTrue(formattedDate.contains(String.valueOf(year)));
     }
 
 }
