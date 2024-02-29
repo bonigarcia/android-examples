@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 Toast.makeText(this.getApplicationContext(),
-                        result.getResultCode() + " " + result.getData().getExtras().get("message"),
+                        result.getData().getExtras().get("message").toString(),
                         Toast.LENGTH_LONG).show();
             });
 
@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getBaseContext(), SecondActivity.class);
             EditText nameText = findViewById(R.id.editText);
             intent.putExtra("name", nameText.getText().toString());
-            startActivity(intent);
-
             activityResultLauncher.launch(intent);
         });
     }

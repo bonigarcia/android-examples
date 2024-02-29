@@ -40,11 +40,8 @@ public class SecondActivity extends AppCompatActivity {
         Button okButton = findViewById(R.id.ok_button);
         okButton.setOnClickListener(view -> {
             Intent result = new Intent();
-            Bundle bundle1 = new Bundle();
-            bundle1.putString("message",
+            result.putExtra("message",
                     getResources().getString(R.string.ok_message));
-            result.putExtras(bundle1);
-
             setResult(RESULT_OK, result);
             finish();
         });
@@ -52,11 +49,8 @@ public class SecondActivity extends AppCompatActivity {
         Button cancelButton = findViewById(R.id.cancel_button);
         cancelButton.setOnClickListener(view -> {
             Intent result = new Intent();
-            Bundle bundle12 = new Bundle();
-            bundle12.putString("message",
+            result.putExtra("message",
                     getResources().getString(R.string.cancel_message));
-            result.putExtras(bundle12);
-
             setResult(RESULT_CANCELED, result);
             finish();
         });
