@@ -20,8 +20,12 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,25 +35,44 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findViewById(R.id.button1).setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("https://www.google.com"));
-
             startActivity(intent);
         });
 
         findViewById(R.id.button2).setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_DIAL);
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:666555444"));
-
             startActivity(intent);
         });
 
         findViewById(R.id.button3).setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_SEARCH);
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEARCH);
             intent.putExtra(SearchManager.QUERY, "Developing Android apps");
-
             startActivity(intent);
         });
+
+        findViewById(R.id.button4).setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setAction("es.uc3m.android.implicit");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                long currentTimeMillis = System.currentTimeMillis();
+                String now = formatDate(currentTimeMillis);
+                intent.putExtra("date", now);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "No app can handle this action", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public String formatDate(long timeMillis) {
+        DateFormat formatter = DateFormat.getDateTimeInstance();
+        Date date = new Date(timeMillis);
+        return formatter.format(date);
     }
 
 }

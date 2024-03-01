@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button).setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setAction(MY_BROADCAST_INTENT);
+            intent.setAction("es.uc3m.android.sendbroadcast");
+            intent.putExtra("name", "value");
             sendBroadcast(intent);
         });
 

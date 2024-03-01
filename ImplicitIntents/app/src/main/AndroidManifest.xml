@@ -14,6 +14,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ImplicitActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="es.uc3m.android.implicit" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

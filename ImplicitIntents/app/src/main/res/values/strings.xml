@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Implicit Intents Demo</string>
     <string name="button">Click me</string>
-    <string name="action_view">ACTION_VIEW</string>
-    <string name="action_dial">ACTION_DIAL</string>
-    <string name="action_search">ACTION_SEARCH</string>
+    <string name="action_view">View Action</string>
+    <string name="action_dial">Dial Action</string>
+    <string name="action_search">Search Action</string>
+    <string name="action_custom">Custom Action</string>
 </resources>
