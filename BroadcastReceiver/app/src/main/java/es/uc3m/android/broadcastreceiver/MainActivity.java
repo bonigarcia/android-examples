@@ -25,7 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String MY_BROADCAST_INTENT = "es.uc3m.android.sendbroadcast";
+    private static final String MY_BROADCAST_ACTION = "es.uc3m.android.sendbroadcast";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Receiver configuration
         IntentFilter filter = new IntentFilter();
-        filter.addAction(MY_BROADCAST_INTENT);
-        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);  // "android.intent.action.AIRPLANE_MODE"
+        filter.addAction(MY_BROADCAST_ACTION);
+        filter.addAction(
+                Intent.ACTION_AIRPLANE_MODE_CHANGED);  // "android.intent.action.AIRPLANE_MODE"
         filter.addAction(Intent.ACTION_BATTERY_LOW);  // "android.intent.action.BATTERY_LOW"
         BroadcastReceiver receiver = new MyReceiver();
         registerReceiver(receiver, filter);
@@ -43,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
         // Button listener
         findViewById(R.id.button).setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.setAction(MY_BROADCAST_INTENT);
-            intent.setAction("es.uc3m.android.sendbroadcast");
-            intent.putExtra("name", "value");
+            intent.setAction(MY_BROADCAST_ACTION);
             sendBroadcast(intent);
         });
 
