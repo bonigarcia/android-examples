@@ -8,7 +8,6 @@
         android:theme="@style/Theme.BroadcastReceiver">
         <receiver
             android:name=".MyReceiver"
-            android:enabled="true"
             android:exported="true">
         </receiver>
 
