@@ -36,27 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.button1).setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://www.google.com"));
-            startActivity(intent);
-        });
-
-        findViewById(R.id.button2).setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:666555444"));
-            startActivity(intent);
-        });
-
-        findViewById(R.id.button3).setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_SEARCH);
-            intent.putExtra(SearchManager.QUERY, "Developing Android apps");
-            startActivity(intent);
-        });
-
-        findViewById(R.id.button4).setOnClickListener(v -> {
-            Intent intent = new Intent();
             intent.setAction("es.uc3m.android.implicit");
             if (intent.resolveActivity(getPackageManager()) != null) {
                 long currentTimeMillis = System.currentTimeMillis();
@@ -64,8 +43,30 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("date", now);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "No app can handle this action", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No app can handle this action",
+                        Toast.LENGTH_SHORT).show();
             }
+        });
+
+        findViewById(R.id.button2).setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://www.google.com"));
+            startActivity(intent);
+        });
+
+        findViewById(R.id.button3).setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:666555444"));
+            startActivity(intent);
+        });
+
+        findViewById(R.id.button4).setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEARCH);
+            intent.putExtra(SearchManager.QUERY, "Developing Android apps");
+            startActivity(intent);
         });
     }
 
