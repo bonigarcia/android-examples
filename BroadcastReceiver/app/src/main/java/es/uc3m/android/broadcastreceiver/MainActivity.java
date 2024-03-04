@@ -35,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
         // Receiver configuration
         IntentFilter filter = new IntentFilter();
         filter.addAction(MY_BROADCAST_ACTION);
-        filter.addAction(
-                Intent.ACTION_AIRPLANE_MODE_CHANGED);  // "android.intent.action.AIRPLANE_MODE"
+        filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);  // "android.intent.action.AIRPLANE_MODE"
         filter.addAction(Intent.ACTION_BATTERY_LOW);  // "android.intent.action.BATTERY_LOW"
         BroadcastReceiver receiver = new MyReceiver();
         registerReceiver(receiver, filter);
