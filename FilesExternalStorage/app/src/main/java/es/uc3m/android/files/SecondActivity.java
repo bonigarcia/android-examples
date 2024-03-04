@@ -16,7 +16,6 @@
  */
 package es.uc3m.android.files;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -47,8 +46,7 @@ public class SecondActivity extends AppCompatActivity {
             }
         }
 
-        Resources resources = getResources();
-        String text = String.format(resources.getString(R.string.hello), name);
+        String text = String.format(getResources().getString(R.string.hello), name);
         TextView textView = findViewById(R.id.textView);
         textView.setText(text);
     }
