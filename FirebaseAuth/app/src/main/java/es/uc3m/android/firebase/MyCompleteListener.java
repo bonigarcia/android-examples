@@ -43,13 +43,11 @@ public class MyCompleteListener implements OnCompleteListener<AuthResult> {
     @Override
     public void onComplete(@NonNull Task<AuthResult> task) {
         if (task.isSuccessful()) {
-            // Sign in success
             FirebaseUser user = mAuth.getCurrentUser();
             Log.d(this.getClass().getName(),
                     "createUserWithEmail:success " + user);
             context.startActivity(new Intent(context, MainActivity.class));
         } else {
-            // Sign in failure
             Log.w(this.getClass().getName(), "createUserWithEmail:failure",
                     task.getException());
 
