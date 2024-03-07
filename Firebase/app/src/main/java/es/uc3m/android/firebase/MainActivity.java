@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -85,16 +86,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayList() {
         db.collection("notes").get().addOnCompleteListener(task -> {
-            List<Notes> notesList = new ArrayList<>();
-            for (QueryDocumentSnapshot document : task.getResult()) {
-                String id = document.getId();
-                String title = document.getData().get("title").toString();
-                String body = document.getData().get("body").toString();
-                notesList.add(new Notes(id, title, body));
+            try {
+                List<Notes> notesList = new ArrayList<>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    String id = document.getId();
+                    String title = document.getData().get("title").toString();
+                    String body = document.getData().get("body").toString();
+                    notesList.add(new Notes(id, title, body));
+                }
+                ArrayAdapter<Notes> listAdapter = new ArrayAdapter<>(listView.getContext(),
+                        android.R.layout.simple_list_item_1, notesList);
+                listView.setAdapter(listAdapter);
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }
-            ArrayAdapter<Notes> listAdapter = new ArrayAdapter<>(listView.getContext(),
-                    android.R.layout.simple_list_item_1, notesList);
-            listView.setAdapter(listAdapter);
         });
     }
 
