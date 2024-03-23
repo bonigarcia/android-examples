@@ -17,6 +17,7 @@
 package es.uc3m.android.location;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -41,10 +42,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_PERMISSION_ACCESS_FINE_LOCATION);
         } else {
-            LocationManager locationManager =
-                    (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
+            enableLocationManager();
         }
+    }
+
+
+    @SuppressLint("MissingPermission")
+    public void enableLocationManager() {
+        LocationManager locationManager =
+                (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
     }
 
     @Override
@@ -62,8 +69,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             case REQUEST_PERMISSION_ACCESS_FINE_LOCATION: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    finish();
-                    startActivity(getIntent());
+                    enableLocationManager();
                 }
                 break;
             }
