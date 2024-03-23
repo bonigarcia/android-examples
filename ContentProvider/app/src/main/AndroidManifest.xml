@@ -20,7 +20,6 @@
         <provider
             android:name=".MyProvider"
             android:authorities="es.uc3m.android.provider"
-            android:enabled="true"
             android:exported="true" />
     </application>
 
