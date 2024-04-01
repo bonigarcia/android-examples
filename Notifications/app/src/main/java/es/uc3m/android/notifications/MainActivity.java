@@ -16,7 +16,6 @@
  */
 package es.uc3m.android.notifications;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -47,18 +46,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.start_notification_1).setOnClickListener(this::statusBarNotification);
+        findViewById(R.id.start_notification_1).setOnClickListener(this::statusBar);
         findViewById(R.id.stop_notification_1).setOnClickListener(view -> stopNotification(0));
 
-        findViewById(R.id.start_notification_2).setOnClickListener(
-                this::statusBarWithActionNotification);
+        findViewById(R.id.start_notification_2).setOnClickListener(this::headsUp);
         findViewById(R.id.stop_notification_2).setOnClickListener(view -> stopNotification(1));
 
-        findViewById(R.id.start_notification_3).setOnClickListener(this::headsUpNotification);
+        findViewById(R.id.start_notification_3).setOnClickListener(this::appIconBadge);
         findViewById(R.id.stop_notification_3).setOnClickListener(view -> stopNotification(2));
     }
 
-    private void statusBarNotification(View view) {
+    private void statusBar(View view) {
         Context context = view.getContext();
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
@@ -67,14 +65,12 @@ public class MainActivity extends AppCompatActivity {
         builder.setContentTitle("Status bar notification");
         builder.setContentText("This is a status bar notification");
         builder.setSmallIcon(R.drawable.ic_android_black_24dp);
-        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         // Create a notification channel for devices running Android Oreo and higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID_1, CHANNEL_NAME_1,
                     NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
-            builder.setChannelId(CHANNEL_ID_1);
         }
 
         // Show the notification
@@ -82,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(notificationId, builder.build());
     }
 
-    private void statusBarWithActionNotification(View view) {
+    private void headsUp(View view) {
         Context context = view.getContext();
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
@@ -95,16 +91,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Configure notification using builder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID_2);
-        builder.setContentTitle("Status bar with action notification");
-        builder.setContentText("This is a status bar with action notification");
+        builder.setContentTitle("Heads-up notification");
+        builder.setContentText("This is a heads-up notification");
         builder.setSmallIcon(R.drawable.baseline_dangerous_24);
-        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        builder.addAction(R.drawable.baseline_access_time_24, "Start action", pendingIntent);
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        builder.setFullScreenIntent(null, true); // heads-up
+        builder.addAction(R.drawable.baseline_access_time_24, "Start action",
+                pendingIntent); // action
 
         // Create a notification channel for devices running Android Oreo and higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID_2, CHANNEL_NAME_2,
-                    NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
 
@@ -113,23 +111,21 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(notificationId, builder.build());
     }
 
-    private void headsUpNotification(View view) {
+    private void appIconBadge(View view) {
         Context context = view.getContext();
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
         // Configure notification using builder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID_3);
-        builder.setContentTitle("Heads-up notification");
-        builder.setContentText("This is a heads-up notification");
+        builder.setContentTitle("Another notification");
+        builder.setContentText("Some content");
         builder.setSmallIcon(R.drawable.baseline_account_box_24);
-        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-        builder.setDefaults(Notification.DEFAULT_ALL);
-        builder.setFullScreenIntent(null, true); // heads-up
+        builder.setNumber(5);
 
         // Create a notification channel for devices running Android Oreo and higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID_3, CHANNEL_NAME_3,
-                    NotificationManager.IMPORTANCE_HIGH);
+                    NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
 
