@@ -124,17 +124,13 @@ public class MainActivity extends AppCompatActivity {
         builder.setSmallIcon(R.drawable.baseline_account_box_24);
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);
         builder.setDefaults(Notification.DEFAULT_ALL);
+        builder.setFullScreenIntent(null, true); // heads-up
 
         // Create a notification channel for devices running Android Oreo and higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID_3, CHANNEL_NAME_3,
                     NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
-        }
-
-        // Display as a heads-up notification
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setFullScreenIntent(null, true);
         }
 
         // Show the notification
