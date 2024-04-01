@@ -17,6 +17,11 @@
         <activity
             android:name=".SecondActivity"
             android:exported="false" />
+
+        <service
+            android:name=".PeriodicService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
