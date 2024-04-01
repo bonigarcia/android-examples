@@ -28,17 +28,20 @@ public class MyService extends Service {
         return null; // This service does not provide binding
     }
 
-    @Override public void onCreate() {
+    @Override
+    public void onCreate() {
         super.onCreate();
         Log.d(this.getClass().getCanonicalName(), "Service created");
     }
 
-    @Override public int onStartCommand(Intent intent, int flags, int startId) {
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(this.getClass().getCanonicalName(), "Intent received");
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         Log.d(this.getClass().getCanonicalName(), "Service destroyed");
     }
