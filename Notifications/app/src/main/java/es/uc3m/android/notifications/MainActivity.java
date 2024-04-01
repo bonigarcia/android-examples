@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.start_notification_2).setOnClickListener(this::statusBarWithActionNotification);
         findViewById(R.id.stop_notification_2).setOnClickListener(view -> stopNotification(1));
 
-        findViewById(R.id.start_notification_3).setOnClickListener(this::expandedNotification);
+        findViewById(R.id.start_notification_3).setOnClickListener(this::headsUpNotification);
         findViewById(R.id.stop_notification_3).setOnClickListener(view -> stopNotification(2));
     }
 
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(notificationId, builder.build());
     }
 
-    private void expandedNotification(View view) {
+    private void headsUpNotification(View view) {
         Context context = view.getContext();
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
