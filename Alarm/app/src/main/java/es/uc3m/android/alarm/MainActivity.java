@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         int alarmType = AlarmManager.RTC_WAKEUP;
         long triggerAtMillis = SystemClock.elapsedRealtime();
         long intervalMillis = TimeUnit.SECONDS.toMillis(10);
+        System.out.println("************** " + alarmManager.getClass());
         alarmManager.setRepeating(alarmType, triggerAtMillis, intervalMillis, pendingIntent);
     }
 

@@ -19,6 +19,7 @@ package es.uc3m.android.alarm;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 public class PeriodicService extends Service {
@@ -31,10 +32,14 @@ public class PeriodicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        System.out.println("************************");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(this.getClass().getCanonicalName(), "Running periodic service");
         Toast toast = Toast.makeText(getBaseContext(), "Hello from service",
                 Toast.LENGTH_LONG);
         toast.show();
+        return super.onStartCommand(intent, flags, startId);
     }
-
 }
