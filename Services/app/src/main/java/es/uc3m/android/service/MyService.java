@@ -31,19 +31,19 @@ public class MyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(this.getClass().getCanonicalName(), "Service created");
+        Log.d(this.getClass().getCanonicalName(), "MyService - onCreate()");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(this.getClass().getCanonicalName(), "Intent received");
+        Log.d(this.getClass().getCanonicalName(), "MyService - onStartCommand()");
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(this.getClass().getCanonicalName(), "Service destroyed");
+        Log.d(this.getClass().getCanonicalName(), "MyService - onDestroy()");
     }
 
 }
