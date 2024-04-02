@@ -15,13 +15,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SecondActivity"
-            android:exported="false" />
+            android:name=".SecondActivity"/>
 
         <service
-            android:name=".PeriodicService"
-            android:enabled="true"
-            android:exported="true"></service>
+            android:name=".PeriodicService"></service>
     </application>
 
 </manifest>
