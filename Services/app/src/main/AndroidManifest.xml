@@ -7,9 +7,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.ServiceDemo">
         <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true"></service>
+            android:name=".MyService"></service>
 
         <activity
             android:name=".MainActivity"
