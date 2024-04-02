@@ -88,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
         intent.setData(Uri.parse("tel:666555444"));
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        // The request code (second argument) is a unique identifier for the PendingIntent,
+        // which allows you to distinguish between different PendingIntents.
+        // The flags (last argument)  determine how the PendingIntent behaves, such as whether
+        // it should be created if it doesn't already exist or if it should update any existing
+        // PendingIntent with the same request code.
 
         // Configure notification using builder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID_2);
