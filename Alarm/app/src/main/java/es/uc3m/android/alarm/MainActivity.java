@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         // PendingIntent with the same request code.
 
         // Set alarm
-        int alarmType = AlarmManager.ELAPSED_REALTIME_WAKEUP;
+        int alarmType = AlarmManager.ELAPSED_REALTIME;
         long triggerAtMillis = SystemClock.elapsedRealtime() + TimeUnit.SECONDS.toMillis(5);
         alarmManager.set(alarmType, triggerAtMillis, pendingIntent);
     }
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Set alarm
-        int alarmType = AlarmManager.RTC_WAKEUP;
+        int alarmType = AlarmManager.ELAPSED_REALTIME;
         long triggerAtMillis = SystemClock.elapsedRealtime();
         long intervalMillis = TimeUnit.SECONDS.toMillis(10);
         alarmManager.setRepeating(alarmType, triggerAtMillis, intervalMillis, pendingIntent);
