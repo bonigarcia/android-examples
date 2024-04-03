@@ -2,8 +2,10 @@
     <string name="app_name">Notifications Demo</string>
     <string name="start_1">#1 - Status bar</string>
     <string name="stop_1">Stop #1</string>
-    <string name="start_2">#2 - Heads-up</string>
+    <string name="start_2">#2 - Heads-up (1)</string>
     <string name="stop_2">Stop #2</string>
-    <string name="start_3">#3 - App icon badge</string>
+    <string name="start_3">#3 - Heads-up (2)</string>
     <string name="stop_3">Stop #3</string>
+    <string name="start_4">#4 - App icon badge</string>
+    <string name="stop_4">Stop #4</string>
 </resources>
