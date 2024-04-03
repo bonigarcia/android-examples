@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Show the notification
-        int notificationId = 2;
+        int notificationId = 1;
         notificationManager.notify(notificationId, builder.build());
     }
 
