@@ -51,7 +51,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(context, SecondActivity.class);
         intent.putExtra("name", "John Doe");
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
-                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_IMMUTABLE);
+        // The request code (second argument) is a unique identifier for the PendingIntent,
+        // which allows you to distinguish between different PendingIntents.
+        // The flags (last argument)  determine how the PendingIntent behaves, such as whether
+        // it should be created if it doesn't already exist or if it should update any existing
+        // PendingIntent with the same request code.
 
         // Set alarm
         int alarmType = AlarmManager.ELAPSED_REALTIME_WAKEUP;
@@ -67,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         Context context = view.getContext();
         Intent intent = new Intent(context, PeriodicService.class);
         pendingIntent =
-                PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Set alarm
         int alarmType = AlarmManager.RTC_WAKEUP;
