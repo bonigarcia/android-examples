@@ -52,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         LocationManager locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
+        // 1st parameter: location provider
+        // 2nd parameter: minimum time interval (in milliseconds) between location updates
+        // 3rd parameter: minimum distance (in meters) that the device must move horizontally before a location update is triggered
+        // 4rd parameter: location listener
     }
 
     @Override
