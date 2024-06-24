@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2022 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2024 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,36 +14,32 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.service;
+package es.uc3m.android.alarm;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
-public class MyService extends Service {
+public class PeriodicService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return null; // This service does not provide binding
+        return null;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(this.getClass().getCanonicalName(), "MyService - onCreate()");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(this.getClass().getCanonicalName(), "MyService - onStartCommand()");
+        Log.d(this.getClass().getCanonicalName(), "Running periodic service");
+        Toast toast = Toast.makeText(getBaseContext(), "Hello from service",
+                Toast.LENGTH_LONG);
+        toast.show();
         return super.onStartCommand(intent, flags, startId);
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(this.getClass().getCanonicalName(), "MyService - onDestroy()");
-    }
-
 }
