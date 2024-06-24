@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,24 +30,62 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
+    private PendingIntent pendingIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button).setOnClickListener(view -> {
-            Context context = view.getContext();
+        findViewById(R.id.start_alarm_1).setOnClickListener(this::oneTimeAlarm);
+        findViewById(R.id.start_alarm_2).setOnClickListener(this::repeatingAlarm);
+        findViewById(R.id.stop_alarm_2).setOnClickListener(this::cancelRepeatingAlarm);
+    }
 
-            AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            int alarmType = AlarmManager.ELAPSED_REALTIME_WAKEUP;
-            long timeMillis = TimeUnit.SECONDS.toMillis(5);
+    private void oneTimeAlarm(View view) {
+        // Get alarm manager
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-            Intent intent = new Intent(context, SecondActivity.class);
-            intent.putExtra("name", "John Doe");
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
-                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-            alarms.set(alarmType, SystemClock.elapsedRealtime() + timeMillis, pendingIntent);
-        });
+        // Create pending intent
+        Context context = view.getContext();
+        Intent intent = new Intent(context, SecondActivity.class);
+        intent.putExtra("name", "John Doe");
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
+                PendingIntent.FLAG_IMMUTABLE);
+        // The request code (second argument) is a unique identifier for the PendingIntent,
+        // which allows you to distinguish between different PendingIntents.
+        // The flags (last argument)  determine how the PendingIntent behaves, such as whether
+        // it should be created if it doesn't already exist or if it should update any existing
+        // PendingIntent with the same request code.
+
+        // Set alarm
+        int alarmType = AlarmManager.ELAPSED_REALTIME;
+        long triggerAtMillis = SystemClock.elapsedRealtime() + TimeUnit.SECONDS.toMillis(5);
+        alarmManager.set(alarmType, triggerAtMillis, pendingIntent);
+    }
+
+    private void repeatingAlarm(View view) {
+        // Get alarm manager
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        // Create pending intent
+        Context context = view.getContext();
+        Intent intent = new Intent(context, PeriodicService.class);
+        pendingIntent =
+                PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Set alarm
+        int alarmType = AlarmManager.ELAPSED_REALTIME;
+        long triggerAtMillis = SystemClock.elapsedRealtime();
+        long intervalMillis = TimeUnit.SECONDS.toMillis(10);
+        alarmManager.setRepeating(alarmType, triggerAtMillis, intervalMillis, pendingIntent);
+    }
+
+    private void cancelRepeatingAlarm(View view) {
+        if (pendingIntent != null) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.cancel(pendingIntent);
+        }
     }
 
 }
