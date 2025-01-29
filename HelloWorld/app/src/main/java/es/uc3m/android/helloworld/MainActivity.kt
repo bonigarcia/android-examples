@@ -6,13 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import es.uc3m.android.helloworld.ui.theme.HelloWorldTheme
+import es.uc3m.android.helloworld.ui.theme.MyAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            HelloWorldTheme {
+            MyAppTheme {
                 Greeting("Android")
             }
         }
@@ -27,7 +27,7 @@ fun Greeting(name: String) {
 @Preview
 @Composable
 fun GreetingPreview() {
-    HelloWorldTheme {
+    MyAppTheme {
         Greeting("Android")
     }
 }
