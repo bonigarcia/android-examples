@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2022 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,23 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.constraintlayout;
+package es.uc3m.android.constraintlayout
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Test
+import org.junit.runner.RunWith
 
-import android.os.Bundle;
+/**
+ * Instrumented test, which will execute on an Android device.
+ *
+ * @see [Testing documentation](https://developer.android.com/studio/test)
+ */
+@RunWith(AndroidJUnit4::class)
+class AndroidTest {
+    @Test
+    fun test() {
+        // TODO: Exercise
 
-public class MainActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        // TODO: Verify
     }
 }
