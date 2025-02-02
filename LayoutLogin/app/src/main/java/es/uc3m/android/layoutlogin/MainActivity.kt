@@ -21,12 +21,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,8 +58,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyLayout(modifier = Modifier.padding(innerPadding))
-                    //MyConstraintLayout(modifier = Modifier.padding(innerPadding))
+                    MyConstraintLayout(modifier = Modifier.padding(innerPadding))
+                    // MyLayout(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -69,65 +72,89 @@ fun MyLayout(modifier: Modifier = Modifier) {
     var login by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
 
-    Row {
-        Spacer(modifier = modifier.fillMaxWidth(0.15f))
-        Column {
-            Spacer(modifier = modifier.fillMaxWidth(0.2f))
-            Text(
-                text = stringResource(R.string.login_label),
-                style = MaterialTheme.typography.headlineLarge
-            )
-            Text(
-                text = stringResource(R.string.sign_in_to_continue),
-                modifier = Modifier,
-                style = MaterialTheme.typography.bodySmall
-            )
-            TextField(
-                value = login,
-                onValueChange = { login = it },
-                placeholder = {
-                    Text(stringResource(R.string.email_edit_text))
-                }
-            )
-            TextField(
-                value = password,
-                onValueChange = { password = it },
-                placeholder = {
-                    Text(stringResource(R.string.password_edit_text))
-                },
-                visualTransformation = PasswordVisualTransformation()
-            )
-            Button(
-                onClick = {
-                    println("TODO login")
-                },
-                modifier = Modifier
-                    .align(alignment = Alignment.End)
-                    .padding(top = 16.dp)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+    Row(modifier = modifier.fillMaxSize()) {
+        // Left spacer (15% width)
+        Spacer(
+            modifier = Modifier
+                .weight(0.15f)
+                .fillMaxHeight()
+        )
+        // Middle content (70% width)
+        Box(
+            modifier = Modifier
+                .weight(0.7f)
+                .fillMaxHeight()
+        ) {
+            Column {
+                Spacer(modifier = modifier.fillMaxHeight(0.2f))
+                Text(
+                    text = stringResource(R.string.login_label),
+                    style = MaterialTheme.typography.headlineLarge
+                )
+                Text(
+                    text = stringResource(R.string.sign_in_to_continue),
+                    modifier = Modifier,
+                    style = MaterialTheme.typography.bodySmall
+                )
+                TextField(
+                    value = login,
+                    onValueChange = { login = it },
+                    placeholder = {
+                        Text(stringResource(R.string.email_edit_text))
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                )
+                TextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    placeholder = {
+                        Text(stringResource(R.string.password_edit_text))
+                    },
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                )
+                Button(
+                    onClick = {
+                        println("TODO login")
+                    },
+                    modifier = Modifier
+                        .align(alignment = Alignment.End)
+                        .padding(top = 16.dp)
                 ) {
-                    Text(stringResource(R.string.login_button_text))
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_arrow_forward_24),
-                        contentDescription = stringResource(R.string.login_button_text),
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(stringResource(R.string.login_button_text))
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_arrow_forward_24),
+                            contentDescription = stringResource(R.string.login_button_text),
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
                 }
             }
-            Spacer(modifier = modifier.fillMaxSize(0.3f))
-            Text(
-                text = stringResource(R.string.don_t_have_an_account_sign_up),
+            Column(
                 modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally)
-                    .clickable {
-                        println("TODO sign up")
-                    },
-                style = MaterialTheme.typography.bodyMedium
-            )
+                    .align(alignment = Alignment.BottomCenter)
+                    .fillMaxHeight(0.2f)
+            ) {
+                Text(
+                    text = stringResource(R.string.don_t_have_an_account_sign_up),
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterHorizontally)
+                        .clickable {
+                            println("TODO sign up")
+                        },
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
-        Spacer(modifier = modifier.fillMaxWidth(0.15f))
+        // Right spacer (15% width)
+        Spacer(
+            modifier = Modifier
+                .weight(0.15f)
+                .fillMaxHeight()
+        )
     }
 }
 
@@ -180,7 +207,8 @@ fun MyConstraintLayout(modifier: Modifier = Modifier) {
                 },
             placeholder = {
                 Text(stringResource(R.string.email_edit_text))
-            }
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
         TextField(
             value = password,
@@ -193,7 +221,8 @@ fun MyConstraintLayout(modifier: Modifier = Modifier) {
             placeholder = {
                 Text(stringResource(R.string.password_edit_text))
             },
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
         )
         Button(
             onClick = {
@@ -240,8 +269,8 @@ fun MyConstraintLayout(modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     MyAppTheme {
-        MyLayout()
-        //MyConstraintLayout()
+        MyConstraintLayout()
+        // MyLayout()
     }
 }
 
