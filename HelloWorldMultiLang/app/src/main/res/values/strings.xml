@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Multi Language Hello World</string>
-    <string name="hello_msg">Hello World!</string>
+    <string name="app_name">Hello World Multi Language</string>
+    <string name="hello_msg">Hello %1$s!</string>
 </resources>

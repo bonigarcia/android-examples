@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2022 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,14 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.helloworld;
+package es.uc3m.android.helloworldmultilang.ui.theme
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.compose.ui.graphics.Color
 
-import android.os.Bundle;
+val Purple80 = Color(0xFFD0BCFF)
+val PurpleGrey80 = Color(0xFFCCC2DC)
+val Pink80 = Color(0xFFEFB8C8)
 
-public class MainActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-}
+val Purple40 = Color(0xFF6650a4)
+val PurpleGrey40 = Color(0xFF625b71)
+val Pink40 = Color(0xFF7D5260)

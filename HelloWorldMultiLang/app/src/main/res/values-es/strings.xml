@@ -1,4 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Hola Mundo Multi Lenguaje</string>
-    <string name="hello_msg">Hola Mundo!</string>
+    <string name="hello_msg">Hola %1$s!</string>
 </resources>
