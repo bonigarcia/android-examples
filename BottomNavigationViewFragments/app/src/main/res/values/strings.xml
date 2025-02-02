@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Bottom Navigation and Fragments</string>
-    <string name="home_fragment">This is my home</string>
-    <string name="profile_fragment">This is my profile</string>
-    <string name="settings_fragment">These are my settings</string>
-</resources>
