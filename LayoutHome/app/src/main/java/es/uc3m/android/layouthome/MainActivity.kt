@@ -57,32 +57,29 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyLayout(modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier.fillMaxSize()
-    ) {
+    Row {
         // Left spacer (15% width)
         Spacer(
-            modifier = Modifier
+            modifier = modifier
                 .weight(0.15f)
                 .fillMaxHeight()
         )
 
         // Middle content (70% width)
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .weight(0.7f)
                 .fillMaxHeight(),
             contentAlignment = Alignment.Center
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(bottom = 50.dp)
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Logo
                 Image(
                     painter = painterResource(id = R.drawable.my_logo),
                     contentDescription = "Android Icon",
-                    modifier = Modifier.padding(bottom = 50.dp)
+                    modifier = Modifier.padding(bottom = 32.dp)
                 )
 
                 // Button 1
@@ -92,7 +89,7 @@ fun MyLayout(modifier: Modifier = Modifier) {
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp)
+                        .padding(bottom = 8.dp)
                 ) {
                     Text(text = stringResource(R.string.button_1))
                 }
@@ -104,7 +101,7 @@ fun MyLayout(modifier: Modifier = Modifier) {
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp)
+                        .padding(bottom = 8.dp)
                 ) {
                     Text(text = stringResource(R.string.button_2))
                 }
@@ -116,7 +113,7 @@ fun MyLayout(modifier: Modifier = Modifier) {
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp)
+                        .padding(bottom = 8.dp)
                 ) {
                     Text(text = stringResource(R.string.button_3))
                 }
@@ -125,7 +122,7 @@ fun MyLayout(modifier: Modifier = Modifier) {
 
         // Right spacer (15% width)
         Spacer(
-            modifier = Modifier
+            modifier = modifier
                 .weight(0.15f)
                 .fillMaxHeight()
         )
