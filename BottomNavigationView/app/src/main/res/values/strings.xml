@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Bottom Navigation View Demo</string>
-    <string name="home_fragment">Home</string>
-    <string name="profile_fragment">Profile</string>
-    <string name="settings_fragment">Settings</string>
-</resources>
