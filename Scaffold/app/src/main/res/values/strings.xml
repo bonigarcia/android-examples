@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Scaffold sample</string>
+    <string name="search">Search</string>
+    <string name="account">Account</string>
+    <string name="add">Add</string>
+    <string name="content_text">Hello, Jetpack Compose!</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="info">Info</string>
+    <string name="places">Places</string>
+</resources>
