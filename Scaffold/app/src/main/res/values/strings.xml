@@ -6,9 +6,6 @@
     <string name="content_text">Hello, Jetpack Compose!</string>
     <string name="menu">Menu</string>
     <string name="home">Home</string>
-    <string name="favorite">Favorite</string>
-    <string name="info">Info</string>
-    <string name="places">Places</string>
     <string name="profile">Profile</string>
     <string name="settings">Settings</string>
 </resources>
