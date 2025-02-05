@@ -118,7 +118,6 @@ fun MyScreen() {
 fun MyDrawerContent(items: List<NavigationItem>, scope: CoroutineScope, drawerState: DrawerState) {
     var selectedItem by remember { mutableIntStateOf(0) }
 
-
     ModalDrawerSheet {
         Spacer(modifier = Modifier.height(24.dp))
         items.forEachIndexed { index, item ->
