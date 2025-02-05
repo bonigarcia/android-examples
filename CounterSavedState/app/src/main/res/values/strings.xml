@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">Counter (saved state)</string>
-    <string name="btn_increment_text">Increment</string>
-    <string name="btn_decrement_text">Decrement</string>
-</resources>

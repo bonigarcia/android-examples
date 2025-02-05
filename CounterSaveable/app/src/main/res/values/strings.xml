@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Counter</string>
+    <string name="increment">Increment</string>
+    <string name="decrement">Decrement</string>
+</resources>
