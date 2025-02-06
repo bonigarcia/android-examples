@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Vertical grid</string>
+    <string name="my_list">My vertical grid</string>
+    <string name="item_text">Item %1$s</string>
+</resources>

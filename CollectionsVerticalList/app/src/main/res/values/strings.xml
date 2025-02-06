@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Vertical list</string>
+    <string name="my_list">My vertical list</string>
+    <string name="item_title">Item %1$s</string>
+    <string name="item_description">%1$s: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+</resources>
