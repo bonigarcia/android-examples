@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Navigation</string>
-    <string name="text_msg">What is your name?</string>
-    <string name="button_msg">Send</string>
-    <string name="hello_msg">Hello, %s</string>
-</resources>
