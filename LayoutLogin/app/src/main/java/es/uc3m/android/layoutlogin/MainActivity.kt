@@ -199,7 +199,7 @@ fun MyLayout(modifier: Modifier = Modifier) {
                 )
                 Text(
                     text = stringResource(R.string.sign_in_to_continue),
-                    modifier = Modifier,
+                    modifier = Modifier.padding(bottom = 16.dp),
                     style = MaterialTheme.typography.bodySmall
                 )
                 TextField(
