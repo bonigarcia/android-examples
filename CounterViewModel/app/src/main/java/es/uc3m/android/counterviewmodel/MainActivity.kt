@@ -16,6 +16,10 @@
  */
 package es.uc3m.android.counterviewmodel
 
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +27,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -34,13 +40,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.uc3m.android.counterviewmodel.ui.theme.MyAppTheme
 
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            MyAppTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    CounterApp()
+                }
+            }
+        }
+    }
+}
+
 @Composable
-fun CounterApp(modifier: Modifier = Modifier, viewModel: CounterViewModel = viewModel()) {
+fun CounterApp(viewModel: CounterViewModel = viewModel()) {
     // Observe the state from the ViewModel
     val count by viewModel.count.asIntState()
 
@@ -48,8 +70,7 @@ fun CounterApp(modifier: Modifier = Modifier, viewModel: CounterViewModel = view
     Counter(
         count = count,
         onIncrement = { viewModel.increment() },
-        onDecrement = { viewModel.decrement() },
-        modifier = modifier.fillMaxSize()
+        onDecrement = { viewModel.decrement() }
     )
 }
 
@@ -57,27 +78,26 @@ fun CounterApp(modifier: Modifier = Modifier, viewModel: CounterViewModel = view
 fun Counter(
     count: Int, // State passed as a parameter
     onIncrement: () -> Unit, // Event callback for increment
-    onDecrement: () -> Unit, // Event callback for decrement
-    modifier: Modifier = Modifier
+    onDecrement: () -> Unit // Event callback for decrement
 ) {
     Column(
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Count: $count",
-            fontSize = 24.sp
+            style = MaterialTheme.typography.headlineMedium
         )
         Spacer(modifier = Modifier.height(16.dp))
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Button(onClick = onIncrement) {
-                Text(stringResource(R.string.increment))
-            }
             Button(onClick = onDecrement) {
                 Text(stringResource(R.string.decrement))
+            }
+            Button(onClick = onIncrement) {
+                Text(stringResource(R.string.increment))
             }
         }
     }

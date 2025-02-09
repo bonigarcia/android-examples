@@ -26,9 +26,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,7 +40,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import es.uc3m.android.countersaveable.ui.theme.MyAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -49,8 +48,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    CounterApp(modifier = Modifier.padding(innerPadding))
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    CounterApp()
                 }
             }
         }
@@ -58,7 +60,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun CounterApp(modifier: Modifier = Modifier) {
+fun CounterApp() {
     // State is hoisted to the parent composable
     var count by rememberSaveable { mutableIntStateOf(0) }
 
@@ -66,8 +68,7 @@ fun CounterApp(modifier: Modifier = Modifier) {
     Counter(
         count = count,
         onIncrement = { count++ },
-        onDecrement = { count-- },
-        modifier = modifier.fillMaxSize()
+        onDecrement = { count-- }
     )
 }
 
@@ -75,27 +76,26 @@ fun CounterApp(modifier: Modifier = Modifier) {
 fun Counter(
     count: Int, // State passed as a parameter
     onIncrement: () -> Unit, // Event callback for increment
-    onDecrement: () -> Unit, // Event callback for decrement
-    modifier: Modifier = Modifier
+    onDecrement: () -> Unit // Event callback for decrement
 ) {
     Column(
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Count: $count",
-            fontSize = 24.sp
+            style = MaterialTheme.typography.headlineMedium
         )
         Spacer(modifier = Modifier.height(16.dp))
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Button(onClick = onIncrement) {
-                Text(stringResource(R.string.increment))
-            }
             Button(onClick = onDecrement) {
                 Text(stringResource(R.string.decrement))
+            }
+            Button(onClick = onIncrement) {
+                Text(stringResource(R.string.increment))
             }
         }
     }
