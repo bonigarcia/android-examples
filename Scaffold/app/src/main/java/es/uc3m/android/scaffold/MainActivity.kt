@@ -4,15 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
@@ -20,6 +21,8 @@ import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -37,6 +40,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -172,13 +176,31 @@ fun MyTopAppBar(scope: CoroutineScope, drawerState: DrawerState) {
                     contentDescription = stringResource(R.string.search)
                 )
             }
-            IconButton(onClick = { /* TODO */ }) {
-                Icon(
-                    imageVector = Icons.Outlined.AccountCircle,
-                    contentDescription = stringResource(R.string.account)
-                )
-            }
+            MyDropdownMenu()
         })
+}
+
+@Composable
+fun MyDropdownMenu() {
+    var expanded by remember { mutableStateOf(false) }
+    Box {
+        IconButton(onClick = { expanded = !expanded }) {
+            Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.more))
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            DropdownMenuItem(
+                text = { Text("Option 1") },
+                onClick = { /* TODO */ }
+            )
+            DropdownMenuItem(
+                text = { Text("Option 2") },
+                onClick = { /* TODO */ }
+            )
+        }
+    }
 }
 
 @Composable
@@ -195,7 +217,6 @@ fun MyContent(modifier: Modifier = Modifier) {
         modifier = modifier.padding(16.dp)
     )
 }
-
 
 @Composable
 fun MyNavigationBar(items: List<NavigationItem>) {
