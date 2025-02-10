@@ -71,7 +71,7 @@ fun MyConstraintLayout(modifier: Modifier = Modifier) {
     ConstraintLayout(
         modifier = modifier.fillMaxSize()
     ) {
-        // Text fields
+        // State variables for text fields
         var login by rememberSaveable { mutableStateOf("") }
         var password by rememberSaveable { mutableStateOf("") }
 
@@ -174,7 +174,7 @@ fun MyConstraintLayout(modifier: Modifier = Modifier) {
 
 @Composable
 fun MyLayout(modifier: Modifier = Modifier) {
-    // Text fields
+    // State variables for text fields
     var login by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
 
