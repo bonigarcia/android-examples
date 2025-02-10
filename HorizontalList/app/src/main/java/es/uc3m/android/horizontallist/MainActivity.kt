@@ -20,8 +20,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.gestures.ScrollableDefaults
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -68,11 +66,7 @@ fun MyLazyRow(modifier: Modifier = Modifier) {
         LazyRow(
             state = rememberLazyListState(),
             contentPadding = PaddingValues(8.dp),
-            reverseLayout = false,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            flingBehavior = ScrollableDefaults.flingBehavior(),
-            userScrollEnabled = true
+            verticalAlignment = Alignment.CenterVertically
         ) {
             items(10) { index ->
                 Text(
