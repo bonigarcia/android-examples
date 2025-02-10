@@ -25,12 +25,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.uc3m.android.horizontalgrid.ui.theme.MyAppTheme
@@ -42,7 +44,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyLazyRow(
+                    MyHorizontalGrid(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -52,13 +54,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyLazyRow(modifier: Modifier = Modifier) {
+fun MyHorizontalGrid(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
-            text = stringResource(R.string.my_list),
+            modifier = Modifier.padding(16.dp),
+            text = stringResource(R.string.my_grid),
+            style = MaterialTheme.typography.headlineSmall,
+            textAlign = TextAlign.Start
         )
         LazyHorizontalGrid(
-            rows = GridCells.Fixed(6) // 6 rows
+            rows = GridCells.Fixed(6), // 6 rows
+            state = rememberLazyGridState()
         ) {
             items(42) { index ->
                 Text(
@@ -75,6 +81,6 @@ fun MyLazyRow(modifier: Modifier = Modifier) {
 @Composable
 fun Preview() {
     MyAppTheme {
-        MyLazyRow()
+        MyHorizontalGrid()
     }
 }

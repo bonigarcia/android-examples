@@ -25,12 +25,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.uc3m.android.verticalgrid.ui.theme.MyAppTheme
@@ -42,7 +44,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyLazyRow(
+                    MyVerticalGrid(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -52,14 +54,18 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyLazyRow(modifier: Modifier = Modifier) {
+fun MyVerticalGrid(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
-            text = stringResource(R.string.my_list),
+            modifier = Modifier.padding(16.dp),
+            text = stringResource(R.string.my_grid),
+            style = MaterialTheme.typography.headlineSmall,
+            textAlign = TextAlign.Start
         )
         LazyVerticalGrid(
-            //columns = GridCells.Fixed(4) // 4 columns
-            columns = GridCells.Adaptive(minSize = 64.dp) // Adjusts columns based on screen size
+            columns = GridCells.Fixed(4), // 4 columns
+            // columns = GridCells.Adaptive(minSize = 64.dp) // Adjusts columns based on screen size
+            state = rememberLazyGridState()
         ) {
             items(100) { index ->
                 Text(
@@ -76,6 +82,6 @@ fun MyLazyRow(modifier: Modifier = Modifier) {
 @Composable
 fun Preview() {
     MyAppTheme {
-        MyLazyRow()
+        MyVerticalGrid()
     }
 }
