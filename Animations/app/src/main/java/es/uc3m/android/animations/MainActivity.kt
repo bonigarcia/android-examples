@@ -67,10 +67,10 @@ class MainActivity : ComponentActivity() {
             MyAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(modifier = Modifier.padding(innerPadding)) {
-                        AnimatedBox()
-                        AnimatedButton()
+                        ChangeSize()
+                        ChangeSizeAndColor()
                         ToggleVisibility()
-                        SwitchScreens()
+                        FadeScreens()
                         RotatingIcon()
                     }
                 }
@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AnimatedBox() {
+fun ChangeSize() {
     var expanded by remember { mutableStateOf(false) }
     val size by animateDpAsState(targetValue = if (expanded) 200.dp else 100.dp)
 
@@ -93,9 +93,9 @@ fun AnimatedBox() {
 }
 
 @Composable
-fun AnimatedButton() {
+fun ChangeSizeAndColor() {
     var toggled by remember { mutableStateOf(false) }
-    val transition = updateTransition(targetState = toggled, label = "buttonTransition")
+    val transition = updateTransition(targetState = toggled)
 
     val color by transition.animateColor(label = "color") { state ->
         if (state) Color.Green else Color.Red
@@ -135,7 +135,7 @@ fun ToggleVisibility() {
 }
 
 @Composable
-fun SwitchScreens() {
+fun FadeScreens() {
     var screen by remember { mutableStateOf("Screen1") }
 
     Column(
@@ -180,6 +180,6 @@ fun RotatingIcon() {
 @Composable
 fun Preview() {
     MyAppTheme {
-        AnimatedButton()
+        ChangeSizeAndColor()
     }
 }
