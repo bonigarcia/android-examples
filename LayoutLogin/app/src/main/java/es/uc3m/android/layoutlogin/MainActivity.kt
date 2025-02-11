@@ -94,7 +94,8 @@ fun MyConstraintLayout(modifier: Modifier = Modifier) {
                     start.linkTo(startGuideline)
                     top.linkTo(topGuideline)
                 },
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.primary
         )
         Text(
             text = stringResource(R.string.sign_in_to_continue),
@@ -195,7 +196,8 @@ fun MyLayout(modifier: Modifier = Modifier) {
                 Spacer(modifier = modifier.fillMaxHeight(0.2f))
                 Text(
                     text = stringResource(R.string.login_label),
-                    style = MaterialTheme.typography.headlineLarge
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Text(
                     text = stringResource(R.string.sign_in_to_continue),
