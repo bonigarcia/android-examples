@@ -30,14 +30,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import es.uc3m.android.surface.ui.theme.HelloWorldTheme
+import es.uc3m.android.surface.ui.theme.MyAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            HelloWorldTheme {
+            MyAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -62,7 +62,7 @@ fun Greeting(name: String) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    HelloWorldTheme {
+    MyAppTheme {
         Greeting("Android")
     }
 }
