@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Explicit Intents with Result</string>
+    <string name="text_msg">What is your name?</string>
+    <string name="button1">Send</string>
+    <string name="hello_msg">Hello, %s</string>
+    <string name="button2">Ok</string>
+    <string name="button3">Cancel</string>
+    <string name="ok_message">The user clicked on ok</string>
+    <string name="cancel_message">The user clicked on cancel</string>
+</resources>
