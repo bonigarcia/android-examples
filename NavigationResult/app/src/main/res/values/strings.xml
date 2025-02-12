@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Navigation with arguments</string>
+    <string name="home_msg">Home screen</string>
+    <string name="button_msg">Second screen</string>
+    <string name="second_msg">Second screen</string>
+    <string name="back_msg">Back</string>
+</resources>
