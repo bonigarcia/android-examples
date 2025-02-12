@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2022 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,23 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.broadcastreceiver;
+package es.uc3m.android.broadcastreceiver
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.widget.Toast;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Test
+import org.junit.runner.RunWith
 
-public class MyReceiver extends BroadcastReceiver {
+/**
+ * Instrumented test, which will execute on an Android device.
+ *
+ * @see [Testing documentation](https://developer.android.com/studio/test)
+ */
+@RunWith(AndroidJUnit4::class)
+class AndroidTest {
+    @Test
+    fun test() {
+        // TODO: Exercise
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        String message = "Broadcast intent detected: " + intent.getAction();
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        // TODO: Verify
     }
-
 }

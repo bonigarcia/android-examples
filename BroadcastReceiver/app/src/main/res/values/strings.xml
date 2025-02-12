@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Broadcast Receiver Demo</string>
-    <string name="send_brodcast_intent">Send broadcast intent</string>
+    <string name="app_name">Broadcast Receiver</string>
+    <string name="button">Send broadcast intent</string>
 </resources>
