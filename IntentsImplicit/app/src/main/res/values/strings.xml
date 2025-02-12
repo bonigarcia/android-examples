@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Implicit Intents</string>
+    <string name="button1">Custom Action</string>
+    <string name="button2">View Action</string>
+    <string name="button3">Dial Action</string>
+    <string name="button4">Search Action</string>
+</resources>
