@@ -16,6 +16,7 @@
  */
 package es.uc3m.android.explicitintentsresults
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -30,6 +31,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import es.uc3m.android.explicitintentsresults.ui.theme.MyAppTheme
@@ -44,15 +46,7 @@ class SecondActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val name = intent.getStringExtra("name")
                     val hello = String.format(stringResource(R.string.hello_msg), name)
-                    MyLayout(modifier = Modifier.padding(innerPadding), hello,
-                        onResultSet = { resultData, resultCode ->
-                            val resultIntent = Intent().apply {
-                                putExtra("message", resultData)
-                            }
-                            setResult(resultCode, resultIntent)
-                            finish()
-                        }
-                    )
+                    MyLayout(modifier = Modifier.padding(innerPadding), hello)
                 }
             }
         }
@@ -61,16 +55,19 @@ class SecondActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyLayout(modifier: Modifier = Modifier, text: String, onResultSet: (String, Int) -> Unit) {
+fun MyLayout(modifier: Modifier = Modifier, text: String) {
     val okMessage = stringResource(R.string.ok_message)
     val cancelMessage = stringResource(R.string.cancel_message)
+    val context = LocalContext.current
 
     Column(modifier = modifier) {
         Text(text = text)
         Row() {
             Button(
                 onClick = {
-                    onResultSet(okMessage, -1)  // RESULT_OK = -1;
+                    if (context is Activity) {
+                        finishActivity(context, okMessage, Activity.RESULT_OK)
+                    }
                 },
             ) {
                 Text(stringResource(R.string.button2))
@@ -78,7 +75,9 @@ fun MyLayout(modifier: Modifier = Modifier, text: String, onResultSet: (String, 
             Button(
                 modifier = Modifier.padding(start = 16.dp),
                 onClick = {
-                    onResultSet(cancelMessage, 0)  // RESULT_CANCELED = 0;
+                    if (context is Activity) {
+                        finishActivity(context, cancelMessage, Activity.RESULT_CANCELED)
+                    }
                 },
             ) {
                 Text(stringResource(R.string.button3))
@@ -86,3 +85,12 @@ fun MyLayout(modifier: Modifier = Modifier, text: String, onResultSet: (String, 
         }
     }
 }
+
+private fun finishActivity(context: Activity, resultData: String, resultCode: Int) {
+    val resultIntent = Intent().apply {
+        putExtra("message", resultData)
+    }
+    context.setResult(resultCode, resultIntent)
+    context.finish()
+}
+
