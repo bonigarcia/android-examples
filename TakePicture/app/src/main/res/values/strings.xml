@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Take Picture</string>
+    <string name="image_caption">Captured Image</string>
+    <string name="button">Capture Image</string>
+</resources>
