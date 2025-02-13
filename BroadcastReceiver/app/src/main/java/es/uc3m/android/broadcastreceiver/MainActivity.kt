@@ -16,9 +16,9 @@
  */
 package es.uc3m.android.broadcastreceiver
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
 
     private val myBroadcastIntent = "es.uc3m.android.sendbroadcast"
 
-    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -52,7 +51,13 @@ class MainActivity : ComponentActivity() {
             addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
             addAction(Intent.ACTION_BATTERY_LOW)
         }
-        registerReceiver(receiver, filter)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(receiver, filter, RECEIVER_NOT_EXPORTED)
+        } else {
+            @Suppress("UnspecifiedRegisterReceiverFlag")
+            registerReceiver(receiver, filter)
+        }
 
         enableEdgeToEdge()
         setContent {
