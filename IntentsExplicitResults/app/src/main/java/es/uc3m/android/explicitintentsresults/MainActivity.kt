@@ -20,9 +20,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,30 +45,28 @@ import es.uc3m.android.explicitintentsresults.ui.theme.MyAppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val getResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                println("The result code is " + result.resultCode)
-                val data = result.data?.getStringExtra("message")
-                Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
-            }
-
         enableEdgeToEdge()
         setContent {
             MyAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyLayout(modifier = Modifier.padding(innerPadding), getResult)
+                    MyLayout(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
-
     }
 }
 
 @Composable
-fun MyLayout(modifier: Modifier = Modifier, getResult: ActivityResultLauncher<Intent>) {
+fun MyLayout(modifier: Modifier = Modifier) {
     var text by rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        println("The result code is " + result.resultCode)
+        val data = result.data?.getStringExtra("message")
+        Toast.makeText(context, data, Toast.LENGTH_SHORT).show()
+    }
 
     Column(modifier = modifier) {
         Text(text = stringResource(R.string.text_msg))
@@ -82,7 +80,7 @@ fun MyLayout(modifier: Modifier = Modifier, getResult: ActivityResultLauncher<In
                 val intent = Intent(context, SecondActivity::class.java).apply {
                     putExtra("name", text)
                 }
-                getResult.launch(intent)
+                launcher.launch(intent)
             },
         ) {
             Text(stringResource(R.string.button1))
