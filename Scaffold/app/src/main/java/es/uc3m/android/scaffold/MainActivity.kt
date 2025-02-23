@@ -192,11 +192,11 @@ fun MyDropdownMenu() {
             onDismissRequest = { expanded = false }
         ) {
             DropdownMenuItem(
-                text = { Text("Option 1") },
+                text = { Text(stringResource(R.string.dropdown_1)) },
                 onClick = { /* TODO */ }
             )
             DropdownMenuItem(
-                text = { Text("Option 2") },
+                text = { Text(stringResource(R.string.dropdown_2)) },
                 onClick = { /* TODO */ }
             )
         }
