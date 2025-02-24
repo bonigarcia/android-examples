@@ -8,7 +8,7 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.0"
 composeBom = "2025.02.00"
-navigationCompose = "2.8.8"
+navigationCompose = "2.8.7"
 runtimeLivedata = "1.7.8"
 
 [libraries]
