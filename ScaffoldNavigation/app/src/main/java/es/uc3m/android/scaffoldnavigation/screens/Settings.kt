@@ -16,6 +16,7 @@
  */
 package es.uc3m.android.scaffoldnavigation.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +26,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,7 +37,7 @@ import es.uc3m.android.scaffoldnavigation.R
 import es.uc3m.android.scaffoldnavigation.ui.theme.MyAppTheme
 
 @Composable
-fun SettingsScreen(navController: NavHostController) {
+fun SettingsScreen(navController: NavHostController, source: String? = null) {
     Column(modifier = Modifier.padding(start = 16.dp)) {
         Text(text = stringResource(R.string.settings_screen))
         Row() {
@@ -51,6 +53,13 @@ fun SettingsScreen(navController: NavHostController) {
                 Text(text = stringResource(R.string.profile))
             }
         }
+    }
+    source?.let {
+        Toast.makeText(
+            LocalContext.current,
+            it,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
 

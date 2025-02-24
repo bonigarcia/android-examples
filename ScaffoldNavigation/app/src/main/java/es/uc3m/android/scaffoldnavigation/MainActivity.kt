@@ -68,9 +68,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import es.uc3m.android.scaffoldnavigation.screens.HomeScreen
 import es.uc3m.android.scaffoldnavigation.screens.ProfileScreen
 import es.uc3m.android.scaffoldnavigation.screens.SettingsScreen
@@ -117,7 +119,7 @@ fun MyScreen() {
             title = stringResource(R.string.settings),
             selectedIcon = Icons.Filled.Settings,
             unselectedIcon = Icons.Outlined.Settings,
-            route = NavGraph.Settings.route
+            route = NavGraph.Settings.createRoute("From navigation item")
         )
     )
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -276,8 +278,12 @@ fun MyContent(modifier: Modifier = Modifier, navController: NavHostController) {
         composable(NavGraph.Profile.route) {
             ProfileScreen(navController = navController)
         }
-        composable(NavGraph.Settings.route) {
-            SettingsScreen(navController = navController)
+        composable(
+            NavGraph.Settings.route,
+            arguments = listOf(navArgument("source") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val source = backStackEntry.arguments?.getString("source")
+            SettingsScreen(navController = navController, source)
         }
     }
 }

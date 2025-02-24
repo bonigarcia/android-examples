@@ -46,7 +46,7 @@ fun ProfileScreen(navController: NavHostController) {
             }
             Spacer(modifier = Modifier.size(8.dp))
             Button(onClick = {
-                navController.navigate(NavGraph.Settings.route)
+                navController.navigate(NavGraph.Settings.createRoute("From profile"))
             }) {
                 Text(text = stringResource(R.string.settings))
             }
