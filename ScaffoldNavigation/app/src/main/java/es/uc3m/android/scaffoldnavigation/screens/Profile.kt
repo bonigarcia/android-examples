@@ -26,10 +26,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import es.uc3m.android.scaffoldnavigation.NavGraph
 import es.uc3m.android.scaffoldnavigation.R
+import es.uc3m.android.scaffoldnavigation.ui.theme.MyAppTheme
 
 @Composable
 fun ProfileScreen(navController: NavHostController) {
@@ -48,5 +51,13 @@ fun ProfileScreen(navController: NavHostController) {
                 Text(text = stringResource(R.string.settings))
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProfileScreenPreview() {
+    MyAppTheme {
+        ProfileScreen(rememberNavController())
     }
 }
