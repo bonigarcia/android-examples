@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "922246935704",
+    "project_id": "uc3m-it-2025-16504-professors",
+    "storage_bucket": "uc3m-it-2025-16504-professors.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922246935704:android:3e49e7531e14193bbfcced",
+        "android_client_info": {
+          "package_name": "es.uc3m.android.firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6Yqwm1m6ZI_uJD-ZvrIyrMk_LeMIU4is"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
