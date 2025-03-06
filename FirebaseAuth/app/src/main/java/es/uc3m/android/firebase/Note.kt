@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2022 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,12 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase;
+package es.uc3m.android.firebase
 
-public class Notes {
+import com.google.firebase.firestore.Exclude
 
-    public String id;
-
-    public String title;
-
-    public String body;
-
-    public Notes(String id, String title, String body) {
-        this.id = id;
-        this.title = title;
-        this.body = body;
-    }
-
-    @Override
-    public String toString() {
-        return title;
-    }
-}
+data class Note(
+    @get:Exclude var id: String? = null, // Firestore auto-generates IDs
+    val title: String = "",
+    val body: String = ""
+)

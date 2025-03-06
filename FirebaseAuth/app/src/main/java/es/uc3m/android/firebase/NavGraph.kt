@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2024 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,14 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase;
+package es.uc3m.android.firebase
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+const val LOGIN_ROUTE = "login"
+const val SIGNUP_ROUTE = "signup"
+const val HOME_ROUTE = "home"
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="https://developer.android.com/studio/test">Testing documentation</a>
- */
-@RunWith(AndroidJUnit4.class)
-public class AndroidTest {
-
-    @Test
-    public void test() {
-        // TODO: Exercise
-
-        // TODO: Verify
-    }
+sealed class NavGraph(val route: String) {
+    data object Login : NavGraph(LOGIN_ROUTE)
+    data object Signup : NavGraph(SIGNUP_ROUTE)
+    data object Home : NavGraph(HOME_ROUTE)
 }
