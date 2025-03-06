@@ -20,13 +20,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -34,6 +34,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -154,8 +155,10 @@ fun MyConstraintLayout(modifier: Modifier = Modifier) {
                 )
             }
         }
-        Text(
-            text = stringResource(R.string.don_t_have_an_account_sign_up),
+        TextButton(
+            onClick = {
+                println("TODO sign up")
+            },
             modifier = Modifier
                 .constrainAs(text3) {
                     top.linkTo(bottomGuideline)
@@ -165,11 +168,9 @@ fun MyConstraintLayout(modifier: Modifier = Modifier) {
                         bias = 0.5f,
                     )
                 }
-                .clickable {
-                    println("TODO sign up")
-                },
-            style = MaterialTheme.typography.bodyMedium
-        )
+        ) {
+            Text(stringResource(R.string.don_t_have_an_account_sign_up))
+        }
     }
 }
 
@@ -246,15 +247,14 @@ fun MyLayout(modifier: Modifier = Modifier) {
                     .align(alignment = Alignment.BottomCenter)
                     .fillMaxHeight(0.2f)
             ) {
-                Text(
-                    text = stringResource(R.string.don_t_have_an_account_sign_up),
-                    modifier = Modifier
-                        .align(alignment = Alignment.CenterHorizontally)
-                        .clickable {
-                            println("TODO sign up")
-                        },
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                TextButton(
+                    onClick = {
+                        println("TODO sign up")
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(stringResource(R.string.don_t_have_an_account_sign_up))
+                }
             }
         }
         // Right spacer (15% width)
