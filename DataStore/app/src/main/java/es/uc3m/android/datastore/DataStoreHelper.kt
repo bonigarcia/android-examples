@@ -19,34 +19,40 @@ package es.uc3m.android.datastore
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.DATASTORE_NAME)
+const val DATASTORE_NAME = "settings"
+val USER_NAME_KEY = stringPreferencesKey("user_name")
+val DARK_MODE_KEY = booleanPreferencesKey("dark_mode")
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATASTORE_NAME)
 
 class DataStoreHelper(private val context: Context) {
 
     suspend fun saveUserName(name: String) {
         context.dataStore.edit { preferences ->
-            preferences[Constants.USER_NAME_KEY] = name
+            preferences[USER_NAME_KEY] = name
         }
     }
 
     val userName: Flow<String> = context.dataStore.data
         .map { preferences ->
-            preferences[Constants.USER_NAME_KEY] ?: ""
+            preferences[USER_NAME_KEY] ?: ""
         }
 
     suspend fun saveDarkMode(enabled: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[Constants.DARK_MODE_KEY] = enabled
+            preferences[DARK_MODE_KEY] = enabled
         }
     }
 
     val darkMode: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[Constants.DARK_MODE_KEY] ?: false
+            preferences[DARK_MODE_KEY] ?: false
         }
 }

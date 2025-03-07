@@ -3,4 +3,6 @@
     <string name="button_1">Button 1</string>
     <string name="button_2">Button 2</string>
     <string name="button_3">Button 3</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="dark_mode">Dark Mode</string>
 </resources>

@@ -37,6 +37,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -56,11 +57,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
 fun SettingsScreen(
-    modifier: Modifier = Modifier,
-    viewModel: SettingsViewModel = viewModel(
+    modifier: Modifier = Modifier, viewModel: SettingsViewModel = viewModel(
         factory = SettingsViewModelFactory(
             DataStoreHelper(LocalContext.current)
         )
@@ -74,26 +73,19 @@ fun SettingsScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // User Name Input
         OutlinedTextField(
             value = userName,
             onValueChange = { viewModel.saveUserName(it) },
-            label = { Text("Enter your name") },
+            label = { Text(stringResource(R.string.enter_name)) },
             modifier = Modifier.fillMaxWidth()
         )
-
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Dark Mode Toggle
         Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Dark Mode", modifier = Modifier.weight(1f))
+            Text(text = stringResource(R.string.dark_mode), modifier = Modifier.weight(1f))
             Switch(
-                checked = darkMode,
-                onCheckedChange = { viewModel.saveDarkMode(it) }
-            )
+                checked = darkMode, onCheckedChange = { viewModel.saveDarkMode(it) })
         }
     }
 }
