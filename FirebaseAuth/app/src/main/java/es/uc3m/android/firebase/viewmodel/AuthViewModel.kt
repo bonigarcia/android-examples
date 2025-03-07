@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase
+package es.uc3m.android.firebase.viewmodel
 
 import android.content.Context
 import android.widget.Toast
@@ -24,6 +24,8 @@ import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import es.uc3m.android.firebase.NavGraph
+import es.uc3m.android.firebase.R
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 

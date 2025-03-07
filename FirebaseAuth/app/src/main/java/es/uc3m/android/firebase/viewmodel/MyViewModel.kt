@@ -14,8 +14,10 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase
+package es.uc3m.android.firebase.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,10 +28,14 @@ import kotlinx.coroutines.launch
 
 private const val NOTES_COLLECTION = "notes"
 
-class NoteViewModel : ViewModel() {
-    private val firestore = FirebaseFirestore.getInstance()
+class MyViewModel : ViewModel() {
     private val _notes = MutableStateFlow<List<Note>>(emptyList())
     val notes: StateFlow<List<Note>> get() = _notes
+
+    private val _toastMessage = MutableLiveData<String>()
+    val toastMessage: LiveData<String> get() = _toastMessage
+
+    private val firestore = FirebaseFirestore.getInstance()
 
     init {
         fetchNotes()
@@ -45,8 +51,7 @@ class NoteViewModel : ViewModel() {
                     _notes.value = noteList
                 }
                 .addOnFailureListener { exception ->
-                    // Handle error
-                    exception.printStackTrace()
+                    _toastMessage.value = exception.message
                 }
         }
     }
@@ -60,8 +65,7 @@ class NoteViewModel : ViewModel() {
                     fetchNotes() // Refresh the list after adding
                 }
                 .addOnFailureListener { exception ->
-                    // Handle error
-                    exception.printStackTrace()
+                    _toastMessage.value = exception.message
                 }
         }
     }
@@ -75,8 +79,7 @@ class NoteViewModel : ViewModel() {
                     fetchNotes() // Refresh the list after updating
                 }
                 .addOnFailureListener { exception ->
-                    // Handle error
-                    exception.printStackTrace()
+                    _toastMessage.value = exception.message
                 }
         }
     }
@@ -89,8 +92,7 @@ class NoteViewModel : ViewModel() {
                     fetchNotes() // Refresh the list after deleting
                 }
                 .addOnFailureListener { exception ->
-                    // Handle error
-                    exception.printStackTrace()
+                    _toastMessage.value = exception.message
                 }
         }
     }

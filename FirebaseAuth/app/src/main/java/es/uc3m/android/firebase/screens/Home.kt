@@ -50,11 +50,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import es.uc3m.android.firebase.AuthViewModel
-import es.uc3m.android.firebase.Note
-import es.uc3m.android.firebase.NoteViewModel
+import es.uc3m.android.firebase.viewmodel.AuthViewModel
+import es.uc3m.android.firebase.viewmodel.Note
+import es.uc3m.android.firebase.viewmodel.MyViewModel
 import es.uc3m.android.firebase.R
 import kotlinx.coroutines.launch
 
@@ -63,7 +62,7 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     navController: NavController,
     authViewModel: AuthViewModel,
-    noteViewModel: NoteViewModel = viewModel()
+    noteViewModel: MyViewModel
 ) {
     var showAddNoteDialog by remember { mutableStateOf(false) }
     var noteToEdit by remember { mutableStateOf<Note?>(null) }

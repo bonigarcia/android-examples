@@ -17,6 +17,7 @@
 package es.uc3m.android.firebase
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -29,22 +30,35 @@ import es.uc3m.android.firebase.screens.HomeScreen
 import es.uc3m.android.firebase.screens.LoginScreen
 import es.uc3m.android.firebase.screens.SignUpScreen
 import es.uc3m.android.firebase.ui.theme.MyAppTheme
+import es.uc3m.android.firebase.viewmodel.AuthViewModel
+import es.uc3m.android.firebase.viewmodel.MyViewModel
+
+private lateinit var viewModel: MyViewModel
+private lateinit var authViewModel: AuthViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         setContent {
             MyAppTheme {
-                NavContainer(authViewModel)
+                NoteListScreen()
+            }
+        }
+        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+        viewModel = ViewModelProvider(this)[MyViewModel::class.java]
+
+        // Observe potential toast messages in the view model
+        viewModel.toastMessage.observe(this) { message ->
+            if (!message.isNullOrEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
             }
         }
     }
 }
 
 @Composable
-fun NavContainer(authViewModel: AuthViewModel) {
+fun NoteListScreen() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -57,7 +71,11 @@ fun NavContainer(authViewModel: AuthViewModel) {
             SignUpScreen(navController = navController, authViewModel = authViewModel)
         }
         composable(NavGraph.Home.route) {
-            HomeScreen(navController = navController, authViewModel = authViewModel)
+            HomeScreen(
+                navController = navController,
+                authViewModel = authViewModel,
+                noteViewModel = viewModel
+            )
         }
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase
+package es.uc3m.android.firebase.viewmodel
 
 import com.google.firebase.firestore.Exclude
 

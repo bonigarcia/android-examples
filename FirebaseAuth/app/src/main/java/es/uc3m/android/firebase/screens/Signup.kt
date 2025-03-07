@@ -47,7 +47,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
-import es.uc3m.android.firebase.AuthViewModel
+import es.uc3m.android.firebase.viewmodel.AuthViewModel
 import es.uc3m.android.firebase.NavGraph
 import es.uc3m.android.firebase.R
 

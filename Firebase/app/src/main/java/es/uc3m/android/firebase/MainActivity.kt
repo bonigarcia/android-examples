@@ -17,6 +17,7 @@
 package es.uc3m.android.firebase
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -49,8 +50,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.ViewModelProvider
 import es.uc3m.android.firebase.ui.theme.MyAppTheme
+import es.uc3m.android.firebase.viewmodel.Note
+import es.uc3m.android.firebase.viewmodel.MyViewModel
+
+private lateinit var viewModel: MyViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,11 +66,20 @@ class MainActivity : ComponentActivity() {
                 NoteListScreen()
             }
         }
+
+        viewModel = ViewModelProvider(this)[MyViewModel::class.java]
+
+        // Observe potential toast messages in the view model
+        viewModel.toastMessage.observe(this) { message ->
+            if (!message.isNullOrEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
 
 @Composable
-fun NoteListScreen(viewModel: NoteViewModel = viewModel()) {
+fun NoteListScreen() {
     var showAddNoteDialog by remember { mutableStateOf(false) }
     var noteToEdit by remember { mutableStateOf<Note?>(null) }
     val notes by viewModel.notes.collectAsState()
@@ -110,6 +124,8 @@ fun NoteListScreen(viewModel: NoteViewModel = viewModel()) {
             }
         )
     }
+
+
 }
 
 @Composable
