@@ -129,7 +129,7 @@ fun MyLayout(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
     MyAppTheme {
