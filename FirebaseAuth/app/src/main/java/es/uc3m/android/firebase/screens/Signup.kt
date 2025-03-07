@@ -36,29 +36,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import androidx.navigation.NavController
-import es.uc3m.android.firebase.viewmodel.AuthViewModel
 import es.uc3m.android.firebase.NavGraph
 import es.uc3m.android.firebase.R
+import es.uc3m.android.firebase.viewmodel.MyViewModel
 
 
 @Composable
-fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel) {
-    var login by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPasswd by remember { mutableStateOf("") }
-    val context = LocalContext.current
-    var showDialog by remember { mutableStateOf(false) }
+fun SignUpScreen(viewModel: MyViewModel) {
+    var login by rememberSaveable {  mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+    var confirmPasswd by rememberSaveable { mutableStateOf("") }
+    var showDialog by rememberSaveable { mutableStateOf(false) }
 
     Row(modifier = Modifier.fillMaxSize()) {
         Spacer(
@@ -114,7 +112,7 @@ fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel) {
                         if (password != confirmPasswd) {
                             showDialog = true
                         } else {
-                            authViewModel.signUp(login, password, context, navController)
+                            viewModel.signUp(login, password)
                         }
                     },
                     modifier = Modifier
@@ -139,7 +137,7 @@ fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel) {
                     .fillMaxHeight(0.2f)
             ) {
                 TextButton(
-                    onClick = { navController.navigate(NavGraph.Login.route) },
+                    onClick = { viewModel.navigate(NavGraph.Login.route) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(stringResource(R.string.already_account))

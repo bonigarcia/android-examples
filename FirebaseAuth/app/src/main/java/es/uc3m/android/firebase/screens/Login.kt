@@ -38,22 +38,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import es.uc3m.android.firebase.viewmodel.AuthViewModel
 import es.uc3m.android.firebase.NavGraph
 import es.uc3m.android.firebase.R
+import es.uc3m.android.firebase.viewmodel.MyViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, auhViewModel: AuthViewModel) {
+fun LoginScreen(viewModel: MyViewModel) {
     var login by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
-    val context = LocalContext.current
 
     Row(modifier = Modifier.fillMaxSize()) {
         Spacer(
@@ -97,7 +94,7 @@ fun LoginScreen(navController: NavController, auhViewModel: AuthViewModel) {
                 )
                 Button(
                     onClick = {
-                        auhViewModel.login(login, password, context, navController)
+                        viewModel.login(login, password)
                     },
                     modifier = Modifier
                         .align(alignment = Alignment.End)
@@ -121,7 +118,7 @@ fun LoginScreen(navController: NavController, auhViewModel: AuthViewModel) {
                     .fillMaxHeight(0.2f)
             ) {
                 TextButton(
-                    onClick = { navController.navigate(NavGraph.Signup.route) },
+                    onClick = { viewModel.navigate(NavGraph.Signup.route) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(stringResource(R.string.don_t_have_an_account_sign_up))

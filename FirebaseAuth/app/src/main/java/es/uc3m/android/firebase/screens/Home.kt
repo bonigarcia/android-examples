@@ -44,31 +44,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import es.uc3m.android.firebase.viewmodel.AuthViewModel
-import es.uc3m.android.firebase.viewmodel.Note
-import es.uc3m.android.firebase.viewmodel.MyViewModel
 import es.uc3m.android.firebase.R
+import es.uc3m.android.firebase.viewmodel.MyViewModel
+import es.uc3m.android.firebase.viewmodel.Note
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavController,
-    authViewModel: AuthViewModel,
-    noteViewModel: MyViewModel
+    viewModel: MyViewModel
 ) {
-    var showAddNoteDialog by remember { mutableStateOf(false) }
-    var noteToEdit by remember { mutableStateOf<Note?>(null) }
-    val notes by noteViewModel.notes.collectAsState()
+    var showAddNoteDialog by rememberSaveable { mutableStateOf(false) }
+    var noteToEdit by rememberSaveable { mutableStateOf<Note?>(null) }
+    val notes by viewModel.notes.collectAsState()
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -77,7 +72,7 @@ fun HomeScreen(
                 actions = {
                     IconButton(onClick = {
                         scope.launch {
-                            authViewModel.logout(context, navController)
+                            viewModel.logout()
                         }
                     }) {
                         Icon(
@@ -99,7 +94,7 @@ fun HomeScreen(
                     NoteItem(
                         note = note,
                         onNoteClick = { noteToEdit = it },
-                        onDeleteClick = { noteViewModel.deleteNote(it.id!!) }
+                        onDeleteClick = { viewModel.deleteNote(it.id!!) }
                     )
                 }
             }
@@ -110,7 +105,7 @@ fun HomeScreen(
         AddNoteDialog(
             onDismiss = { showAddNoteDialog = false },
             onAddNote = { title, body ->
-                noteViewModel.addNote(title, body)
+                viewModel.addNote(title, body)
                 showAddNoteDialog = false
             }
         )
@@ -121,7 +116,7 @@ fun HomeScreen(
             note = note,
             onDismiss = { noteToEdit = null },
             onUpdateNote = { title, body ->
-                noteViewModel.updateNote(note.id!!, title, body)
+                viewModel.updateNote(note.id!!, title, body)
                 noteToEdit = null
             }
         )

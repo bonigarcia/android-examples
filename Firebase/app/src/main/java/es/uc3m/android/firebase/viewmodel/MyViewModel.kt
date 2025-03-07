@@ -16,8 +16,6 @@
  */
 package es.uc3m.android.firebase.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,8 +30,8 @@ class MyViewModel : ViewModel() {
     private val _notes = MutableStateFlow<List<Note>>(emptyList())
     val notes: StateFlow<List<Note>> get() = _notes
 
-    private val _toastMessage = MutableLiveData<String>()
-    val toastMessage: LiveData<String> get() = _toastMessage
+    private val _toastMessage = MutableStateFlow<String?>(null)
+    val toastMessage: StateFlow<String?> get() = _toastMessage
 
     private val firestore = FirebaseFirestore.getInstance()
 
@@ -96,4 +94,5 @@ class MyViewModel : ViewModel() {
                 }
         }
     }
+
 }

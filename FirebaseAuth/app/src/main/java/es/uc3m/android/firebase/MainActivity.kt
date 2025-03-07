@@ -22,7 +22,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.ViewModelProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -30,11 +34,7 @@ import es.uc3m.android.firebase.screens.HomeScreen
 import es.uc3m.android.firebase.screens.LoginScreen
 import es.uc3m.android.firebase.screens.SignUpScreen
 import es.uc3m.android.firebase.ui.theme.MyAppTheme
-import es.uc3m.android.firebase.viewmodel.AuthViewModel
 import es.uc3m.android.firebase.viewmodel.MyViewModel
-
-private lateinit var viewModel: MyViewModel
-private lateinit var authViewModel: AuthViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,41 +42,44 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyAppTheme {
-                NoteListScreen()
-            }
-        }
-        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
-        viewModel = ViewModelProvider(this)[MyViewModel::class.java]
-
-        // Observe potential toast messages in the view model
-        viewModel.toastMessage.observe(this) { message ->
-            if (!message.isNullOrEmpty()) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                MainScreen()
             }
         }
     }
 }
 
 @Composable
-fun NoteListScreen() {
+fun MainScreen(viewModel: MyViewModel = viewModel()) {
     val navController = rememberNavController()
+    val context = LocalContext.current
+    val toastMessage by viewModel.toastMessage.collectAsState()
+    val routeState by viewModel.route.collectAsState()
+
     NavHost(
         navController = navController,
         startDestination = NavGraph.Login.route,
     ) {
         composable(NavGraph.Login.route) {
-            LoginScreen(navController = navController, auhViewModel = authViewModel)
+            LoginScreen(viewModel = viewModel)
         }
         composable(NavGraph.Signup.route) {
-            SignUpScreen(navController = navController, authViewModel = authViewModel)
+            SignUpScreen(viewModel = viewModel)
         }
         composable(NavGraph.Home.route) {
-            HomeScreen(
-                navController = navController,
-                authViewModel = authViewModel,
-                noteViewModel = viewModel
-            )
+            HomeScreen(viewModel = viewModel)
         }
+    }
+
+    LaunchedEffect(toastMessage) {
+        toastMessage?.let { message ->
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            // Reset the toast message to avoid showing it repeatedly
+            //viewModel.showToast(null)
+        }
+    }
+
+    routeState?.let { route ->
+        navController.navigate(route)
     }
 }
 

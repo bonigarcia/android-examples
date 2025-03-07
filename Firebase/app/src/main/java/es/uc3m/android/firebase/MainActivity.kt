@@ -41,21 +41,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import es.uc3m.android.firebase.ui.theme.MyAppTheme
-import es.uc3m.android.firebase.viewmodel.Note
 import es.uc3m.android.firebase.viewmodel.MyViewModel
-
-private lateinit var viewModel: MyViewModel
+import es.uc3m.android.firebase.viewmodel.Note
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,26 +63,19 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyAppTheme {
-                NoteListScreen()
-            }
-        }
-
-        viewModel = ViewModelProvider(this)[MyViewModel::class.java]
-
-        // Observe potential toast messages in the view model
-        viewModel.toastMessage.observe(this) { message ->
-            if (!message.isNullOrEmpty()) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                MainScreen()
             }
         }
     }
 }
 
 @Composable
-fun NoteListScreen() {
+fun MainScreen(viewModel: MyViewModel = viewModel()) {
     var showAddNoteDialog by remember { mutableStateOf(false) }
     var noteToEdit by remember { mutableStateOf<Note?>(null) }
+    val context = LocalContext.current
     val notes by viewModel.notes.collectAsState()
+    val toastMessage by viewModel.toastMessage.collectAsState()
 
     Scaffold(
         floatingActionButton = {
@@ -125,6 +118,11 @@ fun NoteListScreen() {
         )
     }
 
+    LaunchedEffect(toastMessage) {
+        toastMessage?.let { message ->
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        }
+    }
 
 }
 
@@ -243,6 +241,6 @@ fun EditNoteDialog(
 @Composable
 fun Preview() {
     MyAppTheme {
-        NoteListScreen()
+        MainScreen()
     }
 }

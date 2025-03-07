@@ -16,15 +16,18 @@
  */
 package es.uc3m.android.firebase.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import com.google.firebase.ktx.Firebase
+import es.uc3m.android.firebase.NavGraph
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 private const val NOTES_COLLECTION = "notes"
 
@@ -32,10 +35,14 @@ class MyViewModel : ViewModel() {
     private val _notes = MutableStateFlow<List<Note>>(emptyList())
     val notes: StateFlow<List<Note>> get() = _notes
 
-    private val _toastMessage = MutableLiveData<String>()
-    val toastMessage: LiveData<String> get() = _toastMessage
+    private val _toastMessage = MutableStateFlow<String?>(null)
+    val toastMessage: StateFlow<String?> get() = _toastMessage
 
     private val firestore = FirebaseFirestore.getInstance()
+    private val auth: FirebaseAuth = Firebase.auth
+
+    private val _route = MutableStateFlow<String?>(null)
+    val route: StateFlow<String?> get() = _route
 
     init {
         fetchNotes()
@@ -94,6 +101,46 @@ class MyViewModel : ViewModel() {
                 .addOnFailureListener { exception ->
                     _toastMessage.value = exception.message
                 }
+        }
+    }
+
+    fun navigate(route: String?) {
+        _route.value = route
+    }
+
+    fun signUp(email: String, password: String) {
+        viewModelScope.launch {
+            try {
+                auth.createUserWithEmailAndPassword(email, password).await()
+                _route.value = NavGraph.Home.route
+
+            } catch (e: Exception) {
+                _toastMessage.value = e.message
+            }
+        }
+    }
+
+    fun login(email: String, password: String) {
+        viewModelScope.launch {
+            try {
+                auth.signInWithEmailAndPassword(email, password).await()
+                _route.value = NavGraph.Home.route
+
+            } catch (e: Exception) {
+                _toastMessage.value = e.message
+            }
+        }
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            try {
+                auth.signOut()
+                _route.value = NavGraph.Login.route
+
+            } catch (e: Exception) {
+                _toastMessage.value = e.message
+            }
         }
     }
 }
