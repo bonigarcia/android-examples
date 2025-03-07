@@ -19,10 +19,12 @@ package es.uc3m.android.firebase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+
+private const val NOTES_COLLECTION = "notes"
 
 class NoteViewModel : ViewModel() {
     private val firestore = FirebaseFirestore.getInstance()
@@ -35,8 +37,7 @@ class NoteViewModel : ViewModel() {
 
     private fun fetchNotes() {
         viewModelScope.launch {
-            firestore.collection("notes")
-                .get()
+            firestore.collection(NOTES_COLLECTION).get()
                 .addOnSuccessListener { result ->
                     val noteList = result.map { document ->
                         document.toObject<Note>().copy(id = document.id)
@@ -45,6 +46,7 @@ class NoteViewModel : ViewModel() {
                 }
                 .addOnFailureListener { exception ->
                     // Handle error
+                    exception.printStackTrace()
                 }
         }
     }
@@ -52,13 +54,14 @@ class NoteViewModel : ViewModel() {
     fun addNote(title: String, body: String) {
         viewModelScope.launch {
             val note = Note(title = title, body = body)
-            firestore.collection("notes")
+            firestore.collection(NOTES_COLLECTION)
                 .add(note)
                 .addOnSuccessListener {
                     fetchNotes() // Refresh the list after adding
                 }
                 .addOnFailureListener { exception ->
                     // Handle error
+                    exception.printStackTrace()
                 }
         }
     }
@@ -66,26 +69,28 @@ class NoteViewModel : ViewModel() {
     fun updateNote(id: String, title: String, body: String) {
         viewModelScope.launch {
             val updatedNote = Note(title = title, body = body)
-            firestore.collection("notes").document(id)
+            firestore.collection(NOTES_COLLECTION).document(id)
                 .set(updatedNote)
                 .addOnSuccessListener {
                     fetchNotes() // Refresh the list after updating
                 }
                 .addOnFailureListener { exception ->
                     // Handle error
+                    exception.printStackTrace()
                 }
         }
     }
 
     fun deleteNote(id: String) {
         viewModelScope.launch {
-            firestore.collection("notes").document(id)
+            firestore.collection(NOTES_COLLECTION).document(id)
                 .delete()
                 .addOnSuccessListener {
                     fetchNotes() // Refresh the list after deleting
                 }
                 .addOnFailureListener { exception ->
                     // Handle error
+                    exception.printStackTrace()
                 }
         }
     }
