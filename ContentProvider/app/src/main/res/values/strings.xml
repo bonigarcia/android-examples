@@ -1,9 +1,16 @@
 <resources>
-    <string name="app_name">Content Provider Demo</string>
-    <string name="insert_note">Insert note</string>
+    <string name="app_name">Content Provider</string>
     <string name="title">Title</string>
     <string name="body">Body</string>
+    <string name="add_note">Add Note</string>
+    <string name="edit_note">Edit Note</string>
     <string name="add">Add</string>
     <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="insert">Insert</string>
+    <string name="query">Query</string>
+    <string name="names">Names: %1$s</string>
+    <string name="inserted">Inserted: %1$s</string>
 </resources>

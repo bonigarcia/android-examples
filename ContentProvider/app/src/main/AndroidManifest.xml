@@ -5,7 +5,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.DatabaseDemo">
+        android:theme="@style/Theme.MyApp">
+
+        <provider
+            android:name=".MyContentProvider"
+            android:authorities="${applicationId}.provider"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -14,13 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".EditActivity"
-            android:exported="false" />
-        <provider
-            android:name=".MyProvider"
-            android:authorities="es.uc3m.android.provider"
-            android:exported="true" />
     </application>
 
 </manifest>
