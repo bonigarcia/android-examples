@@ -14,46 +14,55 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.rest
+package es.uc3m.android.rest.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import es.uc3m.android.rest.posts.Post
+import es.uc3m.android.rest.posts.PostsClient
+import es.uc3m.android.rest.users.User
+import es.uc3m.android.rest.users.UsersClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class UserViewModel : ViewModel() {
+class RestViewModel : ViewModel() {
     private val _users = MutableStateFlow<List<User>>(emptyList())
     val users: StateFlow<List<User>> get() = _users
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> get() = _isLoading
 
+    private val _toastMessage = MutableStateFlow<String?>(null)
+    val toastMessage: StateFlow<String?> get() = _toastMessage
+
+    init {
+        fetchUsers()
+    }
+
     fun fetchUsers() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val response = RetrofitClient.apiService.getUsers()
+                val response = UsersClient.apiService.getUsers()
                 if (response.isSuccessful) {
                     _users.value = response.body() ?: emptyList()
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                _toastMessage.value = e.message
             } finally {
                 _isLoading.value = false
             }
         }
     }
 
-    fun addUser(newUser: NewUser) {
+    fun createPost(post: Post) {
         viewModelScope.launch {
             try {
-                val response = RetrofitClient.apiService.addUser(newUser)
-                if (response.isSuccessful) {
-                    fetchUsers() // Refresh the list after adding a user
-                }
+                val response = PostsClient.apiService.createPost(post)
+                _toastMessage.value = response.code().toString() + " " + response.message()
             } catch (e: Exception) {
-                e.printStackTrace()
+                _toastMessage.value = "***** " + e.message
             }
         }
     }

@@ -14,19 +14,12 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.rest
+package es.uc3m.android.rest.users
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
-object RetrofitClient {
-    private const val BASE_URL = "https://gorest.co.in/"
-
-    val apiService: ApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
-    }
-}
+data class User(
+    val id: Int,
+    val name: String,
+    val email: String,
+    val gender: String,
+    val status: String
+)

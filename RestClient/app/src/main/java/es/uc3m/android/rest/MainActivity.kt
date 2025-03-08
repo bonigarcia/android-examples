@@ -17,33 +17,46 @@
 package es.uc3m.android.rest
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import es.uc3m.android.rest.posts.Post
 import es.uc3m.android.rest.ui.theme.MyAppTheme
+import es.uc3m.android.rest.users.User
+import es.uc3m.android.rest.viewmodel.RestViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,42 +71,58 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun UserListScreen(viewModel: UserViewModel = viewModel()) {
+fun UserListScreen(viewModel: RestViewModel = viewModel()) {
+    val context = LocalContext.current
     val users by viewModel.users.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
+    val toastMessage by viewModel.toastMessage.collectAsState()
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        if (isLoading) {
-            CircularProgressIndicator()
-        } else {
-            LazyColumn {
-                items(users) { user ->
-                    UserItem(user = user)
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(onClick = { showDialog = true }) {
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.create_post))
+            }
+        }) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            if (isLoading) {
+                CircularProgressIndicator()
+            } else {
+                LazyColumn {
+                    items(users) { user ->
+                        UserItem(user = user)
+                    }
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(onClick = { showDialog = true }) {
-            Text("Add User")
+        if (showDialog) {
+            CreatePostDialog(onDismiss = { showDialog = false }, onConfirm = { post ->
+                viewModel.createPost(post)
+            })
         }
-    }
 
-    if (showDialog) {
-        AddUserDialog(
-            onDismiss = { showDialog = false },
-            onConfirm = { newUser ->
-                viewModel.addUser(newUser)
+        LaunchedEffect(toastMessage) {
+            toastMessage?.let { message ->
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
-        )
+        }
     }
 }
 
 @Composable
 fun UserItem(user: User) {
-    Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = user.name, style = MaterialTheme.typography.titleMedium)
             Text(text = user.email, style = MaterialTheme.typography.bodyMedium)
@@ -104,209 +133,29 @@ fun UserItem(user: User) {
 }
 
 @Composable
-fun AddUserDialog(
-    onDismiss: () -> Unit,
-    onConfirm: (NewUser) -> Unit
-) {
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("") }
-    var status by remember { mutableStateOf("") }
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            Button(onClick = {
-                onConfirm(NewUser(name, email, gender, status))
-                onDismiss()
-            }) {
-                Text("Add")
-            }
-        },
-        dismissButton = {
-            Button(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        },
-        title = { Text("Add New User") },
-        text = {
-            Column {
-                TextField(value = name, onValueChange = { name = it }, label = { Text("Name") })
-                TextField(value = email, onValueChange = { email = it }, label = { Text("Email") })
-                TextField(value = gender, onValueChange = { gender = it }, label = { Text("Gender") })
-                TextField(value = status, onValueChange = { status = it }, label = { Text("Status") })
-            }
-        }
-    )
-}
-
-
-
-/*
-@Composable
-fun NoteListScreen(viewModel: NoteViewModel = viewModel()) {
-    var showAddNoteDialog by remember { mutableStateOf(false) }
-    var noteToEdit by remember { mutableStateOf<Note?>(null) }
-
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(onClick = { showAddNoteDialog = true }) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_note))
-            }
-        }
-    ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
-            LazyColumn {
-                items(viewModel.notes) { note ->
-                    NoteItem(
-                        note = note,
-                        onNoteClick = { noteToEdit = it },
-                        onDeleteClick = { viewModel.deleteNote(it.id!!) }
-                    )
-                }
-            }
-        }
-    }
-
-    if (showAddNoteDialog) {
-        AddNoteDialog(
-            onDismiss = { showAddNoteDialog = false },
-            onAddNote = { title, body ->
-                viewModel.addNote(title, body)
-                showAddNoteDialog = false
-            }
-        )
-    }
-
-    noteToEdit?.let { note ->
-        EditNoteDialog(
-            note = note,
-            onDismiss = { noteToEdit = null },
-            onUpdateNote = { title, body ->
-                viewModel.updateNote(note.id!!, title, body)
-                noteToEdit = null
-            }
-        )
-    }
-}
-
-@Composable
-fun NoteItem(
-    note: Note,
-    onNoteClick: (Note) -> Unit,
-    onDeleteClick: (Note) -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clickable { onNoteClick(note) }
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = note.title, style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = note.body, style = MaterialTheme.typography.bodyMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = { onDeleteClick(note) }) {
-                Text(stringResource(R.string.delete))
-            }
-        }
-    }
-}
-
-@Composable
-fun AddNoteDialog(
-    onDismiss: () -> Unit,
-    onAddNote: (String, String) -> Unit
+fun CreatePostDialog(
+    onDismiss: () -> Unit, onConfirm: (Post) -> Unit
 ) {
     var title by remember { mutableStateOf("") }
     var body by remember { mutableStateOf("") }
+    var userId by remember { mutableStateOf("") }
 
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            Button(onClick = {
-                if (title.isNotBlank() && body.isNotBlank()) {
-                    onAddNote(title, body)
-                }
-            }) {
-                Text(stringResource(R.string.add))
-            }
-        },
-        dismissButton = {
-            Button(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel))
-            }
-        },
-        title = { Text(stringResource(R.string.add_note)) },
-        text = {
-            Column {
-                TextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text(stringResource(R.string.title)) }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                TextField(
-                    value = body,
-                    onValueChange = { body = it },
-                    label = { Text(stringResource(R.string.body)) }
-                )
-            }
+    AlertDialog(onDismissRequest = onDismiss, confirmButton = {
+        Button(onClick = {
+            onConfirm(Post(title = title, body = body, userId = userId.toInt()))
+            onDismiss()
+        }) {
+            Text(stringResource(R.string.add))
         }
-    )
-}
-
-@Composable
-fun EditNoteDialog(
-    note: Note,
-    onDismiss: () -> Unit,
-    onUpdateNote: (String, String) -> Unit
-) {
-    var title by remember { mutableStateOf(note.title) }
-    var body by remember { mutableStateOf(note.body) }
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            Button(onClick = {
-                if (title.isNotBlank() && body.isNotBlank()) {
-                    onUpdateNote(title, body)
-                }
-            }) {
-                Text(stringResource(R.string.update))
-            }
-        },
-        dismissButton = {
-            Button(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel))
-            }
-        },
-        title = { Text(stringResource(R.string.edit_note)) },
-        text = {
-            Column {
-                TextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text(stringResource(R.string.title)) }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                TextField(
-                    value = body,
-                    onValueChange = { body = it },
-                    label = { Text(stringResource(R.string.body)) }
-                )
-            }
+    }, dismissButton = {
+        Button(onClick = onDismiss) {
+            Text(stringResource(R.string.cancel))
         }
-    )
+    }, title = { Text(stringResource(R.string.create_post)) }, text = {
+        Column {
+            TextField(value = title, onValueChange = { title = it }, label = { Text("Title") })
+            TextField(value = body, onValueChange = { body = it }, label = { Text("Body") })
+            TextField(value = userId, onValueChange = { userId = it }, label = { Text("User Id") })
+        }
+    })
 }
-
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    MyAppTheme {
-        NoteListScreen()
-    }
-}
-
- */

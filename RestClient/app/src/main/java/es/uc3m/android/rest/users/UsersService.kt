@@ -14,12 +14,17 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.rest
+package es.uc3m.android.rest.users
 
-data class User(
-    val id: Int,
-    val name: String,
-    val email: String,
-    val gender: String,
-    val status: String
-)
+import es.uc3m.android.rest.posts.Post
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+
+interface UsersService {
+
+    @GET("public/v2/users")
+    suspend fun getUsers(): Response<List<User>>
+
+}

@@ -14,17 +14,19 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.rest
+package es.uc3m.android.rest.posts
 
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-interface ApiService {
-    @GET("public/v2/users")
-    suspend fun getUsers(): Response<List<User>>
+object PostsClient {
+    private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 
-    @POST("public/v2/users")
-    suspend fun addUser(@Body newUser: NewUser): Response<User>
+    val apiService: PostsService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(PostsService::class.java)
+    }
 }
