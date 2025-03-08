@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">Files External Storage Demo</string>
-    <string name="edit_message">What is your name?</string>
-    <string name="button_send">Send</string>
-    <string name="hello">Hello, %1$s!</string>
-    <string name="text_view">TextView</string>
+    <string name="app_name">External Storage</string>
+    <string name="save_file">Save File</string>
+    <string name="read_file">Read File</string>
+    <string name="file_content">File Content</string>
+    <string name="hello_external_storage">Hello, External Storage!</string>
+    <string name="file_name">File Name</string>
 </resources>

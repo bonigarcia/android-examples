@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Cache Storage</string>
+    <string name="hello_cache_directory">Hello, Cache Directory!</string>
+    <string name="file_content">File Content</string>
+    <string name="file_name">File Name</string>
+    <string name="save_file">Save File</string>
+    <string name="read_file">Read File</string>
+    <string name="delete_file">Delete File</string>
+</resources>
