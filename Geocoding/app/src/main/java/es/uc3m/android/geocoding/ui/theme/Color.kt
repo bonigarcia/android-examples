@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2024 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,14 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.geocoding;
+package es.uc3m.android.geocoding.ui.theme
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.compose.ui.graphics.Color
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+val Purple80 = Color(0xFFD0BCFF)
+val PurpleGrey80 = Color(0xFFCCC2DC)
+val Pink80 = Color(0xFFEFB8C8)
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="https://developer.android.com/studio/test">Testing documentation</a>
- */
-@RunWith(AndroidJUnit4.class)
-public class AndroidTest {
-
-    @Test
-    public void test() {
-        // TODO: Exercise
-
-        // TODO: Verify
-    }
-}
+val Purple40 = Color(0xFF6650a4)
+val PurpleGrey40 = Color(0xFF625b71)
+val Pink40 = Color(0xFF7D5260)

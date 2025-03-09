@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Geocoding Demo</string>
+    <string name="app_name">Geocoding</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="invalid_address">Invalid address or no coordinates found</string>
+    <string name="get_coordinates">Get Coordinates</string>
+    <string name="latitude_longitude">Latitude: %1$f, Longitude: %2$f</string>
 </resources>
