@@ -26,7 +26,7 @@ interface DummyJsonService {
     @GET("todos")
     suspend fun getTodos(): Response<Todos>
 
-    @POST("user/login")
-    suspend fun login(@Body login: Login): Response<LoginResponse>
+    @POST("recipes/add")
+    suspend fun addRecipes(@Body recipe: Recipe): Response<Recipe>
 
 }

@@ -24,25 +24,14 @@ data class Todos(
 )
 
 data class Todo(
-    val id: Long? = null,
+    val id: Long,
     val todo: String,
     val completed: Boolean,
     val userId: Long,
 )
 
-data class Login(
-    val username: String,
-    val password: String,
-)
-
-data class LoginResponse(
-    val id: Long,
-    val username: String,
-    val email: String,
-    val firstName: String,
-    val lastName: String,
-    val gender: String,
-    val image: String,
-    val accessToken: String,
-    val refreshToken: String,
+data class Recipe(
+    val id: Long? = null,
+    val name: String,
+    val ingredients: String,
 )

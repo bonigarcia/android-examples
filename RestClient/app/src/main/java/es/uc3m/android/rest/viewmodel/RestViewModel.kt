@@ -16,10 +16,11 @@
  */
 package es.uc3m.android.rest.viewmodel
 
+import androidx.core.app.NotificationCompat.MessagingStyle.Message
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.uc3m.android.rest.dummyjson.DummyJsonClient
-import es.uc3m.android.rest.dummyjson.Login
+import es.uc3m.android.rest.dummyjson.Recipe
 import es.uc3m.android.rest.dummyjson.Todo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -55,14 +56,18 @@ class RestViewModel : ViewModel() {
         }
     }
 
-    fun login(login: Login) {
+    fun addRecipe(recipe: Recipe) {
         viewModelScope.launch {
             try {
-                val response = DummyJsonClient.apiService.login(login)
+                val response = DummyJsonClient.apiService.addRecipes(recipe)
                 _toastMessage.value = response.code().toString() + " " + response.message()
             } catch (e: Exception) {
                 _toastMessage.value = e.message
             }
         }
+    }
+
+    fun resetToastMessage() {
+        _toastMessage.value = null
     }
 }

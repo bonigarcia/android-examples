@@ -53,7 +53,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import es.uc3m.android.rest.dummyjson.Login
+import es.uc3m.android.rest.dummyjson.Recipe
 import es.uc3m.android.rest.dummyjson.Todo
 import es.uc3m.android.rest.ui.theme.MyAppTheme
 import es.uc3m.android.rest.viewmodel.RestViewModel
@@ -81,7 +81,7 @@ fun UserListScreen(viewModel: RestViewModel = viewModel()) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { showDialog = true }) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.login))
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add))
             }
         }) { padding ->
         Column(
@@ -103,14 +103,15 @@ fun UserListScreen(viewModel: RestViewModel = viewModel()) {
         }
 
         if (showDialog) {
-            LoginDialog(onDismiss = { showDialog = false }, onConfirm = { login ->
-                viewModel.login(login)
+            AddRecipeDialog(onDismiss = { showDialog = false }, onConfirm = { recipe ->
+                viewModel.addRecipe(recipe)
             })
         }
 
         LaunchedEffect(toastMessage) {
             toastMessage?.let { message ->
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                viewModel.resetToastMessage() // To avoid blocking further messages
             }
         }
     }
@@ -139,33 +140,33 @@ fun TodoItem(todo: Todo) {
 }
 
 @Composable
-fun LoginDialog(
-    onDismiss: () -> Unit, onConfirm: (Login) -> Unit
+fun AddRecipeDialog(
+    onDismiss: () -> Unit, onConfirm: (Recipe) -> Unit
 ) {
-    var login by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
+    var ingredients by remember { mutableStateOf("") }
 
     AlertDialog(onDismissRequest = onDismiss, confirmButton = {
         Button(onClick = {
-            onConfirm(Login(login, password))
+            onConfirm(Recipe(name = name, ingredients = ingredients))
             onDismiss()
         }) {
-            Text(stringResource(R.string.login))
+            Text(stringResource(R.string.add))
         }
     }, dismissButton = {
         Button(onClick = onDismiss) {
             Text(stringResource(R.string.cancel))
         }
-    }, title = { Text(stringResource(R.string.login)) }, text = {
+    }, title = { Text(stringResource(R.string.add)) }, text = {
         Column {
             TextField(
-                value = login,
-                onValueChange = { login = it },
-                label = { Text(stringResource(R.string.login)) })
+                value = name,
+                onValueChange = { name = it },
+                label = { Text(stringResource(R.string.name)) })
             TextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text(stringResource(R.string.password)) })
+                value = ingredients,
+                onValueChange = { ingredients = it },
+                label = { Text(stringResource(R.string.ingredients)) })
         }
     })
 }

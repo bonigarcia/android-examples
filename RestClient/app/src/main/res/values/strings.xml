@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Rest Client</string>
     <string name="todo">To do</string>
-    <string name="login">Login</string>
-    <string name="password">Password</string>
+    <string name="add">Add Recipe</string>
     <string name="cancel">Cancel</string>
+    <string name="name">Name</string>
+    <string name="ingredients">Ingredients</string>
 </resources>
