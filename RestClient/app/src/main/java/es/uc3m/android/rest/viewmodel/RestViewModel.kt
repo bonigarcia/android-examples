@@ -18,17 +18,16 @@ package es.uc3m.android.rest.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.uc3m.android.rest.posts.Post
-import es.uc3m.android.rest.posts.PostsClient
-import es.uc3m.android.rest.users.User
-import es.uc3m.android.rest.users.UsersClient
+import es.uc3m.android.rest.dummyjson.DummyJsonClient
+import es.uc3m.android.rest.dummyjson.Login
+import es.uc3m.android.rest.dummyjson.Todo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class RestViewModel : ViewModel() {
-    private val _users = MutableStateFlow<List<User>>(emptyList())
-    val users: StateFlow<List<User>> get() = _users
+    private val _todos = MutableStateFlow<List<Todo>>(emptyList())
+    val todos: StateFlow<List<Todo>> get() = _todos
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> get() = _isLoading
@@ -37,16 +36,16 @@ class RestViewModel : ViewModel() {
     val toastMessage: StateFlow<String?> get() = _toastMessage
 
     init {
-        fetchUsers()
+        fetchTodos()
     }
 
-    fun fetchUsers() {
+    fun fetchTodos() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val response = UsersClient.apiService.getUsers()
+                val response = DummyJsonClient.apiService.getTodos()
                 if (response.isSuccessful) {
-                    _users.value = response.body() ?: emptyList()
+                    _todos.value = response.body()?.todos!!
                 }
             } catch (e: Exception) {
                 _toastMessage.value = e.message
@@ -56,13 +55,13 @@ class RestViewModel : ViewModel() {
         }
     }
 
-    fun createPost(post: Post) {
+    fun login(login: Login) {
         viewModelScope.launch {
             try {
-                val response = PostsClient.apiService.createPost(post)
+                val response = DummyJsonClient.apiService.login(login)
                 _toastMessage.value = response.code().toString() + " " + response.message()
             } catch (e: Exception) {
-                _toastMessage.value = "***** " + e.message
+                _toastMessage.value = e.message
             }
         }
     }

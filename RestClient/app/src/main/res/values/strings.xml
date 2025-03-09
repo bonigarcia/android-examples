@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Rest Client</string>
-    <string name="add">Add</string>
+    <string name="todo">To do</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
     <string name="cancel">Cancel</string>
-    <string name="create_post">Create Post</string>
 </resources>

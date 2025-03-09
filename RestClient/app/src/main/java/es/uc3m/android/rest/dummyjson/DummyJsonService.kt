@@ -14,19 +14,19 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.rest.posts
+package es.uc3m.android.rest.dummyjson
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
 
-object PostsClient {
-    private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+interface DummyJsonService {
 
-    val apiService: PostsService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(PostsService::class.java)
-    }
+    @GET("todos")
+    suspend fun getTodos(): Response<Todos>
+
+    @POST("user/login")
+    suspend fun login(@Body login: Login): Response<LoginResponse>
+
 }

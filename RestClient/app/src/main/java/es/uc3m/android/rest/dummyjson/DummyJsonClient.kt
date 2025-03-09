@@ -14,12 +14,19 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.rest.users
+package es.uc3m.android.rest.dummyjson
 
-data class User(
-    val id: Int,
-    val name: String,
-    val email: String,
-    val gender: String,
-    val status: String
-)
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+object DummyJsonClient {
+    private const val BASE_URL = "https://dummyjson.com/"
+
+    val apiService: DummyJsonService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(DummyJsonService::class.java)
+    }
+}

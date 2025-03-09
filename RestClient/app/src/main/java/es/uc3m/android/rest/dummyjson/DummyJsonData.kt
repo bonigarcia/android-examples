@@ -14,19 +14,35 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.rest.users
+package es.uc3m.android.rest.dummyjson
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+data class Todos(
+    val todos: List<Todo>,
+    val total: Long,
+    val skip: Long,
+    val limit: Long,
+)
 
-object UsersClient {
-    private const val BASE_URL = "https://gorest.co.in/"
+data class Todo(
+    val id: Long? = null,
+    val todo: String,
+    val completed: Boolean,
+    val userId: Long,
+)
 
-    val apiService: UsersService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(UsersService::class.java)
-    }
-}
+data class Login(
+    val username: String,
+    val password: String,
+)
+
+data class LoginResponse(
+    val id: Long,
+    val username: String,
+    val email: String,
+    val firstName: String,
+    val lastName: String,
+    val gender: String,
+    val image: String,
+    val accessToken: String,
+    val refreshToken: String,
+)

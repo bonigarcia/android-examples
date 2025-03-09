@@ -53,9 +53,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import es.uc3m.android.rest.posts.Post
+import es.uc3m.android.rest.dummyjson.Login
+import es.uc3m.android.rest.dummyjson.Todo
 import es.uc3m.android.rest.ui.theme.MyAppTheme
-import es.uc3m.android.rest.users.User
 import es.uc3m.android.rest.viewmodel.RestViewModel
 
 class MainActivity : ComponentActivity() {
@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun UserListScreen(viewModel: RestViewModel = viewModel()) {
     val context = LocalContext.current
-    val users by viewModel.users.collectAsState()
+    val todos by viewModel.todos.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
     val toastMessage by viewModel.toastMessage.collectAsState()
@@ -81,7 +81,7 @@ fun UserListScreen(viewModel: RestViewModel = viewModel()) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { showDialog = true }) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.create_post))
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.login))
             }
         }) { padding ->
         Column(
@@ -95,16 +95,16 @@ fun UserListScreen(viewModel: RestViewModel = viewModel()) {
                 CircularProgressIndicator()
             } else {
                 LazyColumn {
-                    items(users) { user ->
-                        UserItem(user = user)
+                    items(todos) { todo ->
+                        TodoItem(todo = todo)
                     }
                 }
             }
         }
 
         if (showDialog) {
-            CreatePostDialog(onDismiss = { showDialog = false }, onConfirm = { post ->
-                viewModel.createPost(post)
+            LoginDialog(onDismiss = { showDialog = false }, onConfirm = { login ->
+                viewModel.login(login)
             })
         }
 
@@ -117,45 +117,55 @@ fun UserListScreen(viewModel: RestViewModel = viewModel()) {
 }
 
 @Composable
-fun UserItem(user: User) {
+fun TodoItem(todo: Todo) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
     ) {
+        val color = if (todo.completed) {
+            MaterialTheme.colorScheme.outline
+        } else {
+            MaterialTheme.colorScheme.error
+        }
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = user.name, style = MaterialTheme.typography.titleMedium)
-            Text(text = user.email, style = MaterialTheme.typography.bodyMedium)
-            Text(text = user.gender, style = MaterialTheme.typography.bodyMedium)
-            Text(text = user.status, style = MaterialTheme.typography.bodyMedium)
+            Text(
+                text = todo.id.toString() + ". " + todo.todo,
+                style = MaterialTheme.typography.bodyMedium,
+                color = color
+            )
         }
     }
 }
 
 @Composable
-fun CreatePostDialog(
-    onDismiss: () -> Unit, onConfirm: (Post) -> Unit
+fun LoginDialog(
+    onDismiss: () -> Unit, onConfirm: (Login) -> Unit
 ) {
-    var title by remember { mutableStateOf("") }
-    var body by remember { mutableStateOf("") }
-    var userId by remember { mutableStateOf("") }
+    var login by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     AlertDialog(onDismissRequest = onDismiss, confirmButton = {
         Button(onClick = {
-            onConfirm(Post(title = title, body = body, userId = userId.toInt()))
+            onConfirm(Login(login, password))
             onDismiss()
         }) {
-            Text(stringResource(R.string.add))
+            Text(stringResource(R.string.login))
         }
     }, dismissButton = {
         Button(onClick = onDismiss) {
             Text(stringResource(R.string.cancel))
         }
-    }, title = { Text(stringResource(R.string.create_post)) }, text = {
+    }, title = { Text(stringResource(R.string.login)) }, text = {
         Column {
-            TextField(value = title, onValueChange = { title = it }, label = { Text("Title") })
-            TextField(value = body, onValueChange = { body = it }, label = { Text("Body") })
-            TextField(value = userId, onValueChange = { userId = it }, label = { Text("User Id") })
+            TextField(
+                value = login,
+                onValueChange = { login = it },
+                label = { Text(stringResource(R.string.login)) })
+            TextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text(stringResource(R.string.password)) })
         }
     })
 }
