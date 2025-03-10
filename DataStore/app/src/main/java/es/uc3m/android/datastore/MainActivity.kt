@@ -66,7 +66,7 @@ fun SettingsScreen(
     )
 ) {
     val userName by viewModel.userName.collectAsState()
-    val darkMode by viewModel.darkMode.collectAsState()
+    val enabled by viewModel.isEnabled.collectAsState()
 
     Column(
         modifier = modifier
@@ -83,9 +83,9 @@ fun SettingsScreen(
         Row(
             verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = stringResource(R.string.dark_mode), modifier = Modifier.weight(1f))
+            Text(text = stringResource(R.string.enabled), modifier = Modifier.weight(1f))
             Switch(
-                checked = darkMode, onCheckedChange = { viewModel.saveDarkMode(it) })
+                checked = enabled, onCheckedChange = { viewModel.saveEnabled(it) })
         }
     }
 }

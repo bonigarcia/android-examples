@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.map
 
 const val DATASTORE_NAME = "settings"
 val USER_NAME_KEY = stringPreferencesKey("user_name")
-val DARK_MODE_KEY = booleanPreferencesKey("dark_mode")
+val IS_ENABLED_KEY = booleanPreferencesKey("enabled")
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATASTORE_NAME)
 
@@ -45,14 +45,14 @@ class DataStoreHelper(private val context: Context) {
             preferences[USER_NAME_KEY] ?: ""
         }
 
-    suspend fun saveDarkMode(enabled: Boolean) {
+    suspend fun saveEnabled(enabled: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[DARK_MODE_KEY] = enabled
+            preferences[IS_ENABLED_KEY] = enabled
         }
     }
 
-    val darkMode: Flow<Boolean> = context.dataStore.data
+    val enabled: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[DARK_MODE_KEY] ?: false
+            preferences[IS_ENABLED_KEY] ?: false
         }
 }

@@ -28,8 +28,8 @@ class SettingsViewModel(private val dataStoreHelper: DataStoreHelper) : ViewMode
     private val _userName = MutableStateFlow("")
     val userName: StateFlow<String> get() = _userName
 
-    private val _darkMode = MutableStateFlow(false)
-    val darkMode: StateFlow<Boolean> get() = _darkMode
+    private val _isEnabled = MutableStateFlow(false)
+    val isEnabled: StateFlow<Boolean> get() = _isEnabled
 
     init {
         // Observe DataStore changes
@@ -39,8 +39,8 @@ class SettingsViewModel(private val dataStoreHelper: DataStoreHelper) : ViewMode
             }
         }
         viewModelScope.launch {
-            dataStoreHelper.darkMode.collectLatest { enabled ->
-                _darkMode.value = enabled
+            dataStoreHelper.enabled.collectLatest { enabled ->
+                _isEnabled.value = enabled
             }
         }
     }
@@ -51,9 +51,9 @@ class SettingsViewModel(private val dataStoreHelper: DataStoreHelper) : ViewMode
         }
     }
 
-    fun saveDarkMode(enabled: Boolean) {
+    fun saveEnabled(enabled: Boolean) {
         viewModelScope.launch {
-            dataStoreHelper.saveDarkMode(enabled)
+            dataStoreHelper.saveEnabled(enabled)
         }
     }
 }
