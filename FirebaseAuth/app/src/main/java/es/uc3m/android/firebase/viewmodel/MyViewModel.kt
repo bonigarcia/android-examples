@@ -48,7 +48,7 @@ class MyViewModel : ViewModel() {
         fetchNotes()
     }
 
-    private fun fetchNotes() {
+    fun fetchNotes() {
         viewModelScope.launch {
             firestore.collection(NOTES_COLLECTION).get()
                 .addOnSuccessListener { result ->
@@ -104,6 +104,10 @@ class MyViewModel : ViewModel() {
         }
     }
 
+    fun showToast(message: String?) {
+        _toastMessage.value = message
+    }
+
     fun navigate(route: String?) {
         _route.value = route
     }
@@ -143,4 +147,5 @@ class MyViewModel : ViewModel() {
             }
         }
     }
+
 }

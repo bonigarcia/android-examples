@@ -111,7 +111,8 @@ fun UserListScreen(viewModel: RestViewModel = viewModel()) {
         LaunchedEffect(toastMessage) {
             toastMessage?.let { message ->
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                viewModel.resetToastMessage() // To avoid blocking further messages
+                // Reset message to avoid blocking further messages
+                viewModel.showToast(null)
             }
         }
     }

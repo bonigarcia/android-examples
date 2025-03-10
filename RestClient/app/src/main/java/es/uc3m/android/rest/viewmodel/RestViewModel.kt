@@ -16,7 +16,6 @@
  */
 package es.uc3m.android.rest.viewmodel
 
-import androidx.core.app.NotificationCompat.MessagingStyle.Message
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.uc3m.android.rest.dummyjson.DummyJsonClient
@@ -67,7 +66,8 @@ class RestViewModel : ViewModel() {
         }
     }
 
-    fun resetToastMessage() {
-        _toastMessage.value = null
+    fun showToast(message: String?) {
+        _toastMessage.value = message
     }
+
 }

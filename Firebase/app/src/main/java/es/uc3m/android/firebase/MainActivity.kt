@@ -121,6 +121,8 @@ fun MainScreen(viewModel: MyViewModel = viewModel()) {
     LaunchedEffect(toastMessage) {
         toastMessage?.let { message ->
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            // Reset message to avoid showing it repeatedly (e.g., on configuration changes)
+            viewModel.showToast(null)
         }
     }
 

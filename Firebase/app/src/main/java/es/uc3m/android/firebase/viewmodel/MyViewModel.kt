@@ -39,7 +39,7 @@ class MyViewModel : ViewModel() {
         fetchNotes()
     }
 
-    private fun fetchNotes() {
+    fun fetchNotes() {
         viewModelScope.launch {
             firestore.collection(NOTES_COLLECTION).get()
                 .addOnSuccessListener { result ->
@@ -93,6 +93,10 @@ class MyViewModel : ViewModel() {
                     _toastMessage.value = exception.message
                 }
         }
+    }
+
+    fun showToast(message: String?) {
+        _toastMessage.value = message
     }
 
 }

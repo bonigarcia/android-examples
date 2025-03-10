@@ -73,13 +73,17 @@ fun MainScreen(viewModel: MyViewModel = viewModel()) {
     LaunchedEffect(toastMessage) {
         toastMessage?.let { message ->
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            // Reset the toast message to avoid showing it repeatedly
-            //viewModel.showToast(null)
+            // Reset message to avoid showing it repeatedly (e.g., on configuration changes)
+            viewModel.showToast(null)
         }
     }
 
-    routeState?.let { route ->
-        navController.navigate(route)
+    LaunchedEffect(routeState) {
+        routeState?.let { route ->
+            navController.navigate(route)
+            viewModel.navigate(null)
+        }
     }
+
 }
 

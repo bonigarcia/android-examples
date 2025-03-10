@@ -64,6 +64,7 @@ fun HomeScreen(
     var noteToEdit by rememberSaveable { mutableStateOf<Note?>(null) }
     val notes by viewModel.notes.collectAsState()
     val scope = rememberCoroutineScope()
+    viewModel.fetchNotes()
 
     Scaffold(
         topBar = {
