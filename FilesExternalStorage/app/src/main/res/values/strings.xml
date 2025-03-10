@@ -3,7 +3,7 @@
     <string name="save_file">Save File</string>
     <string name="read_file">Read File</string>
     <string name="file_content">File Content</string>
-    <string name="hello_external_storage">Hello, External Storage!</string>
     <string name="file_name">File Name</string>
     <string name="grant_permissions">Please grant permissions to access external storage.</string>
+    <string name="permissions_denied">Permissions denied</string>
 </resources>

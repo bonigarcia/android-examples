@@ -25,11 +25,6 @@ import java.io.IOException
 
 class ExternalStorageHelper(private val context: Context) {
 
-    // Check if external storage is available
-    fun isExternalStorageWritable(): Boolean {
-        return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
-    }
-
     // Get the public documents directory
     fun getPublicDocumentsDir(): File? {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)

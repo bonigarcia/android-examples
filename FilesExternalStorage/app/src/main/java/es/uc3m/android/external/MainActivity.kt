@@ -85,9 +85,10 @@ fun ExternalStorageScreen(
         RequestPermissions(
             onPermissionsGranted = { permissionsGranted = true },
             onPermissionsDenied = {
-                Toast.makeText(context, "Permissions denied", Toast.LENGTH_LONG).show()
-            }
-        )
+                Toast.makeText(
+                    context, context.getString(R.string.permissions_denied), Toast.LENGTH_LONG
+                ).show()
+            })
     }
 
     Column(
@@ -97,7 +98,7 @@ fun ExternalStorageScreen(
     ) {
         if (permissionsGranted) {
             // Input field for file name
-            var fileName by remember { mutableStateOf("example.txt") }
+            var fileName by remember { mutableStateOf("") }
             OutlinedTextField(
                 value = fileName,
                 onValueChange = { fileName = it },
@@ -108,8 +109,7 @@ fun ExternalStorageScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             // Input field for file content
-            val message = stringResource(R.string.hello_external_storage)
-            var content by remember { mutableStateOf(message) }
+            var content by remember { mutableStateOf("") }
             OutlinedTextField(
                 value = content,
                 onValueChange = { content = it },
@@ -143,15 +143,13 @@ fun ExternalStorageScreen(
 
 @Composable
 fun RequestPermissions(
-    onPermissionsGranted: () -> Unit,
-    onPermissionsDenied: () -> Unit
+    onPermissionsGranted: () -> Unit, onPermissionsDenied: () -> Unit
 ) {
     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
     } else {
         arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
     }
 

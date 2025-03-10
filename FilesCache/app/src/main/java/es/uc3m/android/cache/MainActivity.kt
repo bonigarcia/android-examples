@@ -79,7 +79,7 @@ fun CacheFileScreen(
             .padding(16.dp)
     ) {
         // Input field for file name
-        var fileName by remember { mutableStateOf("example.txt") }
+        var fileName by remember { mutableStateOf("") }
         OutlinedTextField(
             value = fileName,
             onValueChange = { fileName = it },
@@ -90,8 +90,7 @@ fun CacheFileScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         // Input field for file content
-        val message = stringResource(R.string.hello_cache_directory)
-        var content by remember { mutableStateOf(message) }
+        var content by remember { mutableStateOf("") }
         OutlinedTextField(
             value = content,
             onValueChange = { content = it },
