@@ -34,7 +34,7 @@ abstract class NoteDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     NoteDatabase::class.java,
-                    "note_database"
+                    "note_database.db"
                 ).createFromAsset("preloaded_notes.db")
                     .build()
                 INSTANCE = instance
