@@ -44,10 +44,6 @@ class MyViewModel : ViewModel() {
     private val _route = MutableStateFlow<String?>(null)
     val route: StateFlow<String?> get() = _route
 
-    init {
-        fetchNotes()
-    }
-
     fun fetchNotes() {
         viewModelScope.launch {
             firestore.collection(NOTES_COLLECTION).get()
@@ -128,6 +124,7 @@ class MyViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 auth.signInWithEmailAndPassword(email, password).await()
+                fetchNotes()
                 _route.value = NavGraph.Home.route
 
             } catch (e: Exception) {
