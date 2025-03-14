@@ -15,7 +15,7 @@ These Android apps have been designed by [Boni García](https://bonigarcia.dev/)
 6. Maps and location-based services for Android - TBD\
 7. Services, notifications, and alarms in Android - TBD\
 8. Automated tests in Android - TBD\
-9. Introduction to cross-platform apps development - TBD\
+9. Introduction to cross-platform apps development - TBD
 
 
 ## About
