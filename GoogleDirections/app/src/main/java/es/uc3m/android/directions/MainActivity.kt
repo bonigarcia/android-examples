@@ -80,7 +80,7 @@ fun RouteMapperApp(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = origin,
             onValueChange = { origin = it },
-            label = { Text("Origin") },
+            label = { Text(stringResource(R.string.origin)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -89,7 +89,7 @@ fun RouteMapperApp(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = destination,
             onValueChange = { destination = it },
-            label = { Text("Destination") },
+            label = { Text(stringResource(R.string.destination)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -156,10 +156,7 @@ fun RouteMapView(routes: List<DirectionsRoute>) {
                 text = stringResource(R.string.duration, route.legs[0].duration),
                 style = MaterialTheme.typography.bodySmall
             )
-
-            if (index < routes.size - 1) {
-                Spacer(modifier = Modifier.height(8.dp))
-            }
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
@@ -170,7 +167,8 @@ fun getDirections(
     val context = GeoApiContext.Builder().apiKey(BuildConfig.MAPS_API_KEY).build()
 
     DirectionsApi.newRequest(context).mode(TravelMode.DRIVING).origin(origin)
-        .destination(destination).setCallback(object : PendingResult.Callback<DirectionsResult> {
+        .destination(destination).alternatives(true)
+        .setCallback(object : PendingResult.Callback<DirectionsResult> {
             override fun onResult(result: DirectionsResult) {
                 callback(result, null)
             }
