@@ -82,7 +82,16 @@ fun ExternalStorageScreen(
 
     // Request permissions
     if (!permissionsGranted) {
+        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
+        } else {
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        }
         RequestPermissions(
+            permissions = permissions,
             onPermissionsGranted = { permissionsGranted = true },
             onPermissionsDenied = {
                 Toast.makeText(
@@ -143,16 +152,9 @@ fun ExternalStorageScreen(
 
 @Composable
 fun RequestPermissions(
+    permissions: Array<String>,
     onPermissionsGranted: () -> Unit, onPermissionsDenied: () -> Unit
 ) {
-    val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
-    } else {
-        arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-    }
-
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
     ) { permissionsMap ->
