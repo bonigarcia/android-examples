@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Geocoding</string>
-    <string name="enter_address">Enter Address</string>
-    <string name="invalid_address">Invalid address or no coordinates found</string>
-    <string name="get_coordinates">Get Coordinates</string>
-    <string name="latitude_longitude">Latitude: %1$f, Longitude: %2$f</string>
+    <string name="geocoding_label">Address to coordinates</string>
+    <string name="enter_address">Enter address</string>
+    <string name="reverse_geocoding_label">Coordinates to address</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="error">Error: %1$s</string>
+    <string name="get_address">Get Address</string>
+    <string name="get_coordinates">Get coordinates</string>
 </resources>

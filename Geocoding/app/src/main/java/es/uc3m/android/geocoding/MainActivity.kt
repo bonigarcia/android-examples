@@ -16,14 +16,13 @@
  */
 package es.uc3m.android.geocoding
 
-import android.content.Context
-import android.location.Geocoder
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,25 +30,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import es.uc3m.android.geocoding.ui.theme.MyAppTheme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +54,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AddressToCoordinatesApp(
+                    GeocodingApp(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -68,58 +64,114 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AddressToCoordinatesApp(modifier: Modifier = Modifier) {
-    var address by remember { mutableStateOf("") }
-    var coordinates by remember { mutableStateOf("") }
-    val coroutineScope = rememberCoroutineScope()
+fun GeocodingApp(modifier: Modifier = Modifier, viewModel: GeocodingViewModel = viewModel()) {
     val context = LocalContext.current
+
+    // State for text fields
+    var addressInput by remember { mutableStateOf("") }
+    var latInput by remember { mutableStateOf("") }
+    var lngInput by remember { mutableStateOf("") }
+
+    // Collect ViewModel state
+    val address by viewModel.address.collectAsState()
+    val coordinates by viewModel.coordinates.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Address Input
-        TextField(
-            value = address,
-            onValueChange = { address = it },
+        Text(
+            text = stringResource(R.string.app_name),
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        // Geocoding (address to coordinates)
+        Text(
+            text = stringResource(R.string.geocoding_label),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+
+        OutlinedTextField(
+            value = addressInput,
+            onValueChange = { addressInput = it },
             label = { Text(stringResource(R.string.enter_address)) },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Button to Trigger Geocoding
-        Button(onClick = {
-            coroutineScope.launch {
-                val result = geocodeAddress(address, context)
-                coordinates = result ?: context.getString(R.string.invalid_address)
-            }
-        }) {
+        Button(
+            onClick = {
+                viewModel.geocodeAddress(context, addressInput)
+            }, modifier = Modifier.padding(top = 8.dp)
+        ) {
             Text(stringResource(R.string.get_coordinates))
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        if (coordinates.isNotEmpty()) {
+            Text(
+                text = coordinates,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
 
-        // Display Coordinates
-        Text(text = coordinates, style = MaterialTheme.typography.bodyLarge)
-    }
-}
+        Spacer(modifier = Modifier.height(24.dp))
 
-@Suppress("DEPRECATION")
-suspend fun geocodeAddress(address: String, context: Context): String? {
-    return withContext(Dispatchers.IO) {
-        val geocoder = Geocoder(context, Locale.getDefault())
-        val addresses = geocoder.getFromLocationName(address, 1)
-        if (addresses?.isNotEmpty() == true) {
-            val location = addresses[0]
-            val latitude = location.latitude
-            val longitude = location.longitude
-            context.getString(R.string.latitude_longitude, latitude, longitude)
-        } else {
-            null
+        // Reverse geocoding (coordinates to address)
+        Text(
+            text = stringResource(R.string.reverse_geocoding_label),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            OutlinedTextField(
+                value = latInput,
+                onValueChange = { latInput = it },
+                label = { Text(stringResource(R.string.latitude)) },
+                modifier = Modifier.weight(1f)
+            )
+
+            OutlinedTextField(
+                value = lngInput,
+                onValueChange = { lngInput = it },
+                label = { Text(stringResource(R.string.longitude)) },
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        Button(
+            onClick = {
+                try {
+                    val lat = latInput.toDouble()
+                    val lng = lngInput.toDouble()
+                    viewModel.reverseGeocode(context, lat, lng)
+                } catch (e: NumberFormatException) {
+                    viewModel.setErrorMessage(e.message)
+                }
+            }, modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Text(stringResource(R.string.get_address))
+        }
+
+        if (address.isNotEmpty()) {
+            Text(
+                text = address,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+
+        if (errorMessage.isNotEmpty()) {
+            Text(
+                text = stringResource(R.string.error, errorMessage),
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(top = 8.dp)
+            )
         }
     }
 }
