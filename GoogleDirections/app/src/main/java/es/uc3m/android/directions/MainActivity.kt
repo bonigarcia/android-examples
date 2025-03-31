@@ -38,6 +38,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.maps.DirectionsApi
 import com.google.maps.GeoApiContext
@@ -114,34 +115,29 @@ fun RouteMapperApp(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             enabled = !isLoading && origin.isNotEmpty() && destination.isNotEmpty()
         ) {
-            Text(if (isLoading) "Loading..." else "Get Directions")
+            Text(if (isLoading) stringResource(R.string.loading) else stringResource(R.string.get_directions))
         }
 
-        if (error != null) {
+        error?.let {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Error: $error",
-                color = MaterialTheme.colorScheme.error
+                text = stringResource(R.string.error, it), color = MaterialTheme.colorScheme.error
             )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (routes != null) {
-            RouteMapView(routes = routes!!)
+        routes?.let {
+            RouteMapView(routes = it)
         }
     }
 }
 
 @Composable
 fun RouteMapView(routes: List<DirectionsRoute>) {
-    // In a real app, you would implement the map view here
-    // This would use Google Maps Compose library to display the route
-
-    // For this example, we'll just show the route summary
     Column {
         Text(
-            text = "Route Information",
+            text = stringResource(R.string.route_information),
             style = MaterialTheme.typography.headlineSmall
         )
 
@@ -149,15 +145,15 @@ fun RouteMapView(routes: List<DirectionsRoute>) {
 
         routes.forEachIndexed { index, route ->
             Text(
-                text = "Route ${index + 1}: ${route.summary}",
+                text = stringResource(R.string.route, index + 1, route.summary),
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "Distance: ${route.legs[0].distance}",
+                text = stringResource(R.string.distance, route.legs[0].distance),
                 style = MaterialTheme.typography.bodySmall
             )
             Text(
-                text = "Duration: ${route.legs[0].duration}",
+                text = stringResource(R.string.duration, route.legs[0].duration),
                 style = MaterialTheme.typography.bodySmall
             )
 
@@ -169,19 +165,12 @@ fun RouteMapView(routes: List<DirectionsRoute>) {
 }
 
 fun getDirections(
-    origin: String,
-    destination: String,
-    callback: (DirectionsResult?, String?) -> Unit
+    origin: String, destination: String, callback: (DirectionsResult?, String?) -> Unit
 ) {
-    val context = GeoApiContext.Builder()
-        .apiKey("AIzaSyDH08RgNUDz-G5VoVlSoqfwwiNUP_Iufz0") // Replace with your API key
-        .build()
+    val context = GeoApiContext.Builder().apiKey(BuildConfig.MAPS_API_KEY).build()
 
-    DirectionsApi.newRequest(context)
-        .mode(TravelMode.DRIVING)
-        .origin(origin)
-        .destination(destination)
-        .setCallback(object : PendingResult.Callback<DirectionsResult> {
+    DirectionsApi.newRequest(context).mode(TravelMode.DRIVING).origin(origin)
+        .destination(destination).setCallback(object : PendingResult.Callback<DirectionsResult> {
             override fun onResult(result: DirectionsResult) {
                 callback(result, null)
             }
