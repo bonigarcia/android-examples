@@ -16,12 +16,14 @@
  */
 package es.uc3m.android.location
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -29,27 +31,22 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import es.uc3m.android.location.ui.theme.HelloWorldTheme
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,22 +68,24 @@ class MainActivity : ComponentActivity() {
 fun LocationApp(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     var location by remember { mutableStateOf("") }
-    val coroutineScope = rememberCoroutineScope()
+    var permissionsGranted by remember { mutableStateOf(false) }
 
-    // Permission launcher
-    val locationPermissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            // Permission granted, enable location updates
-            coroutineScope.launch {
-                enableLocationManager(context) { loc ->
-                    location = context.getString(R.string.lat_long, loc.latitude, loc.longitude)
-                }
+    if (!permissionsGranted) {
+        //  No permission granted, ask the user for permission
+        RequestPermissions(
+            permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            onPermissionsGranted = { permissionsGranted = true },
+            onPermissionsDenied = {
+                Toast.makeText(
+                    context, context.getString(R.string.permissions_denied), Toast.LENGTH_LONG
+                ).show()
+            })
+    } else {
+        // Permission granted, enable location updates
+        LaunchedEffect(Unit) {
+            enableLocationManager(context) { loc ->
+                location = context.getString(R.string.lat_long, loc.latitude, loc.longitude)
             }
-        } else {
-            // Permission denied
-            location = context.getString(R.string.location_permission_denied)
         }
     }
 
@@ -98,15 +97,6 @@ fun LocationApp(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = location, style = MaterialTheme.typography.bodyLarge)
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(onClick = {
-            // Check and request location permission
-            locationPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
-        }) {
-            Text(stringResource(R.string.get_location))
-        }
     }
 }
 
@@ -119,4 +109,24 @@ fun enableLocationManager(context: Context, onLocationUpdate: (Location) -> Unit
     locationManager.requestLocationUpdates(
         LocationManager.GPS_PROVIDER, 0L, 1f, locationListener
     )
+}
+
+@Composable
+fun RequestPermissions(
+    permissions: Array<String>, onPermissionsGranted: () -> Unit, onPermissionsDenied: () -> Unit
+) {
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissionsMap ->
+        val allGranted = permissionsMap.values.all { it }
+        if (allGranted) {
+            onPermissionsGranted()
+        } else {
+            onPermissionsDenied()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        launcher.launch(permissions)
+    }
 }
