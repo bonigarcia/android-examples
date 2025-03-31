@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Google Places Demo</string>
+    <string name="app_name">Google Maps Pois</string>
+    <string name="search_for_places">Search for places</string>
+    <string name="location">Location: %1$s, %2$s</string>
+    <string name="search_results">Search Results</string>
+    <string name="selected_place">Selected Place</string>
 </resources>
