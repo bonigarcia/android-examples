@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Google Maps Demo</string>
+    <string name="app_name">Google Maps</string>
+    <string name="title">Statue of Liberty</string>
+    <string name="description">A famous landmark in New York</string>
 </resources>
