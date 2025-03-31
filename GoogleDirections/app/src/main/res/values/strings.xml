@@ -11,4 +11,7 @@
     <string name="route_information">Route Information</string>
     <string name="origin">Origin</string>
     <string name="destination">Destination</string>
+    <string name="start">Start: %1$s</string>
+    <string name="end">End: %1$s</string>
+    <string name="route_label">Route %1$s</string>
 </resources>
