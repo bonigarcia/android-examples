@@ -17,11 +17,13 @@
 package es.uc3m.android.places
 
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
@@ -72,27 +74,36 @@ class PlacesViewModel : ViewModel() {
                 Place.Field.LAT_LNG,
                 Place.Field.PHOTO_METADATAS
             )
-
             val request = FetchPlaceRequest.builder(placeId, placeFields).build()
 
             placesClient.fetchPlace(request).addOnSuccessListener { response ->
                 val place = response.place
-                _selectedPlace.value = PlaceDetails(
-                    name = place.displayName ?: "Unknown",
-                    address = place.formattedAddress ?: "No address",
-                    latLng = place.location ?: LatLng(0.0, 0.0)
-                )
+                place.photoMetadatas?.first()?.let {
+                    val photoRequest = FetchPhotoRequest.builder(it).build()
+                    placesClient.fetchPhoto(photoRequest).addOnSuccessListener { response ->
+                            _selectedPlace.value = PlaceDetails(
+                                name = place.displayName ?: "Unknown",
+                                address = place.formattedAddress ?: "No address",
+                                latLng = place.location ?: LatLng(0.0, 0.0),
+                                bitmap = response.bitmap
+                            )
+                        }.addOnFailureListener { exception ->
+                            exception.printStackTrace()
+                        }
+                }
             }.addOnFailureListener { exception ->
                 exception.printStackTrace()
             }
         }
     }
+
 }
+
 
 data class PlaceAutocomplete(
     val placeId: String, val primaryText: String, val secondaryText: String
 )
 
 data class PlaceDetails(
-    val name: String, val address: String, val latLng: LatLng
+    val name: String, val address: String, val latLng: LatLng, var bitmap: Bitmap
 )
