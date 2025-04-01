@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -77,7 +76,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RouteMapperApp(modifier: Modifier = Modifier) {
     var origin by remember { mutableStateOf("") }
@@ -206,7 +204,7 @@ fun RouteMapView(routes: List<DirectionsRoute>) {
 }
 
 @Composable
-private fun DrawRoute(route: DirectionsRoute) {
+fun DrawRoute(route: DirectionsRoute) {
     // Convert the polyline points to LatLng objects
     val pathPoints = remember(route) {
         route.overviewPolyline.decodePath().map { LatLng(it.lat, it.lng) }
@@ -221,7 +219,7 @@ private fun DrawRoute(route: DirectionsRoute) {
 }
 
 @Composable
-private fun RouteSelector(
+fun RouteSelector(
     routes: List<DirectionsRoute>,
     selectedIndex: Int,
     onSelectionChanged: (Int) -> Unit
