@@ -37,10 +37,6 @@ class NotificationHelper(private val context: Context) {
         const val HEADS_UP_CHANNEL_NAME = "Heads-up Notifications"
         const val HEADS_UP_CHANNEL_DESCRIPTION = "Channel for heads-up notifications"
 
-        const val BADGE_CHANNEL_ID = "badge_channel"
-        const val BADGE_CHANNEL_NAME = "Badge Notifications"
-        const val BADGE_CHANNEL_DESCRIPTION = "Channel for app icon badge notifications"
-
         const val NOTIFICATION_ID = 1
     }
 
@@ -70,21 +66,11 @@ class NotificationHelper(private val context: Context) {
                 description = HEADS_UP_CHANNEL_DESCRIPTION
             }
 
-            // Channel for badge notifications
-            val badgeChannel = NotificationChannel(
-                BADGE_CHANNEL_ID,
-                BADGE_CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description = BADGE_CHANNEL_DESCRIPTION
-            }
-
             // Register the channels with the system
             val notificationManager: NotificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(standardChannel)
             notificationManager.createNotificationChannel(headsUpChannel)
-            notificationManager.createNotificationChannel(badgeChannel)
         }
     }
 
@@ -109,7 +95,8 @@ class NotificationHelper(private val context: Context) {
             .setContentText(content)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setFullScreenIntent(null, true)
-            .addAction(R.drawable.ic_launcher_foreground, "Start action", getPendingIntent())
+            .addAction(R.drawable.ic_launcher_foreground,
+                context.getString(R.string.start_action), getPendingIntent())
             .setAutoCancel(true)
 
         with(NotificationManagerCompat.from(context)) {
@@ -119,7 +106,7 @@ class NotificationHelper(private val context: Context) {
 
     @SuppressLint("MissingPermission")
     fun badgeNotification(title: String, content: String) {
-        val notification = NotificationCompat.Builder(context, BADGE_CHANNEL_ID)
+        val notification = NotificationCompat.Builder(context, STANDARD_CHANNEL_ID)
             .setSmallIcon(R.drawable.baseline_notifications_24)
             .setContentTitle(title)
             .setContentText(content)

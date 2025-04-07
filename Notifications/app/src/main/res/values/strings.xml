@@ -10,4 +10,5 @@
     <string name="badge_title">App Icon Badge</string>
     <string name="badge_content">This is an app icon badge notification</string>
     <string name="badge_button">App Icon Badge Notification</string>
+    <string name="start_action">Start action</string>
 </resources>

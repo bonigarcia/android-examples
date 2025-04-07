@@ -17,9 +17,7 @@
 package es.uc3m.android.alarms
 
 import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -44,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import es.uc3m.android.alarms.ui.theme.MyAppTheme
 
 const val MSG_KEY = "MESSAGE"
+const val REPEATING_ALARM_REQUEST_CODE = 123
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +65,7 @@ fun AlarmApp(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val alarmState = remember { mutableStateOf("") }
+    val alarmsHelper = AlarmsHelper(context, alarmManager)
 
     Column(
         modifier = modifier
@@ -76,30 +76,27 @@ fun AlarmApp(modifier: Modifier = Modifier) {
     ) {
         Button(
             onClick = {
-                setOneTimeAlarm(context, alarmManager)
+                alarmsHelper.setOneTimeAlarm()
                 alarmState.value = context.getString(R.string.one_time_alarm_note)
-            },
-            modifier = Modifier.padding(8.dp)
+            }, modifier = Modifier.padding(8.dp)
         ) {
             Text(stringResource(R.string.one_time_alarm_set))
         }
 
         Button(
             onClick = {
-                setRepeatingAlarm(context, alarmManager)
+                alarmsHelper.setRepeatingAlarm()
                 alarmState.value = context.getString(R.string.repeating_alarm_note)
-            },
-            modifier = Modifier.padding(8.dp)
+            }, modifier = Modifier.padding(8.dp)
         ) {
             Text(stringResource(R.string.repeating_alarm_set))
         }
 
         Button(
             onClick = {
-                cancelRepeatingAlarm(context, alarmManager)
+                alarmsHelper.cancelRepeatingAlarm()
                 alarmState.value = context.getString(R.string.repeating_alarm_canceled_note)
-            },
-            modifier = Modifier.padding(8.dp)
+            }, modifier = Modifier.padding(8.dp)
         ) {
             Text(stringResource(R.string.repeating_alarm_canceled))
         }
@@ -110,65 +107,6 @@ fun AlarmApp(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(top = 24.dp)
         )
     }
-}
-
-private fun setOneTimeAlarm(context: Context, alarmManager: AlarmManager) {
-    val intent = Intent(context, AlarmReceiver::class.java).apply {
-        putExtra(MSG_KEY, context.getString(R.string.one_time_alarm_msg))
-    }
-
-    val pendingIntent = PendingIntent.getBroadcast(
-        context,
-        0, // Different request code for one-time alarm
-        intent,
-        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-    )
-
-    // Set the alarm to trigger 10 seconds from now
-    val triggerTime = System.currentTimeMillis() + 10_000
-
-    alarmManager.setExactAndAllowWhileIdle(
-        AlarmManager.RTC_WAKEUP,
-        triggerTime,
-        pendingIntent
-    )
-}
-
-private fun setRepeatingAlarm(context: Context, alarmManager: AlarmManager) {
-    val intent = Intent(context, AlarmReceiver::class.java).apply {
-        putExtra(MSG_KEY, context.getString(R.string.repeating_alarm_msg))
-    }
-
-    val pendingIntent = PendingIntent.getBroadcast(
-        context,
-        AlarmReceiver.REPEATING_ALARM_REQUEST_CODE, // Same request code for the repeating alarm
-        intent,
-        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-    )
-
-    // Set the alarm to start approximately 10 seconds from now and repeat every minute
-    val triggerTime = System.currentTimeMillis() + 10_000
-    val repeatInterval = 60_000L // 1 minute in milliseconds
-
-    alarmManager.setRepeating(
-        AlarmManager.RTC_WAKEUP,
-        triggerTime,
-        repeatInterval,
-        pendingIntent
-    )
-}
-
-private fun cancelRepeatingAlarm(context: Context, alarmManager: AlarmManager) {
-    val intent = Intent(context, AlarmReceiver::class.java)
-    val pendingIntent = PendingIntent.getBroadcast(
-        context,
-        AlarmReceiver.REPEATING_ALARM_REQUEST_CODE,
-        intent,
-        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-    )
-
-    alarmManager.cancel(pendingIntent)
-    pendingIntent.cancel()
 }
 
 @Preview(showBackground = true)
