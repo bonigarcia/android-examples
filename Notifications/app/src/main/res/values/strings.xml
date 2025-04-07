@@ -1,11 +1,13 @@
 <resources>
-    <string name="app_name">Notifications Demo</string>
-    <string name="start_1">#1 - Status bar</string>
-    <string name="stop_1">Stop #1</string>
-    <string name="start_2">#2 - Heads-up (1)</string>
-    <string name="stop_2">Stop #2</string>
-    <string name="start_3">#3 - Heads-up (2)</string>
-    <string name="stop_3">Stop #3</string>
-    <string name="start_4">#4 - App icon badge</string>
-    <string name="stop_4">Stop #4</string>
+    <string name="app_name">Notifications</string>
+    <string name="permission_denied">Notification permission denied</string>
+    <string name="status_bar_title">Status Bar</string>
+    <string name="status_bar_content">This is a simple notification</string>
+    <string name="status_bar_button">Status Bar Notification</string>
+    <string name="heads_up_title">Heads-Up</string>
+    <string name="heads_up_content">This is a heads-up notification with action</string>
+    <string name="heads_up_button">Heads-Up Notification</string>
+    <string name="badge_title">App Icon Badge</string>
+    <string name="badge_content">This is an app icon badge notification</string>
+    <string name="badge_button">App Icon Badge Notification</string>
 </resources>
