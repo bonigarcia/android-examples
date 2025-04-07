@@ -29,6 +29,7 @@ import androidx.core.app.NotificationManagerCompat
 
 class AlarmReceiver : BroadcastReceiver() {
 
+    @SuppressLint("MissingPermission")
     override fun onReceive(context: Context, intent: Intent) {
         val message = intent.getStringExtra(MSG_KEY)
 
@@ -50,7 +51,6 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentIntent(pendingIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
-        @SuppressLint("MissingPermission")
         with(NotificationManagerCompat.from(context)) {
             notify(NOTIFICATION_ID, builder.build())
         }
