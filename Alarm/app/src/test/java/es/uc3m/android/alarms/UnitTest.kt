@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2024 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,20 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.alarm;
+package es.uc3m.android.alarms
 
-import org.junit.Test;
+import org.junit.Test
 
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
- * @see <a href="https://developer.android.com/studio/test">Testing documentation</a>
+ * @see [Testing documentation](https://developer.android.com/studio/test)
  */
-public class UnitTest {
-
+class UnitTest {
     @Test
-    public void test() {
+    fun test() {
         // TODO: Exercise
 
         // TODO: Verify
     }
-
 }

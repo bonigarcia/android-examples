@@ -1,9 +1,12 @@
 <resources>
-    <string name="app_name">Alarm Demo</string>
-    <string name="button">Start Alarm</string>
-    <string name="hello">Hello, %1$s!</string>
-    <string name="text_view">TextView</string>
-    <string name="start_1">Star one-time alarm</string>
-    <string name="start_2">Start repeating alarm</string>
-    <string name="stop_2">Cancel repeating alarm</string>
+    <string name="app_name">Alarms</string>
+    <string name="alarm_notification">Alarm Notification</string>
+    <string name="one_time_alarm_note">One-time alarm set for 10 seconds from now</string>
+    <string name="one_time_alarm_set">Set One-Time Alarm</string>
+    <string name="repeating_alarm_note">Repeating alarm set (every minute)</string>
+    <string name="repeating_alarm_set">Set Repeating Alarm</string>
+    <string name="repeating_alarm_canceled_note">Repeating alarm canceled</string>
+    <string name="repeating_alarm_canceled">Cancel Repeating Alarm</string>
+    <string name="one_time_alarm_msg">This is a one-time alarm!</string>
+    <string name="repeating_alarm_msg">This is a repeating alarm!</string>
 </resources>
