@@ -1,5 +1,13 @@
 <resources>
-    <string name="app_name">Service Demo</string>
-    <string name="start_service">Start service</string>
-    <string name="stop_service">Stop service</string>
+    <string name="app_name">Services</string>
+    <string name="hello_from_ui">Hello from UI</string>
+    <string name="started_service">Started Service</string>
+    <string name="bound_service">Bound Service</string>
+    <string name="start_service">Start Service</string>
+    <string name="progress">Progress: %1$s</string>
+    <string name="unbind_service">Unbind Service</string>
+    <string name="bind_to_service">Bind to Service</string>
+    <string name="no_input">No input</string>
+    <string name="processing">Processing %1$s - %2$s/10</string>
+    <string name="service_destroyed">Service destroyed</string>
 </resources>
