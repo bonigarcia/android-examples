@@ -16,19 +16,18 @@
  */
 package es.uc3m.android.services
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class StartedService : Service() {
-    private val serviceJob = Job()
-    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
+    private val serviceScope = CoroutineScope(Dispatchers.Default)
 
     companion object {
         const val TAG = "StartedService"
@@ -42,6 +41,7 @@ class StartedService : Service() {
 
         serviceScope.launch {
             for (i in 1..10) {
+                @SuppressLint("StringFormatMatches")
                 Log.d(TAG, getString(R.string.processing, input, i))
                 delay(1000)
             }
@@ -53,7 +53,6 @@ class StartedService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        serviceJob.cancel()
         Log.d(TAG, getString(R.string.service_destroyed))
     }
 }
