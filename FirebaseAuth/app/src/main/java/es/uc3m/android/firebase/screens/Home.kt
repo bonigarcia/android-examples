@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.services.screens
+package es.uc3m.android.firebase.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -50,9 +50,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import es.uc3m.android.services.R
-import es.uc3m.android.services.viewmodel.MyViewModel
-import es.uc3m.android.services.viewmodel.Note
+import es.uc3m.android.firebase.R
+import es.uc3m.android.firebase.viewmodel.MyViewModel
+import es.uc3m.android.firebase.viewmodel.Note
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -14,23 +14,14 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.services
+package es.uc3m.android.firebase.ui.theme
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Test
-import org.junit.runner.RunWith
+import androidx.compose.ui.graphics.Color
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * @see [Testing documentation](https://developer.android.com/studio/test)
- */
-@RunWith(AndroidJUnit4::class)
-class AndroidTest {
-    @Test
-    fun test() {
-        // TODO: Exercise
+val Purple80 = Color(0xFFD0BCFF)
+val PurpleGrey80 = Color(0xFFCCC2DC)
+val Pink80 = Color(0xFFEFB8C8)
 
-        // TODO: Verify
-    }
-}
+val Purple40 = Color(0xFF6650a4)
+val PurpleGrey40 = Color(0xFF625b71)
+val Pink40 = Color(0xFF7D5260)

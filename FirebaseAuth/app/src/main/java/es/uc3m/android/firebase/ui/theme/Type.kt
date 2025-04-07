@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.services.ui.theme
+package es.uc3m.android.firebase.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
