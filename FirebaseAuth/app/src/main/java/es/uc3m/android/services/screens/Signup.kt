@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase.screens
+package es.uc3m.android.services.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +35,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,9 +45,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import es.uc3m.android.firebase.NavGraph
-import es.uc3m.android.firebase.R
-import es.uc3m.android.firebase.viewmodel.MyViewModel
+import es.uc3m.android.services.NavGraph
+import es.uc3m.android.services.R
+import es.uc3m.android.services.viewmodel.MyViewModel
 
 
 @Composable

@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase.screens
+package es.uc3m.android.services.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,9 +43,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import es.uc3m.android.firebase.NavGraph
-import es.uc3m.android.firebase.R
-import es.uc3m.android.firebase.viewmodel.MyViewModel
+import es.uc3m.android.services.NavGraph
+import es.uc3m.android.services.R
+import es.uc3m.android.services.viewmodel.MyViewModel
 
 @Composable
 fun LoginScreen(viewModel: MyViewModel) {

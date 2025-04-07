@@ -14,20 +14,14 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase
+package es.uc3m.android.services
 
-import org.junit.Test
+const val LOGIN_ROUTE = "login"
+const val SIGNUP_ROUTE = "signup"
+const val HOME_ROUTE = "home"
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see [Testing documentation](https://developer.android.com/studio/test)
- */
-class UnitTest {
-    @Test
-    fun test() {
-        // TODO: Exercise
-
-        // TODO: Verify
-    }
+sealed class NavGraph(val route: String) {
+    data object Login : NavGraph(LOGIN_ROUTE)
+    data object Signup : NavGraph(SIGNUP_ROUTE)
+    data object Home : NavGraph(HOME_ROUTE)
 }

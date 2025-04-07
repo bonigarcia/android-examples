@@ -14,19 +14,16 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase
+package es.uc3m.android.services
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
-import org.junit.runner.RunWith
 
 /**
- * Instrumented test, which will execute on an Android device.
+ * Example local unit test, which will execute on the development machine (host).
  *
  * @see [Testing documentation](https://developer.android.com/studio/test)
  */
-@RunWith(AndroidJUnit4::class)
-class AndroidTest {
+class UnitTest {
     @Test
     fun test() {
         // TODO: Exercise

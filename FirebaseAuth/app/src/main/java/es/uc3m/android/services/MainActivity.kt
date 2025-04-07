@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase
+package es.uc3m.android.services
 
 import android.os.Bundle
 import android.widget.Toast
@@ -30,11 +30,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import es.uc3m.android.firebase.screens.HomeScreen
-import es.uc3m.android.firebase.screens.LoginScreen
-import es.uc3m.android.firebase.screens.SignUpScreen
-import es.uc3m.android.firebase.ui.theme.MyAppTheme
-import es.uc3m.android.firebase.viewmodel.MyViewModel
+import es.uc3m.android.services.screens.HomeScreen
+import es.uc3m.android.services.screens.LoginScreen
+import es.uc3m.android.services.screens.SignUpScreen
+import es.uc3m.android.services.ui.theme.MyAppTheme
+import es.uc3m.android.services.viewmodel.MyViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

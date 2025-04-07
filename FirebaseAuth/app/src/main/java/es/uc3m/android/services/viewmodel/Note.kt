@@ -14,14 +14,12 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase
+package es.uc3m.android.services.viewmodel
 
-const val LOGIN_ROUTE = "login"
-const val SIGNUP_ROUTE = "signup"
-const val HOME_ROUTE = "home"
+import com.google.firebase.firestore.Exclude
 
-sealed class NavGraph(val route: String) {
-    data object Login : NavGraph(LOGIN_ROUTE)
-    data object Signup : NavGraph(SIGNUP_ROUTE)
-    data object Home : NavGraph(HOME_ROUTE)
-}
+data class Note(
+    @get:Exclude var id: String? = null, // Firestore auto-generates IDs
+    val title: String = "",
+    val body: String = ""
+)
