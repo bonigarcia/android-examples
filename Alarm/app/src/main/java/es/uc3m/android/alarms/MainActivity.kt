@@ -86,7 +86,6 @@ fun AlarmApp(modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-                ->
                 setRepeatingAlarm(context, alarmManager)
                 alarmState.value = context.getString(R.string.repeating_alarm_note)
             },
