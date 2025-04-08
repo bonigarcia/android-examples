@@ -27,8 +27,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class StartedService : Service() {
-    private val serviceScope = CoroutineScope(Dispatchers.Default)
-
     companion object {
         const val TAG = "StartedService"
         const val EXTRA_INPUT = "extra_input"
@@ -39,7 +37,7 @@ class StartedService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val input = intent?.getStringExtra(EXTRA_INPUT) ?: getString(R.string.no_input)
 
-        serviceScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             for (i in 1..10) {
                 @SuppressLint("StringFormatMatches")
                 Log.d(TAG, getString(R.string.processing, input, i))

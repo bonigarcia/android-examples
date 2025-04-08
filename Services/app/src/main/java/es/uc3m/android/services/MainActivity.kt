@@ -121,7 +121,7 @@ fun ServiceDemoApp(modifier: Modifier = Modifier) {
             Text(stringResource(R.string.progress, progress))
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = { boundService?.startTask() }) {
-                Text("Start Task")
+                Text(stringResource(R.string.start_task))
             }
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = {
