@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Test Automation</string>
+    <string name="todo">To do</string>
+    <string name="add">Add Recipe</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="name">Name</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="get_todos">Get TODOs list</string>
+    <string name="my_todos">My TODOs list</string>
+</resources>
