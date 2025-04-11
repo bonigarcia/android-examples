@@ -35,10 +35,6 @@ class RestViewModel : ViewModel() {
     private val _toastMessage = MutableStateFlow<String?>(null)
     val toastMessage: StateFlow<String?> get() = _toastMessage
 
-    init {
-        fetchTodos()
-    }
-
     fun fetchTodos() {
         viewModelScope.launch {
             _isLoading.value = true

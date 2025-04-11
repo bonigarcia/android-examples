@@ -23,8 +23,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -50,6 +52,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -57,6 +60,7 @@ import es.uc3m.android.rest.dummyjson.Recipe
 import es.uc3m.android.rest.dummyjson.Todo
 import es.uc3m.android.rest.ui.theme.MyAppTheme
 import es.uc3m.android.rest.viewmodel.RestViewModel
+import kotlin.toString
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,19 +68,21 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyAppTheme {
-                UserListScreen()
+                TodosScreen()
             }
         }
     }
 }
 
 @Composable
-fun UserListScreen(viewModel: RestViewModel = viewModel()) {
+fun TodosScreen(viewModel: RestViewModel = viewModel()) {
     val context = LocalContext.current
     val todos by viewModel.todos.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
     val toastMessage by viewModel.toastMessage.collectAsState()
+    var isHome by remember { mutableStateOf(true) }
+    var fetching by remember { mutableStateOf(false) }
 
     Scaffold(
         floatingActionButton = {
@@ -91,29 +97,45 @@ fun UserListScreen(viewModel: RestViewModel = viewModel()) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            if (isLoading) {
+            if (isHome) {
+                Button(onClick = {
+                    isHome = false
+                }) {
+                    Text(stringResource(R.string.get_todos))
+                }
+            } else if (!fetching) {
+                viewModel.fetchTodos()
+                fetching = true
+            } else if (isLoading) {
                 CircularProgressIndicator()
             } else {
-                LazyColumn {
+                Text(
+                    style = MaterialTheme.typography.headlineSmall,
+                    text = stringResource(R.string.my_todos)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                LazyColumn(
+                    modifier = Modifier.testTag("todos")
+                ) {
                     items(todos) { todo ->
                         TodoItem(todo = todo)
                     }
                 }
             }
         }
+    }
 
-        if (showDialog) {
-            AddRecipeDialog(onDismiss = { showDialog = false }, onConfirm = { recipe ->
-                viewModel.addRecipe(recipe)
-            })
-        }
+    if (showDialog) {
+        AddRecipeDialog(onDismiss = { showDialog = false }, onConfirm = { recipe ->
+            viewModel.addRecipe(recipe)
+        })
+    }
 
-        LaunchedEffect(toastMessage) {
-            toastMessage?.let { message ->
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                // Reset message to avoid blocking further messages
-                viewModel.showToast(null)
-            }
+    LaunchedEffect(toastMessage) {
+        toastMessage?.let { message ->
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            // Reset message to avoid blocking further messages
+            viewModel.showToast(null)
         }
     }
 }
@@ -152,7 +174,7 @@ fun AddRecipeDialog(
             onConfirm(Recipe(name = name, ingredients = ingredients))
             onDismiss()
         }) {
-            Text(stringResource(R.string.add))
+            Text(stringResource(R.string.accept))
         }
     }, dismissButton = {
         Button(onClick = onDismiss) {
