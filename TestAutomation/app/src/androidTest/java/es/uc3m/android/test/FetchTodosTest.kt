@@ -38,7 +38,7 @@ class FetchTodosTest {
         // Exercise: click on get todos button
         composeTestRule.onNodeWithText(context.getString(R.string.get_todos)).performClick()
 
-        // Exercise: verify resulting todos list
+        // Verify: assess resulting todos list
         composeTestRule.waitUntil(5000) {
             composeTestRule.onNodeWithText(context.getString(R.string.my_todos)).isDisplayed()
         }
