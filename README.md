@@ -15,7 +15,7 @@ These Android apps have been designed by [Boni García](https://bonigarcia.dev/)
 [6. Maps and location-based services for Android](https://bonigarcia.dev/learning/mobile-applications/MA_06-android_maps_location_v1.pdf)\
 [7. Services, notifications, and alarms in Android](https://bonigarcia.dev/learning/mobile-applications/MA_07-android_services_notifications_alarms_v1.pdf)\
 [8. Automated tests in Android](https://bonigarcia.dev/learning/mobile-applications/MA_08-android_automated_tests_v1.pdf)\
-9. Introduction to cross-platform apps development - TBD
+[9. Introduction to cross-platform apps development](https://bonigarcia.dev/learning/mobile-applications/MA_09-cross_platform_apps_intro_v1.pdf)
 
 
 ## About
