@@ -5,7 +5,7 @@
 
 This project contains basic Android apps created with Kotlin and Java. The `main` branch contains the examples in Kotlin, while the `java` branch contains the Java examples.
 
-These Android apps have been designed by [Boni García](https://bonigarcia.dev/) as part of the course [Mobile Applications](https://aplicaciones.uc3m.es/cpa/generaFicha?est=350&anio=2024&plan=392&asig=16504&idioma=2) ([Bachelor in Data Science and Engineering](https://www.uc3m.es/bachelor-degree/data-science)) at [Universidad Carlos III de Madrid](https://www.uc3m.es/). This course is structured as follows:
+These Android apps have been designed by [Boni García](https://bonigarcia.dev/) as part of the course [Mobile Applications](https://aplicaciones.uc3m.es/cpa/generaFicha?est=350&anio=2025&plan=392&asig=16504&idioma=2) ([Bachelor in Data Science and Engineering](https://www.uc3m.es/bachelor-degree/data-science)) at [Universidad Carlos III de Madrid](https://www.uc3m.es/). This course is structured as follows:
 
 [1. Introduction to Android](https://bonigarcia.dev/learning/mobile-applications/MA_01-android_intro_v1.pdf)\
 [2. User interfaces in Android](https://bonigarcia.dev/learning/mobile-applications/MA_02-android_ui_v4.pdf)\
@@ -20,4 +20,4 @@ These Android apps have been designed by [Boni García](https://bonigarcia.dev/)
 
 ## About
 
-This is a project made by [Boni García](https://bonigarcia.dev/), Associate Professor at [Universidad Carlos III de Madrid](https://www.it.uc3m.es/bogarcia/index.html). Copyright &copy; 2022-2025.
+This is a project made by [Boni García](https://bonigarcia.dev/), Associate Professor at [Universidad Carlos III de Madrid](https://www.it.uc3m.es/bogarcia/index.html). Copyright &copy; 2022-2026.
