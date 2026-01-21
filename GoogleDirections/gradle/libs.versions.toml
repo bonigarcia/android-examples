@@ -1,5 +1,5 @@
 [versions]
-agp = "8.8.2"
+agp = "9.0.0"
 googleGoogleMapsServices = "2.2.0"
 kotlin = "2.3.0"
 playServicesLocation = "21.3.0"
