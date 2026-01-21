@@ -11,7 +11,7 @@ composeBom = "2025.04.01"
 google-services = "4.4.2"
 firebaseBom = "33.13.0"
 navigationCompose = "2.8.9"
-lifecycleViewmodelComposeVersion = "2.8.7"
+lifecycleViewmodelComposeVersion = "2.10.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
