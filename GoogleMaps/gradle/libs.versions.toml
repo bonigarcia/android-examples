@@ -9,7 +9,7 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.12.2"
 composeBom = "2026.01.00"
-mapsCompose = "4.3.3"
+mapsCompose = "7.0.0"
 playServicesMaps = "20.0.0"
 
 [libraries]
