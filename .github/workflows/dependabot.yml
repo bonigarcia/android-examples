@@ -1,329 +1,329 @@
 version: 2
 updates:
 - package-ecosystem: gradle
-  directory: "Alarm"
+  directory: "/Alarm"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "Animations"
+  directory: "/Animations"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "BasicComponents"
+  directory: "/BasicComponents"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "BroadcastReceiver"
+  directory: "/BroadcastReceiver"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "ConstraintLayout"
+  directory: "/ConstraintLayout"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "ContentProvider"
+  directory: "/ContentProvider"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "CounterSaveable"
+  directory: "/CounterSaveable"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "CounterStateful"
+  directory: "/CounterStateful"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "CounterStateless"
+  directory: "/CounterStateless"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "CounterViewModel"
+  directory: "/CounterViewModel"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "DataStore"
+  directory: "/DataStore"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "FilesCache"
+  directory: "/FilesCache"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "FilesExternalStorage"
+  directory: "/FilesExternalStorage"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "FilesInternalStorage"
+  directory: "/FilesInternalStorage"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "Firebase"
+  directory: "/Firebase"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "FirebaseAuth"
+  directory: "/FirebaseAuth"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "Geocoding"
+  directory: "/Geocoding"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "GoogleDirections"
+  directory: "/GoogleDirections"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "GoogleMaps"
+  directory: "/GoogleMaps"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "GooglePlaces"
+  directory: "/GooglePlaces"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "HelloWorld"
+  directory: "/HelloWorld"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "HelloWorldMultiLang"
+  directory: "/HelloWorldMultiLang"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "HorizontalGrid"
+  directory: "/HorizontalGrid"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "HorizontalList"
+  directory: "/HorizontalList"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "IntentsExplicit"
+  directory: "/IntentsExplicit"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "IntentsExplicitResults"
+  directory: "/IntentsExplicitResults"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "IntentsImplicit"
+  directory: "/IntentsImplicit"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "LayoutBasics"
+  directory: "/LayoutBasics"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "LayoutHome"
+  directory: "/LayoutHome"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "LayoutLogin"
+  directory: "/LayoutLogin"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "Location"
+  directory: "/Location"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "NavigationArguments"
+  directory: "/NavigationArguments"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "NavigationBasic"
+  directory: "/NavigationBasic"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "NavigationResult"
+  directory: "/NavigationResult"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "Notes"
+  directory: "/Notes"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "Notifications"
+  directory: "/Notifications"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "RestClient"
+  directory: "/RestClient"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "Room"
+  directory: "/Room"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "RoomPreloaded"
+  directory: "/RoomPreloaded"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "Scaffold"
+  directory: "/Scaffold"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "ScaffoldNavigation"
+  directory: "/ScaffoldNavigation"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "Services"
+  directory: "/Services"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "Surface"
+  directory: "/Surface"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "TakePicture"
+  directory: "/TakePicture"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "TestAutomation"
+  directory: "/TestAutomation"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "VerticalGrid"
+  directory: "/VerticalGrid"
   schedule:
     interval: daily
     time: '06:00'
   open-pull-requests-limit: 99
 
 - package-ecosystem: gradle
-  directory: "VerticalList"
+  directory: "/VerticalList"
   schedule:
     interval: daily
     time: '06:00'
