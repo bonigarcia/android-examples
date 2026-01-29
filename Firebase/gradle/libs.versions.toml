@@ -11,7 +11,7 @@ composeBom = "2026.01.00"
 lifecycleViewmodelComposeVersion = "2.10.0"
 google-services = "4.4.4"
 firebaseBom = "34.8.0"
-runtimeLivedata = "1.10.1"
+runtimeLivedata = "1.10.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
