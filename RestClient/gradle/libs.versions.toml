@@ -11,7 +11,7 @@ composeBom = "2026.01.01"
 lifecycleViewmodelComposeVersion = "2.10.0"
 retrofit = "3.0.0"
 converterGson = "3.0.0"
-runtimeLivedata = "1.10.1"
+runtimeLivedata = "1.10.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
