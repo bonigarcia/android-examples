@@ -39,8 +39,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -55,6 +53,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.uc3m.android.animations.ui.theme.MyAppTheme
@@ -88,8 +88,7 @@ fun ChangeSize() {
         modifier = Modifier
             .size(size)
             .background(Color.Blue)
-            .clickable { expanded = !expanded }
-    )
+            .clickable { expanded = !expanded })
 }
 
 @Composable
@@ -108,8 +107,7 @@ fun ChangeSizeAndColor() {
         modifier = Modifier
             .size(size)
             .background(color)
-            .clickable { toggled = !toggled }
-    )
+            .clickable { toggled = !toggled })
 }
 
 @Composable
@@ -117,8 +115,7 @@ fun ToggleVisibility() {
     var visible by remember { mutableStateOf(false) }
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(16.dp)
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(16.dp)
     ) {
         Button(onClick = { visible = !visible }) {
             Text(if (visible) "Hide" else "Show")
@@ -139,8 +136,7 @@ fun FadeScreens() {
     var screen by remember { mutableStateOf("Screen1") }
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(16.dp)
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(16.dp)
     ) {
         Button(onClick = { screen = if (screen == "Screen1") "Screen2" else "Screen1" }) {
             Text("Switch Screen")
@@ -159,16 +155,13 @@ fun FadeScreens() {
 fun RotatingIcon() {
     val infiniteTransition = rememberInfiniteTransition()
     val angle by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
+        initialValue = 0f, targetValue = 360f, animationSpec = infiniteRepeatable(
+            animation = tween(1000, easing = LinearEasing), repeatMode = RepeatMode.Restart
         )
     )
 
     Icon(
-        imageVector = Icons.Default.Refresh,
+        imageVector = ImageVector.vectorResource(R.drawable.outline_3d_rotation_24),
         contentDescription = "Rotating Icon",
         modifier = Modifier
             .rotate(angle)
