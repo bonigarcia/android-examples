@@ -27,8 +27,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -36,7 +34,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import es.uc3m.android.layoutbasics.ui.theme.MyAppTheme
 
@@ -88,7 +88,7 @@ fun DevCardBox() {
             contentDescription = "Developer image"
         )
         Icon(
-            imageVector = Icons.Outlined.Edit,
+            imageVector = ImageVector.vectorResource(R.drawable.outline_add_24),
             contentDescription = "Edit user"
         )
     }
