@@ -80,7 +80,7 @@ fun ButtonSample() {
 @Composable
 fun ImageSample() {
     Image(
-        painter = painterResource(id = R.drawable.ic_launcher_foreground),
+        painter = painterResource(R.drawable.ic_launcher_foreground),
         contentDescription = "App Icon"
     )
 }
