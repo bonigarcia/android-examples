@@ -51,7 +51,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyAppTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     MyScreen()
                 }
@@ -64,7 +65,8 @@ class MainActivity : ComponentActivity() {
 fun MyScreen() {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf(
-        stringResource(R.string.home), stringResource(R.string.settings),
+        stringResource(R.string.home),
+        stringResource(R.string.settings),
         stringResource(R.string.favorites)
     )
     val icons = listOf(
