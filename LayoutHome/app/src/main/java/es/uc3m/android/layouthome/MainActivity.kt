@@ -78,7 +78,7 @@ fun MyLayout(modifier: Modifier = Modifier) {
                 // Logo
                 Image(
                     painter = painterResource(id = R.drawable.my_logo),
-                    contentDescription = "Android Icon",
+                    contentDescription = stringResource(R.string.android_icon),
                     modifier = Modifier.padding(bottom = 32.dp)
                 )
 

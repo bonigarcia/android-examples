@@ -3,4 +3,5 @@
     <string name="button_1">Button 1</string>
     <string name="button_2">Button 2</string>
     <string name="button_3">Button 3</string>
+    <string name="android_icon">Android Icon</string>
 </resources>
