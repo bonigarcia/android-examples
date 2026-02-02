@@ -31,18 +31,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.asIntState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.uc3m.android.counterviewmodel.ui.theme.MyAppTheme
+import es.uc3m.android.counterviewmodel.viewmodel.CounterViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,19 +101,6 @@ fun Counter(
     }
 }
 
-// ViewModel to manage the state
-class CounterViewModel : ViewModel() {
-    private val _count = mutableIntStateOf(0) // Mutable state
-    val count: State<Int> get() = _count
-
-    fun increment() {
-        _count.intValue++
-    }
-
-    fun decrement() {
-        _count.intValue--
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
