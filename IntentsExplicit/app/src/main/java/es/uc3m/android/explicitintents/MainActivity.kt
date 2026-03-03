@@ -68,9 +68,8 @@ fun MyLayout(modifier: Modifier = Modifier) {
         )
         Button(
             onClick = {
-                val intent = Intent(context, SecondActivity::class.java).apply {
-                    putExtra("name", text)
-                }
+                val intent = Intent(context, SecondActivity::class.java)
+                intent.putExtra("name", text)
                 context.startActivity(intent)
             },
         ) {
