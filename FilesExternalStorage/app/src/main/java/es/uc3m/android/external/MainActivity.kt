@@ -37,6 +37,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -63,32 +64,34 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ExternalStorageScreen(
-    modifier: Modifier = Modifier, viewModel: ExternalStorageViewModel = viewModel(
-        factory = ExternalStorageViewModelFactory(
-            ExternalStorageHelper(LocalContext.current)
-        )
-    )
-) {
+fun ExternalStorageScreen(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val helper = remember(context.applicationContext) {
+        ExternalStorageHelper(context.applicationContext)
+    }
+    val factory = remember(helper) { ExternalStorageViewModelFactory(helper) }
+    val viewModel: ExternalStorageViewModel = viewModel(factory = factory)
+
     val fileContent by viewModel.fileContent.collectAsState()
+
+    var fileName by rememberSaveable { mutableStateOf("") }
+    var content by rememberSaveable { mutableStateOf("") }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Input field for file name
-        var fileName by remember { mutableStateOf("") }
         OutlinedTextField(
             value = fileName,
             onValueChange = { fileName = it },
             label = { Text(stringResource(R.string.file_name)) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(Modifier.height(16.dp))
 
-        // Input field for file content
-        var content by remember { mutableStateOf("") }
         OutlinedTextField(
             value = content,
             onValueChange = { content = it },
@@ -96,23 +99,25 @@ fun ExternalStorageScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(Modifier.height(16.dp))
 
-        // Buttons for file operations
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Button(onClick = { viewModel.writeToExternalStorage(fileName, content) }) {
-                Text(stringResource(R.string.save_file))
-            }
-            Button(onClick = { viewModel.readFromExternalStorage(fileName) }) {
-                Text(stringResource(R.string.read_file))
-            }
+            Button(
+                enabled = fileName.isNotBlank(),
+                onClick = { viewModel.writeToExternalStorage(fileName, content) }
+            ) { Text(stringResource(R.string.save_file)) }
+
+            Button(
+                enabled = fileName.isNotBlank(),
+                onClick = { viewModel.readFromExternalStorage(fileName) }
+            ) { Text(stringResource(R.string.read_file)) }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(Modifier.height(16.dp))
 
-        // Display file content
         Text(text = fileContent)
     }
 }
