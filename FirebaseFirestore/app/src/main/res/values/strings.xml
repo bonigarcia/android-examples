@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Firebase</string>
+    <string name="app_name">Firebase Firestore</string>
     <string name="title">Title</string>
     <string name="body">Body</string>
     <string name="add_note">Add Note</string>
