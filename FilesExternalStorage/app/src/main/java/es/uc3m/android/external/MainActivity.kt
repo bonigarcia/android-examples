@@ -16,15 +16,10 @@
  */
 package es.uc3m.android.external
 
-import android.Manifest
-import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,7 +33,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -77,95 +71,49 @@ fun ExternalStorageScreen(
     )
 ) {
     val fileContent by viewModel.fileContent.collectAsState()
-    var permissionsGranted by remember { mutableStateOf(false) }
-    val context = LocalContext.current
-
-    // Request permissions
-    if (!permissionsGranted) {
-        RequestPermissions(
-            onPermissionsGranted = { permissionsGranted = true },
-            onPermissionsDenied = {
-                Toast.makeText(
-                    context, context.getString(R.string.permissions_denied), Toast.LENGTH_LONG
-                ).show()
-            })
-    }
-
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        if (permissionsGranted) {
-            // Input field for file name
-            var fileName by remember { mutableStateOf("") }
-            OutlinedTextField(
-                value = fileName,
-                onValueChange = { fileName = it },
-                label = { Text(stringResource(R.string.file_name)) },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Input field for file content
-            var content by remember { mutableStateOf("") }
-            OutlinedTextField(
-                value = content,
-                onValueChange = { content = it },
-                label = { Text(stringResource(R.string.file_content)) },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Buttons for file operations
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()
-            ) {
-                Button(onClick = { viewModel.writeToExternalStorage(fileName, content) }) {
-                    Text(stringResource(R.string.save_file))
-                }
-                Button(onClick = { viewModel.readFromExternalStorage(fileName) }) {
-                    Text(stringResource(R.string.read_file))
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Display file content
-            Text(text = fileContent)
-        } else {
-            Text(text = stringResource(R.string.grant_permissions))
-        }
-    }
-}
-
-@Composable
-fun RequestPermissions(
-    onPermissionsGranted: () -> Unit, onPermissionsDenied: () -> Unit
-) {
-    val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
-    } else {
-        arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+        // Input field for file name
+        var fileName by remember { mutableStateOf("") }
+        OutlinedTextField(
+            value = fileName,
+            onValueChange = { fileName = it },
+            label = { Text(stringResource(R.string.file_name)) },
+            modifier = Modifier.fillMaxWidth()
         )
-    }
 
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissionsMap ->
-        val allGranted = permissionsMap.values.all { it }
-        if (allGranted) {
-            onPermissionsGranted()
-        } else {
-            onPermissionsDenied()
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Input field for file content
+        var content by remember { mutableStateOf("") }
+        OutlinedTextField(
+            value = content,
+            onValueChange = { content = it },
+            label = { Text(stringResource(R.string.file_content)) },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Buttons for file operations
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(onClick = { viewModel.writeToExternalStorage(fileName, content) }) {
+                Text(stringResource(R.string.save_file))
+            }
+            Button(onClick = { viewModel.readFromExternalStorage(fileName) }) {
+                Text(stringResource(R.string.read_file))
+            }
         }
-    }
 
-    LaunchedEffect(Unit) {
-        launcher.launch(permissions)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Display file content
+        Text(text = fileContent)
     }
 }
 
