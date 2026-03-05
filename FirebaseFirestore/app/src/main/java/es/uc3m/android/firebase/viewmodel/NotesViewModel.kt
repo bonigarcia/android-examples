@@ -16,10 +16,12 @@
  */
 package es.uc3m.android.firebase.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import es.uc3m.android.firebase.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,7 +30,7 @@ import kotlinx.coroutines.tasks.await
 
 private const val NOTES_COLLECTION = "notes"
 
-class NotesViewModel : ViewModel() {
+class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val firestore = FirebaseFirestore.getInstance()
 
@@ -37,6 +39,8 @@ class NotesViewModel : ViewModel() {
 
     private val _snackMessage = MutableStateFlow<String?>(null)
     val snackMessage: StateFlow<String?> = _snackMessage.asStateFlow()
+
+    private fun getString(resId: Int): String = getApplication<Application>().getString(resId)
 
     init {
         fetchNotes()
@@ -51,7 +55,7 @@ class NotesViewModel : ViewModel() {
                 }
                 _notes.value = noteList
             } catch (e: Exception) {
-                _snackMessage.value = e.message ?: "Failed to fetch notes"
+                _snackMessage.value = e.message ?: getString(R.string.read_error)
             }
         }
     }
@@ -62,9 +66,9 @@ class NotesViewModel : ViewModel() {
                 val note = Note(title = title, body = body)
                 firestore.collection(NOTES_COLLECTION).add(note).await()
                 fetchNotes()
-                _snackMessage.value = "Note added"
+                _snackMessage.value = getString(R.string.note_added)
             } catch (e: Exception) {
-                _snackMessage.value = e.message ?: "Failed to add note"
+                _snackMessage.value = e.message ?: getString(R.string.write_error)
             }
         }
     }
@@ -75,9 +79,9 @@ class NotesViewModel : ViewModel() {
                 val updatedNote = Note(title = title, body = body)
                 firestore.collection(NOTES_COLLECTION).document(id).set(updatedNote).await()
                 fetchNotes()
-                _snackMessage.value = "Note updated"
+                _snackMessage.value = getString(R.string.note_updated)
             } catch (e: Exception) {
-                _snackMessage.value = e.message ?: "Failed to update note"
+                _snackMessage.value = e.message ?: getString(R.string.update_error)
             }
         }
     }
@@ -87,14 +91,14 @@ class NotesViewModel : ViewModel() {
             try {
                 firestore.collection(NOTES_COLLECTION).document(id).delete().await()
                 fetchNotes()
-                _snackMessage.value = "Note deleted"
+                _snackMessage.value = getString(R.string.note_deleted)
             } catch (e: Exception) {
-                _snackMessage.value = e.message ?: "Failed to delete note"
+                _snackMessage.value = e.message ?: getString(R.string.delete_error)
             }
         }
     }
 
-    fun showSnackMessage(message: String?) {
+    fun setSnackMessage(message: String?) {
         _snackMessage.value = message
     }
 

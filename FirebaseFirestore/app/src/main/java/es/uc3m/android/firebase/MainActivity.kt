@@ -124,7 +124,7 @@ fun MainScreen(viewModel: NotesViewModel = viewModel()) {
         snackMessage?.let { message ->
             snackHostState.showSnackbar(message)
             // Reset message to avoid showing it repeatedly (e.g., on configuration changes)
-            viewModel.showSnackMessage(null)
+            viewModel.setSnackMessage(null)
         }
     }
 

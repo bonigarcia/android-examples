@@ -8,4 +8,11 @@
     <string name="update">Update</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
+    <string name="note_added">Note added</string>
+    <string name="note_updated">Note updated</string>
+    <string name="note_deleted">Note deleted</string>
+    <string name="read_error">Failed to fetch notes</string>
+    <string name="write_error">Failed to add note</string>
+    <string name="update_error">Failed to update note</string>
+    <string name="delete_error">Failed to delete note</string>
 </resources>
