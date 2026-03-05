@@ -14,12 +14,14 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.external
+package es.uc3m.android.external.storage
 
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -37,7 +39,7 @@ class ExternalStorageHelper(private val context: Context) {
             file.writeText(content)
             true
         } catch (e: IOException) {
-            Log.e(this.javaClass.name, "Error writing to app-specific storage", e)
+            Log.e(TAG, "Error writing to app-specific storage", e)
             false
         }
     }
@@ -47,7 +49,7 @@ class ExternalStorageHelper(private val context: Context) {
             val file = File(context.getExternalFilesDir(null), fileName)
             file.readText()
         } catch (e: IOException) {
-            Log.e(this.javaClass.name, "Error reading from app-specific storage", e)
+            Log.e(TAG, "Error reading from app-specific storage", e)
             ""
         }
     }
@@ -55,7 +57,7 @@ class ExternalStorageHelper(private val context: Context) {
     // 2. MediaStore: Saving an image
     fun saveImageToMediaStore(bitmap: Bitmap, displayName: String): Uri? {
         val resolver = context.contentResolver
-        val imageCollection = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+        val imageCollection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
         } else {
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -64,7 +66,7 @@ class ExternalStorageHelper(private val context: Context) {
         val contentValues = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, "$displayName.jpg")
             put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
             }
         }
@@ -85,7 +87,18 @@ class ExternalStorageHelper(private val context: Context) {
         }
     }
 
-    // 3. SAF (Storage Access Framework)
+    fun readImageFromUri(uri: Uri): Bitmap? {
+        return try {
+            context.contentResolver.openInputStream(uri).use { inputStream ->
+                BitmapFactory.decodeStream(inputStream)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error reading image from MediaStore", e)
+            null
+        }
+    }
+
+    // 3. SAF (Storage Access Framework) logic
     fun writeToUri(uri: Uri, content: String): Boolean {
         return try {
             context.contentResolver.openOutputStream(uri).use { outputStream ->

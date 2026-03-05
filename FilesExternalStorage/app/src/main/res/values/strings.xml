@@ -13,8 +13,13 @@
     <string name="read">Read</string>
     <string name="saved_app_specific">Saved to app-specific storage</string>
     <string name="error_app_specific">Failed to save to app-specific storage</string>
-    <string name="saved_mediastore">Image saved to MediaStore: %1$s</string>
-    <string name="error_mediastore">Failed to save image</string>
+    <string name="saved_media_store">Image saved to MediaStore: %1$s</string>
+    <string name="error_media_store">Failed to save image</string>
     <string name="saved_saf">Saved via SAF</string>
     <string name="error_saf">Failed to save via SAF</string>
+    <string name="image_loaded">Image loaded successfully from MediaStore</string>
+    <string name="load_image_error">Failed to load image from MediaStore</string>
+    <string name="save_image_first">Save an image first to read it</string>
+    <string name="from_media_store">Loaded from MediaStore</string>
+    <string name="result">Result:</string>
 </resources>
