@@ -17,7 +17,6 @@
 package es.uc3m.android.firebase
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -38,6 +37,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -49,7 +50,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -74,11 +74,12 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(viewModel: NotesViewModel = viewModel()) {
     var showAddNoteDialog by remember { mutableStateOf(false) }
     var noteToEdit by remember { mutableStateOf<Note?>(null) }
-    val context = LocalContext.current
     val notes by viewModel.notes.collectAsState()
-    val toastMessage by viewModel.toastMessage.collectAsState()
+    val snackMessage by viewModel.snackMessage.collectAsState()
+    val snackHostState = remember { SnackbarHostState() }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackHostState) },
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddNoteDialog = true }) {
                 Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_note))
@@ -119,11 +120,11 @@ fun MainScreen(viewModel: NotesViewModel = viewModel()) {
         )
     }
 
-    LaunchedEffect(toastMessage) {
-        toastMessage?.let { message ->
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    LaunchedEffect(snackMessage) {
+        snackMessage?.let { message ->
+            snackHostState.showSnackbar(message)
             // Reset message to avoid showing it repeatedly (e.g., on configuration changes)
-            viewModel.showToast(null)
+            viewModel.showSnackMessage(null)
         }
     }
 

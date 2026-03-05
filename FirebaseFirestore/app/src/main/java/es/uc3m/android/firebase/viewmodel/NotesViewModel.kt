@@ -35,8 +35,8 @@ class NotesViewModel : ViewModel() {
     private val _notes = MutableStateFlow<List<Note>>(emptyList())
     val notes: StateFlow<List<Note>> = _notes.asStateFlow()
 
-    private val _toastMessage = MutableStateFlow<String?>(null)
-    val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
+    private val _snackMessage = MutableStateFlow<String?>(null)
+    val snackMessage: StateFlow<String?> = _snackMessage.asStateFlow()
 
     init {
         fetchNotes()
@@ -51,7 +51,7 @@ class NotesViewModel : ViewModel() {
                 }
                 _notes.value = noteList
             } catch (e: Exception) {
-                _toastMessage.value = e.message ?: "Failed to fetch notes"
+                _snackMessage.value = e.message ?: "Failed to fetch notes"
             }
         }
     }
@@ -62,9 +62,9 @@ class NotesViewModel : ViewModel() {
                 val note = Note(title = title, body = body)
                 firestore.collection(NOTES_COLLECTION).add(note).await()
                 fetchNotes()
-                _toastMessage.value = "Note added"
+                _snackMessage.value = "Note added"
             } catch (e: Exception) {
-                _toastMessage.value = e.message ?: "Failed to add note"
+                _snackMessage.value = e.message ?: "Failed to add note"
             }
         }
     }
@@ -75,9 +75,9 @@ class NotesViewModel : ViewModel() {
                 val updatedNote = Note(title = title, body = body)
                 firestore.collection(NOTES_COLLECTION).document(id).set(updatedNote).await()
                 fetchNotes()
-                _toastMessage.value = "Note updated"
+                _snackMessage.value = "Note updated"
             } catch (e: Exception) {
-                _toastMessage.value = e.message ?: "Failed to update note"
+                _snackMessage.value = e.message ?: "Failed to update note"
             }
         }
     }
@@ -87,15 +87,15 @@ class NotesViewModel : ViewModel() {
             try {
                 firestore.collection(NOTES_COLLECTION).document(id).delete().await()
                 fetchNotes()
-                _toastMessage.value = "Note deleted"
+                _snackMessage.value = "Note deleted"
             } catch (e: Exception) {
-                _toastMessage.value = e.message ?: "Failed to delete note"
+                _snackMessage.value = e.message ?: "Failed to delete note"
             }
         }
     }
 
-    fun showToast(message: String?) {
-        _toastMessage.value = message
+    fun showSnackMessage(message: String?) {
+        _snackMessage.value = message
     }
 
 }
