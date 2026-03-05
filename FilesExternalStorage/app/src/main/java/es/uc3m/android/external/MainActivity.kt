@@ -16,6 +16,7 @@
  */
 package es.uc3m.android.external
 
+import android.app.Application
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -39,7 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -47,9 +47,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import es.uc3m.android.external.ui.theme.MyAppTheme
 import androidx.core.graphics.createBitmap
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import es.uc3m.android.external.ui.theme.MyAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,11 +72,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ExternalStorageScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val helper = remember(context.applicationContext) {
-        ExternalStorageHelper(context.applicationContext)
-    }
-    val factory = remember(helper) { ExternalStorageViewModelFactory(helper) }
-    val viewModel: ExternalStorageViewModel = viewModel(factory = factory)
+    val viewModel: ExternalStorageViewModel = viewModel(
+        factory = viewModelFactory {
+            initializer {
+                val application = this[androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application
+                val helper = ExternalStorageHelper(application)
+                ExternalStorageViewModel(application, helper)
+            }
+        }
+    )
 
     val fileContent by viewModel.fileContent.collectAsState()
 

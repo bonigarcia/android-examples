@@ -16,16 +16,20 @@
  */
 package es.uc3m.android.external
 
+import android.app.Application
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ExternalStorageViewModel(private val externalStorageHelper: ExternalStorageHelper) : ViewModel() {
+class ExternalStorageViewModel(
+    application: Application,
+    private val externalStorageHelper: ExternalStorageHelper
+) : AndroidViewModel(application) {
 
     private val _fileContent = MutableStateFlow("")
     val fileContent: StateFlow<String> = _fileContent.asStateFlow()
@@ -34,9 +38,9 @@ class ExternalStorageViewModel(private val externalStorageHelper: ExternalStorag
     fun writeToAppSpecific(fileName: String, content: String) {
         viewModelScope.launch {
             if (externalStorageHelper.writeToAppSpecificStorage(fileName, content)) {
-                _fileContent.value = "Saved to app-specific storage"
+                _fileContent.value = getApplication<Application>().getString(R.string.saved_app_specific)
             } else {
-                _fileContent.value = "Failed to save to app-specific storage"
+                _fileContent.value = getApplication<Application>().getString(R.string.error_app_specific)
             }
         }
     }
@@ -51,7 +55,11 @@ class ExternalStorageViewModel(private val externalStorageHelper: ExternalStorag
     fun saveImageToMediaStore(bitmap: Bitmap, displayName: String) {
         viewModelScope.launch {
             val uri = externalStorageHelper.saveImageToMediaStore(bitmap, displayName)
-            _fileContent.value = if (uri != null) "Image saved to MediaStore: $uri" else "Failed to save image"
+            _fileContent.value = if (uri != null) {
+                getApplication<Application>().getString(R.string.saved_mediastore, uri.toString())
+            } else {
+                getApplication<Application>().getString(R.string.error_mediastore)
+            }
         }
     }
 
@@ -59,9 +67,9 @@ class ExternalStorageViewModel(private val externalStorageHelper: ExternalStorag
     fun writeToUri(uri: Uri, content: String) {
         viewModelScope.launch {
             if (externalStorageHelper.writeToUri(uri, content)) {
-                _fileContent.value = "Saved via SAF"
+                _fileContent.value = getApplication<Application>().getString(R.string.saved_saf)
             } else {
-                _fileContent.value = "Failed to save via SAF"
+                _fileContent.value = getApplication<Application>().getString(R.string.error_saf)
             }
         }
     }

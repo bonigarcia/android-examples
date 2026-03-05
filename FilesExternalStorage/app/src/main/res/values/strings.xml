@@ -11,4 +11,10 @@
     <string name="saf">SAF (User-selected)</string>
     <string name="save">Save</string>
     <string name="read">Read</string>
+    <string name="saved_app_specific">Saved to app-specific storage</string>
+    <string name="error_app_specific">Failed to save to app-specific storage</string>
+    <string name="saved_mediastore">Image saved to MediaStore: %1$s</string>
+    <string name="error_mediastore">Failed to save image</string>
+    <string name="saved_saf">Saved via SAF</string>
+    <string name="error_saf">Failed to save via SAF</string>
 </resources>

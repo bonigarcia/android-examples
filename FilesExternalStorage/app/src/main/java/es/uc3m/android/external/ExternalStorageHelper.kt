@@ -22,18 +22,22 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import java.io.File
 import java.io.IOException
 
+private const val TAG = "ExternalStorageHelper"
+
 class ExternalStorageHelper(private val context: Context) {
 
-    // 1. App-specific External Storage
+    // 1. App-specific external storage
     fun writeToAppSpecificStorage(fileName: String, content: String): Boolean {
         return try {
             val file = File(context.getExternalFilesDir(null), fileName)
             file.writeText(content)
             true
         } catch (e: IOException) {
+            Log.e(this.javaClass.name, "Error writing to app-specific storage", e)
             false
         }
     }
@@ -43,11 +47,12 @@ class ExternalStorageHelper(private val context: Context) {
             val file = File(context.getExternalFilesDir(null), fileName)
             file.readText()
         } catch (e: IOException) {
+            Log.e(this.javaClass.name, "Error reading from app-specific storage", e)
             ""
         }
     }
 
-    // 2. MediaStore - Example: Saving an Image
+    // 2. MediaStore: Saving an image
     fun saveImageToMediaStore(bitmap: Bitmap, displayName: String): Uri? {
         val resolver = context.contentResolver
         val imageCollection = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
@@ -75,12 +80,12 @@ class ExternalStorageHelper(private val context: Context) {
             }
             uri
         } catch (e: IOException) {
+            Log.e(TAG, "Error saving image to MediaStore", e)
             null
         }
     }
 
-    // 3. SAF (Storage Access Framework) logic
-    // We only need utility methods to read/write from/to Uris
+    // 3. SAF (Storage Access Framework)
     fun writeToUri(uri: Uri, content: String): Boolean {
         return try {
             context.contentResolver.openOutputStream(uri).use { outputStream ->
@@ -88,6 +93,7 @@ class ExternalStorageHelper(private val context: Context) {
             }
             true
         } catch (e: IOException) {
+            Log.e(TAG, "Error writing to URI via SAF", e)
             false
         }
     }
@@ -100,6 +106,7 @@ class ExternalStorageHelper(private val context: Context) {
                 } ?: ""
             }
         } catch (e: IOException) {
+            Log.e(TAG, "Error reading from URI via SAF", e)
             ""
         }
     }
