@@ -65,7 +65,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val note = Note(title = title, body = body)
                 firestore.collection(NOTES_COLLECTION).add(note).await()
-                fetchNotes()
+                fetchNotes() // Refresh the list
                 _snackMessage.value = getString(R.string.note_added)
             } catch (e: Exception) {
                 _snackMessage.value = e.message ?: getString(R.string.write_error)
@@ -78,7 +78,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val updatedNote = Note(title = title, body = body)
                 firestore.collection(NOTES_COLLECTION).document(id).set(updatedNote).await()
-                fetchNotes()
+                fetchNotes() // Refresh the list
                 _snackMessage.value = getString(R.string.note_updated)
             } catch (e: Exception) {
                 _snackMessage.value = e.message ?: getString(R.string.update_error)
@@ -90,7 +90,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 firestore.collection(NOTES_COLLECTION).document(id).delete().await()
-                fetchNotes()
+                fetchNotes() // Refresh the list
                 _snackMessage.value = getString(R.string.note_deleted)
             } catch (e: Exception) {
                 _snackMessage.value = e.message ?: getString(R.string.delete_error)
