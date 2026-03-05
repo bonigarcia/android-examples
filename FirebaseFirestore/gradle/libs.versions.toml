@@ -12,7 +12,6 @@ lifecycleViewmodelComposeVersion = "2.10.0"
 materialIconsCore = "1.7.8"
 google-services = "4.4.4"
 firebaseBom = "34.10.0"
-runtimeLivedata = "1.10.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,7 +33,6 @@ androidx-compose-material-icons-core = { module = "androidx.compose.material:mat
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
-androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "runtimeLivedata" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

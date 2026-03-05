@@ -55,7 +55,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.uc3m.android.firebase.ui.theme.MyAppTheme
-import es.uc3m.android.firebase.viewmodel.MyViewModel
+import es.uc3m.android.firebase.viewmodel.NotesViewModel
 import es.uc3m.android.firebase.viewmodel.Note
 
 class MainActivity : ComponentActivity() {
@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(viewModel: MyViewModel = viewModel()) {
+fun MainScreen(viewModel: NotesViewModel = viewModel()) {
     var showAddNoteDialog by remember { mutableStateOf(false) }
     var noteToEdit by remember { mutableStateOf<Note?>(null) }
     val context = LocalContext.current
