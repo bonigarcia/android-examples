@@ -55,8 +55,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.uc3m.android.firebase.ui.theme.MyAppTheme
-import es.uc3m.android.firebase.viewmodel.NotesViewModel
-import es.uc3m.android.firebase.viewmodel.Note
+import es.uc3m.android.firebase.viewmodel.FirebaseViewModel
+import es.uc3m.android.firebase.model.Note
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,42 +71,36 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(viewModel: NotesViewModel = viewModel()) {
+fun MainScreen(viewModel: FirebaseViewModel = viewModel()) {
     val showAddNoteDialog = remember { mutableStateOf(false) }
     val noteToEdit = remember { mutableStateOf<Note?>(null) }
-    val notes by viewModel.notes.collectAsState()
-    val snackMessage by viewModel.snackMessage.collectAsState()
     val snackHostState = remember { SnackbarHostState() }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackHostState) },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { showAddNoteDialog.value = true }) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_note))
-            }
+    val notes by viewModel.notes.collectAsState()
+    val snackMessage by viewModel.snackMessage.collectAsState()
+
+    Scaffold(floatingActionButton = {
+        FloatingActionButton(onClick = { showAddNoteDialog.value = true }) {
+            Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_note))
         }
-    ) { padding ->
+    }, snackbarHost = { SnackbarHost(hostState = snackHostState) }) { padding ->
         Column(modifier = Modifier.padding(padding)) {
             LazyColumn {
                 items(notes) { note ->
                     NoteItem(
                         note = note,
                         onNoteClick = { noteToEdit.value = it },
-                        onDeleteClick = { viewModel.deleteNote(it.id!!) }
-                    )
+                        onDeleteClick = { viewModel.deleteNote(it.id!!) })
                 }
             }
         }
     }
 
     if (showAddNoteDialog.value) {
-        AddNoteDialog(
-            onDismiss = { showAddNoteDialog.value = false },
-            onAddNote = { title, body ->
-                viewModel.addNote(title, body)
-                showAddNoteDialog.value = false
-            }
-        )
+        AddNoteDialog(onDismiss = { showAddNoteDialog.value = false }, onAddNote = { title, body ->
+            viewModel.addNote(title, body)
+            showAddNoteDialog.value = false
+        })
     }
 
     noteToEdit.value?.let { note ->
@@ -116,8 +110,7 @@ fun MainScreen(viewModel: NotesViewModel = viewModel()) {
             onUpdateNote = { title, body ->
                 viewModel.updateNote(note.id!!, title, body)
                 noteToEdit.value = null
-            }
-        )
+            })
     }
 
     LaunchedEffect(snackMessage) {
@@ -132,16 +125,13 @@ fun MainScreen(viewModel: NotesViewModel = viewModel()) {
 
 @Composable
 fun NoteItem(
-    note: Note,
-    onNoteClick: (Note) -> Unit,
-    onDeleteClick: (Note) -> Unit
+    note: Note, onNoteClick: (Note) -> Unit, onDeleteClick: (Note) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { onNoteClick(note) }
-    ) {
+            .clickable { onNoteClick(note) }) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = note.title, style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(4.dp))
@@ -156,89 +146,70 @@ fun NoteItem(
 
 @Composable
 fun AddNoteDialog(
-    onDismiss: () -> Unit,
-    onAddNote: (String, String) -> Unit
+    onDismiss: () -> Unit, onAddNote: (String, String) -> Unit
 ) {
     var title by rememberSaveable { mutableStateOf("") }
     var body by rememberSaveable { mutableStateOf("") }
 
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            Button(onClick = {
-                if (title.isNotBlank() && body.isNotBlank()) {
-                    onAddNote(title, body)
-                }
-            }) {
-                Text(stringResource(R.string.add))
+    AlertDialog(onDismissRequest = onDismiss, confirmButton = {
+        Button(onClick = {
+            if (title.isNotBlank() && body.isNotBlank()) {
+                onAddNote(title, body)
             }
-        },
-        dismissButton = {
-            Button(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel))
-            }
-        },
-        title = { Text(stringResource(R.string.add_note)) },
-        text = {
-            Column {
-                TextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text(stringResource(R.string.title)) }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                TextField(
-                    value = body,
-                    onValueChange = { body = it },
-                    label = { Text(stringResource(R.string.body)) }
-                )
-            }
+        }) {
+            Text(stringResource(R.string.add))
         }
-    )
+    }, dismissButton = {
+        Button(onClick = onDismiss) {
+            Text(stringResource(R.string.cancel))
+        }
+    }, title = { Text(stringResource(R.string.add_note)) }, text = {
+        Column {
+            TextField(
+                value = title,
+                onValueChange = { title = it },
+                label = { Text(stringResource(R.string.title)) })
+            Spacer(modifier = Modifier.height(8.dp))
+            TextField(
+                value = body,
+                onValueChange = { body = it },
+                label = { Text(stringResource(R.string.body)) })
+        }
+    })
 }
 
 @Composable
 fun EditNoteDialog(
-    note: Note,
-    onDismiss: () -> Unit,
-    onUpdateNote: (String, String) -> Unit
+    note: Note, onDismiss: () -> Unit, onUpdateNote: (String, String) -> Unit
 ) {
     var title by rememberSaveable { mutableStateOf(note.title) }
     var body by rememberSaveable { mutableStateOf(note.body) }
 
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            Button(onClick = {
-                if (title.isNotBlank() && body.isNotBlank()) {
-                    onUpdateNote(title, body)
-                }
-            }) {
-                Text(stringResource(R.string.update))
+    AlertDialog(onDismissRequest = onDismiss, confirmButton = {
+        Button(onClick = {
+            if (title.isNotBlank() && body.isNotBlank()) {
+                onUpdateNote(title, body)
             }
-        },
-        dismissButton = {
-            Button(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel))
-            }
-        },
-        title = { Text(stringResource(R.string.edit_note)) },
-        text = {
-            Column {
-                TextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text(stringResource(R.string.title)) }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                TextField(
-                    value = body,
-                    onValueChange = { body = it },
-                    label = { Text(stringResource(R.string.body)) }
-                )
-            }
+        }) {
+            Text(stringResource(R.string.update))
         }
-    )
+    }, dismissButton = {
+        Button(onClick = onDismiss) {
+            Text(stringResource(R.string.cancel))
+        }
+    }, title = { Text(stringResource(R.string.edit_note)) }, text = {
+        Column {
+            TextField(
+                value = title,
+                onValueChange = { title = it },
+                label = { Text(stringResource(R.string.title)) })
+            Spacer(modifier = Modifier.height(8.dp))
+            TextField(
+                value = body,
+                onValueChange = { body = it },
+                label = { Text(stringResource(R.string.body)) })
+        }
+    })
 }
 
 @Preview(showBackground = true)

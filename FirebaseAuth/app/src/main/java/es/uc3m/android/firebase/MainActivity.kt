@@ -17,7 +17,6 @@
 package es.uc3m.android.firebase
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -25,16 +24,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import es.uc3m.android.firebase.screens.HomeScreen
 import es.uc3m.android.firebase.screens.LoginScreen
+import es.uc3m.android.firebase.screens.NavGraph
 import es.uc3m.android.firebase.screens.SignUpScreen
 import es.uc3m.android.firebase.ui.theme.MyAppTheme
-import es.uc3m.android.firebase.viewmodel.MyViewModel
+import es.uc3m.android.firebase.viewmodel.FirebaseViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,10 +48,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(viewModel: MyViewModel = viewModel()) {
+fun MainScreen(viewModel: FirebaseViewModel = viewModel()) {
     val navController = rememberNavController()
-    val context = LocalContext.current
-    val toastMessage by viewModel.toastMessage.collectAsState()
     val routeState by viewModel.route.collectAsState()
 
     NavHost(
@@ -70,18 +67,10 @@ fun MainScreen(viewModel: MyViewModel = viewModel()) {
         }
     }
 
-    LaunchedEffect(toastMessage) {
-        toastMessage?.let { message ->
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            // Reset message to avoid showing it repeatedly (e.g., on configuration changes)
-            viewModel.showToast(null)
-        }
-    }
-
     LaunchedEffect(routeState) {
         routeState?.let { route ->
             navController.navigate(route)
-            viewModel.navigate(null)
+            viewModel.navigateTo(null)
         }
     }
 

@@ -45,13 +45,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import es.uc3m.android.firebase.NavGraph
 import es.uc3m.android.firebase.R
-import es.uc3m.android.firebase.viewmodel.MyViewModel
+import es.uc3m.android.firebase.viewmodel.FirebaseViewModel
 
 
 @Composable
-fun SignUpScreen(viewModel: MyViewModel) {
+fun SignUpScreen(viewModel: FirebaseViewModel) {
     var login by rememberSaveable {  mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var confirmPasswd by rememberSaveable { mutableStateOf("") }
@@ -136,7 +135,7 @@ fun SignUpScreen(viewModel: MyViewModel) {
                     .fillMaxHeight(0.2f)
             ) {
                 TextButton(
-                    onClick = { viewModel.navigate(NavGraph.Login.route) },
+                    onClick = { viewModel.navigateTo(NavGraph.Login.route) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(stringResource(R.string.already_account))

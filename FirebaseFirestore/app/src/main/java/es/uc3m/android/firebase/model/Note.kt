@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2026 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,11 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase.viewmodel
+package es.uc3m.android.firebase.model
 
 import com.google.firebase.firestore.Exclude
+
+const val NOTES_COLLECTION = "notes"
 
 data class Note(
     @get:Exclude var id: String? = null, // Firestore auto-generates IDs
