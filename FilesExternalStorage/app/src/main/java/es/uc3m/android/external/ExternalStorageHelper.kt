@@ -16,49 +16,90 @@
  */
 package es.uc3m.android.external
 
+import android.content.ContentValues
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Environment
-import android.widget.Toast
+import android.provider.MediaStore
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 
 class ExternalStorageHelper(private val context: Context) {
 
-    // Get the public documents directory
-    fun getPublicDocumentsDir(): File? {
-        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-    }
-
-    // Write to a file in external storage
-    fun writeToExternalStorage(fileName: String, content: String): Boolean {
+    // 1. App-specific External Storage
+    fun writeToAppSpecificStorage(fileName: String, content: String): Boolean {
         return try {
-            val documentsDir = getPublicDocumentsDir()
-            if ((documentsDir != null) && !documentsDir.exists()) {
-                documentsDir.mkdirs()
-            }
-            val file = File(documentsDir, fileName)
-            FileOutputStream(file).use { stream ->
-                stream.write(content.toByteArray())
-            }
+            val file = File(context.getExternalFilesDir(null), fileName)
+            file.writeText(content)
             true
         } catch (e: IOException) {
-            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
             false
         }
     }
 
-    // Read from a file in external storage
-    fun readFromExternalStorage(fileName: String): String {
+    fun readFromAppSpecificStorage(fileName: String): String {
         return try {
-            val documentsDir = getPublicDocumentsDir()
-            val file = File(documentsDir, fileName)
-            Toast.makeText(context, file.absolutePath, Toast.LENGTH_LONG).show()
-            file.bufferedReader().use { reader ->
-                reader.readText()
+            val file = File(context.getExternalFilesDir(null), fileName)
+            file.readText()
+        } catch (e: IOException) {
+            ""
+        }
+    }
+
+    // 2. MediaStore - Example: Saving an Image
+    fun saveImageToMediaStore(bitmap: Bitmap, displayName: String): Uri? {
+        val resolver = context.contentResolver
+        val imageCollection = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        } else {
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        }
+
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, "$displayName.jpg")
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+            }
+        }
+
+        return try {
+            val uri = resolver.insert(imageCollection, contentValues)
+            uri?.let {
+                resolver.openOutputStream(it).use { outputStream ->
+                    if (outputStream == null || !bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)) {
+                        throw IOException("Failed to save bitmap")
+                    }
+                }
+            }
+            uri
+        } catch (e: IOException) {
+            null
+        }
+    }
+
+    // 3. SAF (Storage Access Framework) logic
+    // We only need utility methods to read/write from/to Uris
+    fun writeToUri(uri: Uri, content: String): Boolean {
+        return try {
+            context.contentResolver.openOutputStream(uri).use { outputStream ->
+                outputStream?.write(content.toByteArray())
+            }
+            true
+        } catch (e: IOException) {
+            false
+        }
+    }
+
+    fun readFromUri(uri: Uri): String {
+        return try {
+            context.contentResolver.openInputStream(uri).use { inputStream ->
+                inputStream?.bufferedReader()?.use { reader ->
+                    reader.readText()
+                } ?: ""
             }
         } catch (e: IOException) {
-            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
             ""
         }
     }

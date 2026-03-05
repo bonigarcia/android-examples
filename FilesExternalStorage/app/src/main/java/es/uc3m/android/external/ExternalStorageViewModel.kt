@@ -16,31 +16,59 @@
  */
 package es.uc3m.android.external
 
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ExternalStorageViewModel(private val externalStorageHelper: ExternalStorageHelper) : ViewModel() {
 
     private val _fileContent = MutableStateFlow("")
-    val fileContent: StateFlow<String> get() = _fileContent
+    val fileContent: StateFlow<String> = _fileContent.asStateFlow()
 
-    fun writeToExternalStorage(fileName: String, content: String) {
+    // App-specific Storage
+    fun writeToAppSpecific(fileName: String, content: String) {
         viewModelScope.launch {
-            val success = externalStorageHelper.writeToExternalStorage(fileName, content)
-            if (success) {
-                _fileContent.value = "File saved successfully!"
+            if (externalStorageHelper.writeToAppSpecificStorage(fileName, content)) {
+                _fileContent.value = "Saved to app-specific storage"
             } else {
-                _fileContent.value = "Failed to save file."
+                _fileContent.value = "Failed to save to app-specific storage"
             }
         }
     }
 
-    fun readFromExternalStorage(fileName: String) {
+    fun readFromAppSpecific(fileName: String) {
         viewModelScope.launch {
-            _fileContent.value = externalStorageHelper.readFromExternalStorage(fileName)
+            _fileContent.value = externalStorageHelper.readFromAppSpecificStorage(fileName)
+        }
+    }
+
+    // MediaStore
+    fun saveImageToMediaStore(bitmap: Bitmap, displayName: String) {
+        viewModelScope.launch {
+            val uri = externalStorageHelper.saveImageToMediaStore(bitmap, displayName)
+            _fileContent.value = if (uri != null) "Image saved to MediaStore: $uri" else "Failed to save image"
+        }
+    }
+
+    // SAF (Storage Access Framework)
+    fun writeToUri(uri: Uri, content: String) {
+        viewModelScope.launch {
+            if (externalStorageHelper.writeToUri(uri, content)) {
+                _fileContent.value = "Saved via SAF"
+            } else {
+                _fileContent.value = "Failed to save via SAF"
+            }
+        }
+    }
+
+    fun readFromUri(uri: Uri) {
+        viewModelScope.launch {
+            _fileContent.value = externalStorageHelper.readFromUri(uri)
         }
     }
 }

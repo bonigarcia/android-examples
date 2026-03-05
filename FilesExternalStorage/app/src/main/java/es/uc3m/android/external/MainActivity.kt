@@ -16,19 +16,22 @@
  */
 package es.uc3m.android.external
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -46,6 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.uc3m.android.external.ui.theme.MyAppTheme
+import androidx.core.graphics.createBitmap
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,13 +78,27 @@ fun ExternalStorageScreen(modifier: Modifier = Modifier) {
 
     val fileContent by viewModel.fileContent.collectAsState()
 
-    var fileName by rememberSaveable { mutableStateOf("") }
-    var content by rememberSaveable { mutableStateOf("") }
+    var fileName by rememberSaveable { mutableStateOf("demo.txt") }
+    var content by rememberSaveable { mutableStateOf("Hello Android!") }
+
+    // SAF Launchers
+    val createDocumentLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("text/plain")
+    ) { uri ->
+        uri?.let { viewModel.writeToUri(it, content) }
+    }
+
+    val openDocumentLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        uri?.let { viewModel.readFromUri(it) }
+    }
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         OutlinedTextField(
             value = fileName,
@@ -90,8 +108,6 @@ fun ExternalStorageScreen(modifier: Modifier = Modifier) {
             singleLine = true
         )
 
-        Spacer(Modifier.height(16.dp))
-
         OutlinedTextField(
             value = content,
             onValueChange = { content = it },
@@ -99,25 +115,44 @@ fun ExternalStorageScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(Modifier.height(16.dp))
+        HorizontalDivider()
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Button(
-                enabled = fileName.isNotBlank(),
-                onClick = { viewModel.writeToExternalStorage(fileName, content) }
-            ) { Text(stringResource(R.string.save_file)) }
-
-            Button(
-                enabled = fileName.isNotBlank(),
-                onClick = { viewModel.readFromExternalStorage(fileName) }
-            ) { Text(stringResource(R.string.read_file)) }
+        // 1. App-specific storage
+        Text(stringResource(R.string.app_specific), style = MaterialTheme.typography.titleMedium)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = { viewModel.writeToAppSpecific(fileName, content) }) {
+                Text(stringResource(R.string.save))
+            }
+            Button(onClick = { viewModel.readFromAppSpecific(fileName) }) {
+                Text(stringResource(R.string.read))
+            }
         }
 
-        Spacer(Modifier.height(16.dp))
+        // 2. MediaStore
+        Text(stringResource(R.string.media_store), style = MaterialTheme.typography.titleMedium)
+        Button(onClick = {
+            val bitmap = createBitmap(100, 100).apply {
+                eraseColor(Color.RED)
+            }
+            viewModel.saveImageToMediaStore(bitmap, fileName.replace(".txt", ""))
+        }) {
+            Text(stringResource(R.string.save_file))
+        }
 
+        // 3. SAF
+        Text(stringResource(R.string.saf), style = MaterialTheme.typography.titleMedium)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = { createDocumentLauncher.launch(fileName) }) {
+                Text(stringResource(R.string.save))
+            }
+            Button(onClick = { openDocumentLauncher.launch(arrayOf("text/plain")) }) {
+                Text(stringResource(R.string.read))
+            }
+        }
+
+        HorizontalDivider()
+
+        Text(text = "Result:", style = MaterialTheme.typography.titleSmall)
         Text(text = fileContent)
     }
 }
