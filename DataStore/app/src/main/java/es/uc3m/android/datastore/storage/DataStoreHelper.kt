@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.datastore
+package es.uc3m.android.datastore.storage
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -26,15 +26,14 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-private const val DATASTORE_NAME = "settings"
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATASTORE_NAME)
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("settings")
+
+private object PreferencesKeys {
+    val USER_NAME_KEY = stringPreferencesKey("user_name")
+    val IS_ENABLED_KEY = booleanPreferencesKey("enabled")
+}
 
 class DataStoreHelper(private val context: Context) {
-
-    private object PreferencesKeys {
-        val USER_NAME_KEY = stringPreferencesKey("user_name")
-        val IS_ENABLED_KEY = booleanPreferencesKey("enabled")
-    }
 
     suspend fun saveUserName(name: String) {
         context.dataStore.edit { preferences ->

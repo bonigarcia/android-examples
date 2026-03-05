@@ -16,6 +16,7 @@
  */
 package es.uc3m.android.datastore
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,12 +37,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import es.uc3m.android.datastore.storage.DataStoreHelper
 import es.uc3m.android.datastore.ui.theme.MyAppTheme
+import es.uc3m.android.datastore.viewmodel.SettingsViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,12 +63,18 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SettingsScreen(
-    modifier: Modifier = Modifier, viewModel: SettingsViewModel = viewModel(
-        factory = SettingsViewModelFactory(
-            DataStoreHelper(LocalContext.current)
-        )
-    )
+    modifier: Modifier = Modifier
 ) {
+    val viewModel: SettingsViewModel = viewModel(
+        factory = viewModelFactory {
+            initializer {
+                val application =
+                    this[androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application
+                val helper = DataStoreHelper(application)
+                SettingsViewModel(helper)
+            }
+        })
+
     val userName by viewModel.userName.collectAsState()
     val enabled by viewModel.isEnabled.collectAsState()
 
