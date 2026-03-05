@@ -20,16 +20,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(private val dataStoreHelper: DataStoreHelper) : ViewModel() {
 
     private val _userName = MutableStateFlow("")
-    val userName: StateFlow<String> get() = _userName
+    val userName: StateFlow<String> = _userName.asStateFlow()
 
     private val _isEnabled = MutableStateFlow(false)
-    val isEnabled: StateFlow<Boolean> get() = _isEnabled
+    val isEnabled: StateFlow<Boolean> = _isEnabled.asStateFlow()
 
     init {
         // Observe DataStore changes

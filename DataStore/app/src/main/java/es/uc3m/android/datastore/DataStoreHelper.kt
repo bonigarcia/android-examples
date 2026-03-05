@@ -26,33 +26,35 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-const val DATASTORE_NAME = "settings"
-val USER_NAME_KEY = stringPreferencesKey("user_name")
-val IS_ENABLED_KEY = booleanPreferencesKey("enabled")
-
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATASTORE_NAME)
+private const val DATASTORE_NAME = "settings"
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATASTORE_NAME)
 
 class DataStoreHelper(private val context: Context) {
 
+    private object PreferencesKeys {
+        val USER_NAME_KEY = stringPreferencesKey("user_name")
+        val IS_ENABLED_KEY = booleanPreferencesKey("enabled")
+    }
+
     suspend fun saveUserName(name: String) {
         context.dataStore.edit { preferences ->
-            preferences[USER_NAME_KEY] = name
+            preferences[PreferencesKeys.USER_NAME_KEY] = name
         }
     }
 
     val userName: Flow<String> = context.dataStore.data
         .map { preferences ->
-            preferences[USER_NAME_KEY] ?: ""
+            preferences[PreferencesKeys.USER_NAME_KEY] ?: ""
         }
 
     suspend fun saveEnabled(enabled: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[IS_ENABLED_KEY] = enabled
+            preferences[PreferencesKeys.IS_ENABLED_KEY] = enabled
         }
     }
 
     val enabled: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[IS_ENABLED_KEY] ?: false
+            preferences[PreferencesKeys.IS_ENABLED_KEY] ?: false
         }
 }
