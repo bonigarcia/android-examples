@@ -46,6 +46,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -157,8 +158,8 @@ fun AddNoteDialog(
     onDismiss: () -> Unit,
     onAddNote: (String, String) -> Unit
 ) {
-    var title by remember { mutableStateOf("") }
-    var body by remember { mutableStateOf("") }
+    var title by rememberSaveable { mutableStateOf("") }
+    var body by rememberSaveable { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -201,8 +202,8 @@ fun EditNoteDialog(
     onDismiss: () -> Unit,
     onUpdateNote: (String, String) -> Unit
 ) {
-    var title by remember { mutableStateOf(note.title) }
-    var body by remember { mutableStateOf(note.body) }
+    var title by rememberSaveable { mutableStateOf(note.title) }
+    var body by rememberSaveable { mutableStateOf(note.body) }
 
     AlertDialog(
         onDismissRequest = onDismiss,

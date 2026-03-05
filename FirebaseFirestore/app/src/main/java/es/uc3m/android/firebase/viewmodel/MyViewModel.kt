@@ -22,18 +22,21 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 private const val NOTES_COLLECTION = "notes"
 
 class MyViewModel : ViewModel() {
-    private val _notes = MutableStateFlow<List<Note>>(emptyList())
-    val notes: StateFlow<List<Note>> get() = _notes
-
-    private val _toastMessage = MutableStateFlow<String?>(null)
-    val toastMessage: StateFlow<String?> get() = _toastMessage
 
     private val firestore = FirebaseFirestore.getInstance()
+
+    private val _notes = MutableStateFlow<List<Note>>(emptyList())
+    val notes: StateFlow<List<Note>> = _notes.asStateFlow()
+
+    private val _toastMessage = MutableStateFlow<String?>(null)
+    val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
 
     init {
         fetchNotes()
@@ -41,57 +44,53 @@ class MyViewModel : ViewModel() {
 
     fun fetchNotes() {
         viewModelScope.launch {
-            firestore.collection(NOTES_COLLECTION).get()
-                .addOnSuccessListener { result ->
-                    val noteList = result.map { document ->
-                        document.toObject<Note>().copy(id = document.id)
-                    }
-                    _notes.value = noteList
+            try {
+                val snapshot = firestore.collection(NOTES_COLLECTION).get().await()
+                val noteList = snapshot.documents.mapNotNull { doc ->
+                    doc.toObject<Note>()?.copy(id = doc.id)
                 }
-                .addOnFailureListener { exception ->
-                    _toastMessage.value = exception.message
-                }
+                _notes.value = noteList
+            } catch (e: Exception) {
+                _toastMessage.value = e.message ?: "Failed to fetch notes"
+            }
         }
     }
 
     fun addNote(title: String, body: String) {
         viewModelScope.launch {
-            val note = Note(title = title, body = body)
-            firestore.collection(NOTES_COLLECTION)
-                .add(note)
-                .addOnSuccessListener {
-                    fetchNotes() // Refresh the list after adding
-                }
-                .addOnFailureListener { exception ->
-                    _toastMessage.value = exception.message
-                }
+            try {
+                val note = Note(title = title, body = body)
+                firestore.collection(NOTES_COLLECTION).add(note).await()
+                fetchNotes()
+                _toastMessage.value = "Note added"
+            } catch (e: Exception) {
+                _toastMessage.value = e.message ?: "Failed to add note"
+            }
         }
     }
 
     fun updateNote(id: String, title: String, body: String) {
         viewModelScope.launch {
-            val updatedNote = Note(title = title, body = body)
-            firestore.collection(NOTES_COLLECTION).document(id)
-                .set(updatedNote)
-                .addOnSuccessListener {
-                    fetchNotes() // Refresh the list after updating
-                }
-                .addOnFailureListener { exception ->
-                    _toastMessage.value = exception.message
-                }
+            try {
+                val updatedNote = Note(title = title, body = body)
+                firestore.collection(NOTES_COLLECTION).document(id).set(updatedNote).await()
+                fetchNotes()
+                _toastMessage.value = "Note updated"
+            } catch (e: Exception) {
+                _toastMessage.value = e.message ?: "Failed to update note"
+            }
         }
     }
 
     fun deleteNote(id: String) {
         viewModelScope.launch {
-            firestore.collection(NOTES_COLLECTION).document(id)
-                .delete()
-                .addOnSuccessListener {
-                    fetchNotes() // Refresh the list after deleting
-                }
-                .addOnFailureListener { exception ->
-                    _toastMessage.value = exception.message
-                }
+            try {
+                firestore.collection(NOTES_COLLECTION).document(id).delete().await()
+                fetchNotes()
+                _toastMessage.value = "Note deleted"
+            } catch (e: Exception) {
+                _toastMessage.value = e.message ?: "Failed to delete note"
+            }
         }
     }
 
