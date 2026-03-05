@@ -72,8 +72,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(viewModel: NotesViewModel = viewModel()) {
-    var showAddNoteDialog by remember { mutableStateOf(false) }
-    var noteToEdit by remember { mutableStateOf<Note?>(null) }
+    val showAddNoteDialog = remember { mutableStateOf(false) }
+    val noteToEdit = remember { mutableStateOf<Note?>(null) }
     val notes by viewModel.notes.collectAsState()
     val snackMessage by viewModel.snackMessage.collectAsState()
     val snackHostState = remember { SnackbarHostState() }
@@ -81,7 +81,7 @@ fun MainScreen(viewModel: NotesViewModel = viewModel()) {
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackHostState) },
         floatingActionButton = {
-            FloatingActionButton(onClick = { showAddNoteDialog = true }) {
+            FloatingActionButton(onClick = { showAddNoteDialog.value = true }) {
                 Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_note))
             }
         }
@@ -91,7 +91,7 @@ fun MainScreen(viewModel: NotesViewModel = viewModel()) {
                 items(notes) { note ->
                     NoteItem(
                         note = note,
-                        onNoteClick = { noteToEdit = it },
+                        onNoteClick = { noteToEdit.value = it },
                         onDeleteClick = { viewModel.deleteNote(it.id!!) }
                     )
                 }
@@ -99,23 +99,23 @@ fun MainScreen(viewModel: NotesViewModel = viewModel()) {
         }
     }
 
-    if (showAddNoteDialog) {
+    if (showAddNoteDialog.value) {
         AddNoteDialog(
-            onDismiss = { showAddNoteDialog = false },
+            onDismiss = { showAddNoteDialog.value = false },
             onAddNote = { title, body ->
                 viewModel.addNote(title, body)
-                showAddNoteDialog = false
+                showAddNoteDialog.value = false
             }
         )
     }
 
-    noteToEdit?.let { note ->
+    noteToEdit.value?.let { note ->
         EditNoteDialog(
             note = note,
-            onDismiss = { noteToEdit = null },
+            onDismiss = { noteToEdit.value = null },
             onUpdateNote = { title, body ->
                 viewModel.updateNote(note.id!!, title, body)
-                noteToEdit = null
+                noteToEdit.value = null
             }
         )
     }
