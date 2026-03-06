@@ -16,6 +16,7 @@
  */
 package es.uc3m.android.internal
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -39,12 +40,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import es.uc3m.android.internal.storage.InternalStorageHelper
 import es.uc3m.android.internal.ui.theme.MyAppTheme
+import es.uc3m.android.internal.viewmodel.FileViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,14 +67,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun FileScreen(
-    modifier: Modifier = Modifier,
-    viewModel: FileViewModel = viewModel(
-        factory = FileViewModelFactory(
-            FileHelper(LocalContext.current)
-        )
-    )
-) {
+fun FileScreen(modifier: Modifier = Modifier) {
+    val viewModel: FileViewModel = viewModel(
+        factory = viewModelFactory {
+            initializer {
+                val application =
+                    this[androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application
+                val helper = InternalStorageHelper(application)
+                FileViewModel(helper)
+            }
+        })
+
     val fileContent by viewModel.fileContent.collectAsState()
     val fileList by viewModel.fileList.collectAsState()
 
@@ -121,6 +128,11 @@ fun FileScreen(
 
         // Display file content
         Text(text = stringResource(R.string.content, fileContent))
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Display files directory path
+        Text(text = stringResource(R.string.files_directory, viewModel.filesDirectory))
 
         Spacer(modifier = Modifier.height(16.dp))
 

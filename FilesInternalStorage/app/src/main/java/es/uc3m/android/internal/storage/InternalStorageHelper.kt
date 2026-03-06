@@ -14,13 +14,16 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.internal
+package es.uc3m.android.internal.storage
 
 import android.content.Context
-import android.widget.Toast
+import android.util.Log
+import java.io.File
 import java.io.IOException
 
-class FileHelper(private val context: Context) {
+private const val TAG = "InternalStorageHelper"
+
+class InternalStorageHelper(private val context: Context) {
 
     // Write to a file in internal storage
     fun writeToFile(fileName: String, content: String): Boolean {
@@ -30,7 +33,7 @@ class FileHelper(private val context: Context) {
             }
             true
         } catch (e: IOException) {
-            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            Log.e(TAG, "Error writing file", e)
             false
         }
     }
@@ -42,7 +45,7 @@ class FileHelper(private val context: Context) {
                 reader.readText()
             }
         } catch (e: IOException) {
-            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            Log.e(TAG, "Error reading file", e)
             ""
         }
     }
@@ -55,5 +58,10 @@ class FileHelper(private val context: Context) {
     // Delete a file in internal storage
     fun deleteFile(fileName: String): Boolean {
         return context.deleteFile(fileName)
+    }
+
+    // Return the internal files directory
+    fun getFilesDirectory(): File {
+        return context.filesDir
     }
 }

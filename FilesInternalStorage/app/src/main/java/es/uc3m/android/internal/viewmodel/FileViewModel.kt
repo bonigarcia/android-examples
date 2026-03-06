@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2026 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,29 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.internal
+package es.uc3m.android.internal.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import es.uc3m.android.internal.storage.InternalStorageHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class FileViewModel(private val fileHelper: FileHelper) : ViewModel() {
+class FileViewModel(private val internalStorageHelper: InternalStorageHelper) : ViewModel() {
 
     private val _fileContent = MutableStateFlow("")
-    val fileContent: StateFlow<String> get() = _fileContent
+    val fileContent: StateFlow<String> = _fileContent.asStateFlow()
 
     private val _fileList = MutableStateFlow<List<String>>(emptyList())
-    val fileList: StateFlow<List<String>> get() = _fileList
+    val fileList: StateFlow<List<String>> = _fileList.asStateFlow()
+
+    val filesDirectory: String = internalStorageHelper.getFilesDirectory().absolutePath
 
     fun writeToFile(fileName: String, content: String) {
         viewModelScope.launch {
-            val success = fileHelper.writeToFile(fileName, content)
+            val success = internalStorageHelper.writeToFile(fileName, content)
             if (success) {
                 refreshFileList()
             }
@@ -41,19 +45,19 @@ class FileViewModel(private val fileHelper: FileHelper) : ViewModel() {
 
     fun readFromFile(fileName: String) {
         viewModelScope.launch {
-            _fileContent.value = fileHelper.readFromFile(fileName)
+            _fileContent.value = internalStorageHelper.readFromFile(fileName)
         }
     }
 
     fun refreshFileList() {
         viewModelScope.launch {
-            _fileList.value = fileHelper.listFiles().toList()
+            _fileList.value = internalStorageHelper.listFiles().toList()
         }
     }
 
     fun deleteFile(fileName: String) {
         viewModelScope.launch {
-            val success = fileHelper.deleteFile(fileName)
+            val success = internalStorageHelper.deleteFile(fileName)
             if (success) {
                 refreshFileList()
             }
