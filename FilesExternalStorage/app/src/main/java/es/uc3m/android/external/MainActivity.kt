@@ -97,8 +97,10 @@ fun ExternalStorageScreen(modifier: Modifier = Modifier) {
     val fileContent by viewModel.fileContent.collectAsState()
     val loadedImage by viewModel.loadedImage.collectAsState()
 
-    var fileName by rememberSaveable { mutableStateOf("demo.txt") }
-    var content by rememberSaveable { mutableStateOf("Hello Android!") }
+    val defaultNameValue = stringResource(R.string.default_file_name)
+    val defaultFileContent = stringResource(R.string.default_file_content)
+    var fileName by rememberSaveable { mutableStateOf(defaultNameValue) }
+    var content by rememberSaveable { mutableStateOf(defaultFileContent) }
     var selectedColor by remember { mutableStateOf(ComposeColor.Red) }
 
     // SAF Launchers
@@ -152,7 +154,7 @@ fun ExternalStorageScreen(modifier: Modifier = Modifier) {
         // 2. MediaStore
         Text(stringResource(R.string.media_store), style = MaterialTheme.typography.titleMedium)
 
-        Text("Select image color:")
+        Text(stringResource(R.string.select_color))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             val colors = listOf(
                 ComposeColor.Red,
@@ -195,7 +197,7 @@ fun ExternalStorageScreen(modifier: Modifier = Modifier) {
         }
 
         loadedImage?.let { bitmap ->
-            Text("Loaded Image:")
+            Text(stringResource(R.string.loaded_image))
             Image(
                 bitmap = bitmap.asImageBitmap(),
                 contentDescription = stringResource(R.string.from_media_store),

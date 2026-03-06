@@ -28,7 +28,7 @@ class ExternalStorageViewModel(
     private fun getString(resId: Int, vararg formatArgs: Any): String =
         getApplication<Application>().getString(resId, *formatArgs)
 
-    // App-specific Storage
+    // App-specific storage
     fun writeToAppSpecific(fileName: String, content: String) {
         viewModelScope.launch {
             if (externalStorageHelper.writeToAppSpecificStorage(fileName, content)) {

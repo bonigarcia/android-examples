@@ -22,4 +22,8 @@
     <string name="save_image_first">Save an image first to read it</string>
     <string name="from_media_store">Loaded from MediaStore</string>
     <string name="result">Result:</string>
+    <string name="select_color">Select image color:</string>
+    <string name="loaded_image">Loaded Image:</string>
+    <string name="default_file_name">demo.txt</string>
+    <string name="default_file_content">Hello Android!</string>
 </resources>
