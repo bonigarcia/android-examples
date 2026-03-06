@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2026 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,11 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.cache
+package es.uc3m.android.cache.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import es.uc3m.android.cache.storage.CacheFileHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -27,11 +28,21 @@ class CacheFileViewModel(private val cacheFileHelper: CacheFileHelper) : ViewMod
     private val _fileContent = MutableStateFlow("")
     val fileContent: StateFlow<String> get() = _fileContent
 
+    private val _fileList = MutableStateFlow<List<String>>(emptyList())
+    val fileList: StateFlow<List<String>> get() = _fileList
+
+    val cacheDirectory: String = cacheFileHelper.getCacheDirectory().absolutePath
+
+    init {
+        refreshFileList()
+    }
+
     fun writeToCache(fileName: String, content: String) {
         viewModelScope.launch {
             val success = cacheFileHelper.writeToCache(fileName, content)
             if (success) {
                 _fileContent.value = "File saved successfully!"
+                refreshFileList()
             } else {
                 _fileContent.value = "Failed to save file."
             }
@@ -44,11 +55,18 @@ class CacheFileViewModel(private val cacheFileHelper: CacheFileHelper) : ViewMod
         }
     }
 
+    fun refreshFileList() {
+        viewModelScope.launch {
+            _fileList.value = cacheFileHelper.listFiles().toList()
+        }
+    }
+
     fun deleteFromCache(fileName: String) {
         viewModelScope.launch {
             val success = cacheFileHelper.deleteFromCache(fileName)
             if (success) {
                 _fileContent.value = "File deleted successfully!"
+                refreshFileList()
             } else {
                 _fileContent.value = "Failed to delete file."
             }

@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
@@ -83,6 +84,12 @@ fun SettingsScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        Text(
+            text = stringResource(R.string.app_name),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = userName,
             onValueChange = { viewModel.saveUserName(it) },

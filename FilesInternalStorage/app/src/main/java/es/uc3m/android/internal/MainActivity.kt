@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -37,7 +38,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -81,37 +82,43 @@ fun FileScreen(modifier: Modifier = Modifier) {
     val fileContent by viewModel.fileContent.collectAsState()
     val fileList by viewModel.fileList.collectAsState()
 
+    var fileName by rememberSaveable { mutableStateOf("") }
+    var content by rememberSaveable { mutableStateOf("") }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        // App title
+        Text(
+            text = stringResource(R.string.app_name),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
         // Input field for file name
-        var fileName by remember { mutableStateOf("") }
         OutlinedTextField(
             value = fileName,
             onValueChange = { fileName = it },
             label = { Text(stringResource(R.string.file_name)) },
             modifier = Modifier.fillMaxWidth()
         )
-
         Spacer(modifier = Modifier.height(16.dp))
 
         // Input field for file content
-        var content by remember { mutableStateOf("") }
         OutlinedTextField(
             value = content,
             onValueChange = { content = it },
             label = { Text(stringResource(R.string.file_content)) },
             modifier = Modifier.fillMaxWidth()
         )
-
         Spacer(modifier = Modifier.height(16.dp))
 
         // Buttons for file operations
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
+            horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()
         ) {
             Button(onClick = { viewModel.writeToFile(fileName, content) }) {
                 Text(stringResource(R.string.save_file))
@@ -123,17 +130,14 @@ fun FileScreen(modifier: Modifier = Modifier) {
                 Text(stringResource(R.string.delete_file))
             }
         }
-
         Spacer(modifier = Modifier.height(16.dp))
 
         // Display file content
         Text(text = stringResource(R.string.content, fileContent))
-
         Spacer(modifier = Modifier.height(16.dp))
 
         // Display files directory path
         Text(text = stringResource(R.string.files_directory, viewModel.filesDirectory))
-
         Spacer(modifier = Modifier.height(16.dp))
 
         // Display list of files

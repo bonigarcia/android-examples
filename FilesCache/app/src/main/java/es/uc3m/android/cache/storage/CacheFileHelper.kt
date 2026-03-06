@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2026 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.cache
+package es.uc3m.android.cache.storage
 
 import android.content.Context
 import java.io.File
@@ -54,5 +54,15 @@ class CacheFileHelper(private val context: Context) {
     fun deleteFromCache(fileName: String): Boolean {
         val file = File(context.cacheDir, fileName)
         return file.delete()
+    }
+
+    // Return the cache directory
+    fun getCacheDirectory(): File {
+        return context.cacheDir
+    }
+
+    // List all files in the cache directory
+    fun listFiles(): Array<String> {
+        return context.cacheDir.list() ?: emptyArray()
     }
 }

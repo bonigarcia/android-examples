@@ -16,6 +16,7 @@
  */
 package es.uc3m.android.cache
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,16 +37,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import es.uc3m.android.cache.storage.CacheFileHelper
 import es.uc3m.android.cache.ui.theme.MyAppTheme
-
+import es.uc3m.android.cache.viewmodel.CacheFileViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,14 +67,19 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun CacheFileScreen(
-    modifier: Modifier = Modifier, viewModel: CacheFileViewModel = viewModel(
-        factory = CacheFileViewModelFactory(
-            CacheFileHelper(LocalContext.current)
-        )
-    )
-) {
+fun CacheFileScreen(modifier: Modifier = Modifier) {
+    val viewModel: CacheFileViewModel = viewModel(
+        factory = viewModelFactory {
+            initializer {
+                val application =
+                    this[androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application
+                val helper = CacheFileHelper(application)
+                CacheFileViewModel(helper)
+            }
+        })
+
     val fileContent by viewModel.fileContent.collectAsState()
+    val fileList by viewModel.fileList.collectAsState()
 
     Column(
         modifier = modifier
@@ -79,7 +87,7 @@ fun CacheFileScreen(
             .padding(16.dp)
     ) {
         // Input field for file name
-        var fileName by remember { mutableStateOf("") }
+        var fileName by rememberSaveable { mutableStateOf("") }
         OutlinedTextField(
             value = fileName,
             onValueChange = { fileName = it },
@@ -90,7 +98,7 @@ fun CacheFileScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         // Input field for file content
-        var content by remember { mutableStateOf("") }
+        var content by rememberSaveable { mutableStateOf("") }
         OutlinedTextField(
             value = content,
             onValueChange = { content = it },
@@ -119,6 +127,19 @@ fun CacheFileScreen(
 
         // Display file content
         Text(text = fileContent)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Display cache directory path
+        Text(text = stringResource(R.string.cache_directory, viewModel.cacheDirectory))
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Display list of files
+        Text(text = stringResource(R.string.files_in_cache_storage))
+        fileList.forEach { file ->
+            Text(text = file)
+        }
     }
 }
 

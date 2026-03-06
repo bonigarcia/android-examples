@@ -28,8 +28,6 @@ import android.util.Log
 import java.io.File
 import java.io.IOException
 
-private const val TAG = "ExternalStorageHelper"
-
 class ExternalStorageHelper(private val context: Context) {
 
     // 1. App-specific external storage
@@ -39,7 +37,7 @@ class ExternalStorageHelper(private val context: Context) {
             file.writeText(content)
             true
         } catch (e: IOException) {
-            Log.e(TAG, "Error writing to app-specific storage", e)
+            e.printStackTrace()
             false
         }
     }
@@ -49,7 +47,7 @@ class ExternalStorageHelper(private val context: Context) {
             val file = File(context.getExternalFilesDir(null), fileName)
             file.readText()
         } catch (e: IOException) {
-            Log.e(TAG, "Error reading from app-specific storage", e)
+            e.printStackTrace()
             ""
         }
     }
@@ -82,7 +80,7 @@ class ExternalStorageHelper(private val context: Context) {
             }
             uri
         } catch (e: IOException) {
-            Log.e(TAG, "Error saving image to MediaStore", e)
+            e.printStackTrace()
             null
         }
     }
@@ -93,7 +91,7 @@ class ExternalStorageHelper(private val context: Context) {
                 BitmapFactory.decodeStream(inputStream)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error reading image from MediaStore", e)
+            e.printStackTrace()
             null
         }
     }
@@ -106,7 +104,7 @@ class ExternalStorageHelper(private val context: Context) {
             }
             true
         } catch (e: IOException) {
-            Log.e(TAG, "Error writing to URI via SAF", e)
+            e.printStackTrace()
             false
         }
     }
@@ -119,8 +117,13 @@ class ExternalStorageHelper(private val context: Context) {
                 } ?: ""
             }
         } catch (e: IOException) {
-            Log.e(TAG, "Error reading from URI via SAF", e)
+            e.printStackTrace()
             ""
         }
+    }
+
+    // Return the external files directory
+    fun getExternalFilesDirectory(): File? {
+        return context.getExternalFilesDir(null)
     }
 }

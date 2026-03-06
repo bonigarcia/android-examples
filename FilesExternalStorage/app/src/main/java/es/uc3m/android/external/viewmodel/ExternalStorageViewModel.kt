@@ -22,6 +22,9 @@ class ExternalStorageViewModel(
     private val _loadedImage = MutableStateFlow<Bitmap?>(null)
     val loadedImage: StateFlow<Bitmap?> get() = _loadedImage
 
+    val externalFilesDirectory: String =
+        externalStorageHelper.getExternalFilesDirectory()?.absolutePath ?: "N/A"
+
     private var lastSavedImageUri: Uri? = null
 
     // Helper method to access strings from resources

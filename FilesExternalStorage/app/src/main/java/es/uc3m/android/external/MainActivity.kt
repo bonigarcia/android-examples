@@ -123,6 +123,12 @@ fun ExternalStorageScreen(modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        Text(
+            text = stringResource(R.string.app_name),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.fillMaxWidth()
+        )
+
         OutlinedTextField(
             value = fileName,
             onValueChange = { fileName = it },
@@ -130,14 +136,12 @@ fun ExternalStorageScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
-
         OutlinedTextField(
             value = content,
             onValueChange = { content = it },
             label = { Text(stringResource(R.string.file_content)) },
             modifier = Modifier.fillMaxWidth()
         )
-
         HorizontalDivider()
 
         // 1. App-specific storage
@@ -218,7 +222,12 @@ fun ExternalStorageScreen(modifier: Modifier = Modifier) {
                 Text(stringResource(R.string.read))
             }
         }
+        HorizontalDivider()
 
+        Text(
+            text = stringResource(R.string.external_directory, viewModel.externalFilesDirectory),
+            style = MaterialTheme.typography.bodySmall
+        )
         HorizontalDivider()
 
         Text(text = stringResource(R.string.result), style = MaterialTheme.typography.titleSmall)
