@@ -49,6 +49,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     private val _route = MutableStateFlow<String?>(null)
     val route: StateFlow<String?> = _route.asStateFlow()
 
+    // Helper method to access strings from resources
     private fun getString(resId: Int): String = getApplication<Application>().getString(resId)
 
     init {

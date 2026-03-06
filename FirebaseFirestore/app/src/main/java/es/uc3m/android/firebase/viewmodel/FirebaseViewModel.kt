@@ -40,6 +40,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     private val _snackMessage = MutableStateFlow<String?>(null)
     val snackMessage: StateFlow<String?> = _snackMessage.asStateFlow()
 
+    // Helper method to access strings from resources
     private fun getString(resId: Int): String = getApplication<Application>().getString(resId)
 
     init {
