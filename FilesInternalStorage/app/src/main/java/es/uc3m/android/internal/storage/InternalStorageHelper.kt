@@ -17,11 +17,8 @@
 package es.uc3m.android.internal.storage
 
 import android.content.Context
-import android.util.Log
 import java.io.File
 import java.io.IOException
-
-private const val TAG = "InternalStorageHelper"
 
 class InternalStorageHelper(private val context: Context) {
 
@@ -33,7 +30,7 @@ class InternalStorageHelper(private val context: Context) {
             }
             true
         } catch (e: IOException) {
-            Log.e(TAG, "Error writing file", e)
+            e.printStackTrace()
             false
         }
     }
@@ -45,7 +42,7 @@ class InternalStorageHelper(private val context: Context) {
                 reader.readText()
             }
         } catch (e: IOException) {
-            Log.e(TAG, "Error reading file", e)
+            e.printStackTrace()
             ""
         }
     }
