@@ -41,12 +41,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import es.uc3m.android.datastore.storage.DataStoreHelper
+import es.uc3m.android.datastore.model.DataStoreHelper
 import es.uc3m.android.datastore.ui.theme.MyAppTheme
-import es.uc3m.android.datastore.viewmodel.SettingsViewModel
+import es.uc3m.android.datastore.viewmodel.MyViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,13 +67,12 @@ class MainActivity : ComponentActivity() {
 fun SettingsScreen(
     modifier: Modifier = Modifier
 ) {
-    val viewModel: SettingsViewModel = viewModel(
+    val viewModel: MyViewModel = viewModel(
         factory = viewModelFactory {
             initializer {
-                val application =
-                    this[androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application
+                val application = this[APPLICATION_KEY] as Application
                 val helper = DataStoreHelper(application)
-                SettingsViewModel(helper)
+                MyViewModel(helper)
             }
         })
 

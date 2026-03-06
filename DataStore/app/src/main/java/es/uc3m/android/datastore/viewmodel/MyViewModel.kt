@@ -2,14 +2,14 @@ package es.uc3m.android.datastore.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.uc3m.android.datastore.storage.DataStoreHelper
+import es.uc3m.android.datastore.model.DataStoreHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(private val dataStoreHelper: DataStoreHelper) : ViewModel() {
+class MyViewModel(private val dataStoreHelper: DataStoreHelper) : ViewModel() {
 
     private val _userName = MutableStateFlow("")
     val userName: StateFlow<String> = _userName.asStateFlow()

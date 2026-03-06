@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -43,12 +44,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import es.uc3m.android.cache.storage.CacheFileHelper
+import es.uc3m.android.cache.model.CacheFileHelper
 import es.uc3m.android.cache.ui.theme.MyAppTheme
-import es.uc3m.android.cache.viewmodel.CacheFileViewModel
+import es.uc3m.android.cache.viewmodel.MyViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,13 +70,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CacheFileScreen(modifier: Modifier = Modifier) {
-    val viewModel: CacheFileViewModel = viewModel(
+    val viewModel: MyViewModel = viewModel(
         factory = viewModelFactory {
             initializer {
-                val application =
-                    this[androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application
+                val application = this[APPLICATION_KEY] as Application
                 val helper = CacheFileHelper(application)
-                CacheFileViewModel(helper)
+                MyViewModel(helper)
             }
         })
 
@@ -86,6 +87,14 @@ fun CacheFileScreen(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        // App title
+        Text(
+            text = stringResource(R.string.app_name),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
         // Input field for file name
         var fileName by rememberSaveable { mutableStateOf("") }
         OutlinedTextField(

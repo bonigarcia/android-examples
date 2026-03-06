@@ -57,12 +57,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import es.uc3m.android.external.storage.ExternalStorageHelper
+import es.uc3m.android.external.model.ExternalStorageHelper
 import es.uc3m.android.external.ui.theme.MyAppTheme
-import es.uc3m.android.external.viewmodel.ExternalStorageViewModel
+import es.uc3m.android.external.viewmodel.MyViewModel
 import android.graphics.Color as AndroidColor
 import androidx.compose.ui.graphics.Color as ComposeColor
 
@@ -84,13 +85,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ExternalStorageScreen(modifier: Modifier = Modifier) {
-    val viewModel: ExternalStorageViewModel = viewModel(
+    val viewModel: MyViewModel = viewModel(
         factory = viewModelFactory {
             initializer {
-                val application =
-                    this[androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application
+                val application = this[APPLICATION_KEY] as Application
                 val helper = ExternalStorageHelper(application)
-                ExternalStorageViewModel(application, helper)
+                MyViewModel(application, helper)
             }
         })
 
@@ -128,7 +128,6 @@ fun ExternalStorageScreen(modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.fillMaxWidth()
         )
-
         OutlinedTextField(
             value = fileName,
             onValueChange = { fileName = it },

@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.external.storage
+package es.uc3m.android.external.model
 
 import android.content.ContentValues
 import android.content.Context
@@ -24,7 +24,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import java.io.File
 import java.io.IOException
 

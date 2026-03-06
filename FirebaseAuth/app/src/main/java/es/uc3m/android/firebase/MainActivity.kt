@@ -33,7 +33,7 @@ import es.uc3m.android.firebase.screens.LoginScreen
 import es.uc3m.android.firebase.screens.NavGraph
 import es.uc3m.android.firebase.screens.SignUpScreen
 import es.uc3m.android.firebase.ui.theme.MyAppTheme
-import es.uc3m.android.firebase.viewmodel.FirebaseViewModel
+import es.uc3m.android.firebase.viewmodel.MyViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(viewModel: FirebaseViewModel = viewModel()) {
+fun MainScreen(viewModel: MyViewModel = viewModel()) {
     val navController = rememberNavController()
     val routeState by viewModel.route.collectAsState()
 

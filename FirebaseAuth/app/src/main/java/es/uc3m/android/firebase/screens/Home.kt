@@ -55,12 +55,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import es.uc3m.android.firebase.R
 import es.uc3m.android.firebase.model.Note
-import es.uc3m.android.firebase.viewmodel.FirebaseViewModel
+import es.uc3m.android.firebase.viewmodel.MyViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(viewModel: FirebaseViewModel) {
+fun HomeScreen(viewModel: MyViewModel) {
     val showAddNoteDialog = remember { mutableStateOf(false) }
     val noteToEdit = remember { mutableStateOf<Note?>(null) }
     val snackHostState = remember { SnackbarHostState() }

@@ -24,18 +24,17 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
-import es.uc3m.android.firebase.screens.NavGraph
 import es.uc3m.android.firebase.R
 import es.uc3m.android.firebase.model.NOTES_COLLECTION
 import es.uc3m.android.firebase.model.Note
+import es.uc3m.android.firebase.screens.NavGraph
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlin.collections.mapNotNull
 
-class FirebaseViewModel(application: Application) : AndroidViewModel(application) {
+class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     private val firestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = Firebase.auth
@@ -49,12 +48,13 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     private val _route = MutableStateFlow<String?>(null)
     val route: StateFlow<String?> = _route.asStateFlow()
 
-    // Helper method to access strings from resources
-    private fun getString(resId: Int): String = getApplication<Application>().getString(resId)
-
     init {
         fetchNotes()
     }
+
+    // Helper method to access strings from resources
+    private fun getString(resId: Int, vararg formatArgs: Any): String =
+        getApplication<Application>().getString(resId, *formatArgs)
 
     fun fetchNotes() {
         viewModelScope.launch {
@@ -76,7 +76,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 val note = Note(title = title, body = body)
                 firestore.collection(NOTES_COLLECTION).add(note).await()
                 fetchNotes() // Update notes list
-                setSnackMessage(getString(R.string.note_added)) // Update snack message
             } catch (e: Exception) {
                 setSnackMessage(e.message ?: getString(R.string.write_error))
             }
@@ -89,7 +88,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 val updatedNote = Note(title = title, body = body)
                 firestore.collection(NOTES_COLLECTION).document(id).set(updatedNote).await()
                 fetchNotes() // Update notes list
-                setSnackMessage(getString(R.string.note_updated)) // Update snack message
             } catch (e: Exception) {
                 setSnackMessage(e.message ?: getString(R.string.update_error))
             }
@@ -101,7 +99,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             try {
                 firestore.collection(NOTES_COLLECTION).document(id).delete().await()
                 fetchNotes() // Update notes list
-                setSnackMessage(getString(R.string.note_deleted)) // Update snack message
             } catch (e: Exception) {
                 setSnackMessage(e.message ?: getString(R.string.delete_error))
             }
@@ -146,7 +143,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             try {
                 auth.signOut()
                 navigateTo(NavGraph.Login.route) // Go to login screen
-                setSnackMessage(getString(R.string.logout_ok)) // Update snack message
             } catch (e: Exception) {
                 setSnackMessage(e.message ?: getString(R.string.logout_error))
             }

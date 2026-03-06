@@ -44,12 +44,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import es.uc3m.android.internal.storage.InternalStorageHelper
+import es.uc3m.android.internal.model.InternalStorageHelper
 import es.uc3m.android.internal.ui.theme.MyAppTheme
-import es.uc3m.android.internal.viewmodel.FileViewModel
+import es.uc3m.android.internal.viewmodel.MyViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +59,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    FileScreen(
+                    MainScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -68,14 +69,13 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun FileScreen(modifier: Modifier = Modifier) {
-    val viewModel: FileViewModel = viewModel(
+fun MainScreen(modifier: Modifier = Modifier) {
+    val viewModel: MyViewModel = viewModel(
         factory = viewModelFactory {
             initializer {
-                val application =
-                    this[androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application
+                val application = this[APPLICATION_KEY] as Application
                 val helper = InternalStorageHelper(application)
-                FileViewModel(helper)
+                MyViewModel(helper)
             }
         })
 
@@ -152,6 +152,6 @@ fun FileScreen(modifier: Modifier = Modifier) {
 @Composable
 fun Preview() {
     MyAppTheme {
-        FileScreen()
+        MainScreen()
     }
 }

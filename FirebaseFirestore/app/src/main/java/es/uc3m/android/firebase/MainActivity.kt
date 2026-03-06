@@ -54,9 +54,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import es.uc3m.android.firebase.ui.theme.MyAppTheme
-import es.uc3m.android.firebase.viewmodel.FirebaseViewModel
 import es.uc3m.android.firebase.model.Note
+import es.uc3m.android.firebase.ui.theme.MyAppTheme
+import es.uc3m.android.firebase.viewmodel.MyViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(viewModel: FirebaseViewModel = viewModel()) {
+fun MainScreen(viewModel: MyViewModel = viewModel()) {
     val showAddNoteDialog = remember { mutableStateOf(false) }
     val noteToEdit = remember { mutableStateOf<Note?>(null) }
     val snackHostState = remember { SnackbarHostState() }

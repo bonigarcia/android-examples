@@ -16,12 +16,10 @@
  */
 package es.uc3m.android.firebase.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
-import es.uc3m.android.firebase.R
 import es.uc3m.android.firebase.model.NOTES_COLLECTION
 import es.uc3m.android.firebase.model.Note
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +28,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class FirebaseViewModel(application: Application) : AndroidViewModel(application) {
+class MyViewModel() : ViewModel() {
 
     private val firestore = FirebaseFirestore.getInstance()
 
@@ -39,9 +37,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     private val _snackMessage = MutableStateFlow<String?>(null)
     val snackMessage: StateFlow<String?> = _snackMessage.asStateFlow()
-
-    // Helper method to access strings from resources
-    private fun getString(resId: Int): String = getApplication<Application>().getString(resId)
 
     init {
         fetchNotes()
@@ -56,7 +51,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 }
                 _notes.value = noteList
             } catch (e: Exception) {
-                setSnackMessage(e.message ?: getString(R.string.read_error))
+                setSnackMessage(e.message)
             }
         }
     }
@@ -66,10 +61,9 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             try {
                 val note = Note(title = title, body = body)
                 firestore.collection(NOTES_COLLECTION).add(note).await()
-                fetchNotes() // Refresh the list
-                setSnackMessage(getString(R.string.note_added)) // Update snack message
+                fetchNotes() // Refresh notes list
             } catch (e: Exception) {
-                _snackMessage.value = e.message ?: getString(R.string.write_error)
+                setSnackMessage(e.message)
             }
         }
     }
@@ -79,10 +73,9 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             try {
                 val updatedNote = Note(title = title, body = body)
                 firestore.collection(NOTES_COLLECTION).document(id).set(updatedNote).await()
-                fetchNotes() // Refresh the list
-                setSnackMessage(getString(R.string.note_updated)) // Update snack message
+                fetchNotes() // Refresh notes list
             } catch (e: Exception) {
-                setSnackMessage(e.message ?: getString(R.string.update_error))
+                setSnackMessage(e.message)
             }
         }
     }
@@ -91,10 +84,9 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             try {
                 firestore.collection(NOTES_COLLECTION).document(id).delete().await()
-                fetchNotes() // Refresh the list
-                setSnackMessage(getString(R.string.note_deleted)) // Update snack message
+                fetchNotes() // Refresh notes list
             } catch (e: Exception) {
-                setSnackMessage(e.message ?: getString(R.string.delete_error))
+                setSnackMessage(e.message)
             }
         }
     }

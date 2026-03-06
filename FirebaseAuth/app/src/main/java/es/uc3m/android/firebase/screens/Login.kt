@@ -44,10 +44,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import es.uc3m.android.firebase.R
-import es.uc3m.android.firebase.viewmodel.FirebaseViewModel
+import es.uc3m.android.firebase.viewmodel.MyViewModel
 
 @Composable
-fun LoginScreen(viewModel: FirebaseViewModel) {
+fun LoginScreen(viewModel: MyViewModel) {
     var login by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
 

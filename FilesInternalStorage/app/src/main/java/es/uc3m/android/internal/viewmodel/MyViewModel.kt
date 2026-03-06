@@ -14,61 +14,52 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.cache.viewmodel
+package es.uc3m.android.internal.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.uc3m.android.cache.storage.CacheFileHelper
+import es.uc3m.android.internal.model.InternalStorageHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class CacheFileViewModel(private val cacheFileHelper: CacheFileHelper) : ViewModel() {
+class MyViewModel(private val internalStorageHelper: InternalStorageHelper) : ViewModel() {
 
     private val _fileContent = MutableStateFlow("")
-    val fileContent: StateFlow<String> get() = _fileContent
+    val fileContent: StateFlow<String> = _fileContent.asStateFlow()
 
     private val _fileList = MutableStateFlow<List<String>>(emptyList())
-    val fileList: StateFlow<List<String>> get() = _fileList
+    val fileList: StateFlow<List<String>> = _fileList.asStateFlow()
 
-    val cacheDirectory: String = cacheFileHelper.getCacheDirectory().absolutePath
+    val filesDirectory: String = internalStorageHelper.getFilesDirectory().absolutePath
 
-    init {
-        refreshFileList()
-    }
-
-    fun writeToCache(fileName: String, content: String) {
+    fun writeToFile(fileName: String, content: String) {
         viewModelScope.launch {
-            val success = cacheFileHelper.writeToCache(fileName, content)
+            val success = internalStorageHelper.writeToFile(fileName, content)
             if (success) {
-                _fileContent.value = "File saved successfully!"
                 refreshFileList()
-            } else {
-                _fileContent.value = "Failed to save file."
             }
         }
     }
 
-    fun readFromCache(fileName: String) {
+    fun readFromFile(fileName: String) {
         viewModelScope.launch {
-            _fileContent.value = cacheFileHelper.readFromCache(fileName)
+            _fileContent.value = internalStorageHelper.readFromFile(fileName)
         }
     }
 
     fun refreshFileList() {
         viewModelScope.launch {
-            _fileList.value = cacheFileHelper.listFiles().toList()
+            _fileList.value = internalStorageHelper.listFiles().toList()
         }
     }
 
-    fun deleteFromCache(fileName: String) {
+    fun deleteFile(fileName: String) {
         viewModelScope.launch {
-            val success = cacheFileHelper.deleteFromCache(fileName)
+            val success = internalStorageHelper.deleteFile(fileName)
             if (success) {
-                _fileContent.value = "File deleted successfully!"
                 refreshFileList()
-            } else {
-                _fileContent.value = "Failed to delete file."
             }
         }
     }

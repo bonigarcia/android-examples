@@ -46,11 +46,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import es.uc3m.android.firebase.R
-import es.uc3m.android.firebase.viewmodel.FirebaseViewModel
+import es.uc3m.android.firebase.viewmodel.MyViewModel
 
 
 @Composable
-fun SignUpScreen(viewModel: FirebaseViewModel) {
+fun SignUpScreen(viewModel: MyViewModel) {
     var login by rememberSaveable {  mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var confirmPasswd by rememberSaveable { mutableStateOf("") }

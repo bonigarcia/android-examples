@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.datastore.storage
+package es.uc3m.android.datastore.model
 
 import android.content.Context
 import androidx.datastore.core.DataStore

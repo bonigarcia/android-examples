@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2025 Boni Garcia (https://bonigarcia.github.io/)
+ * (C) Copyright 2026 Boni Garcia (https://bonigarcia.github.io/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,20 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.internal.storage
+package es.uc3m.android.cache.model
 
 import android.content.Context
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
-class InternalStorageHelper(private val context: Context) {
+class CacheFileHelper(private val context: Context) {
 
-    // Write to a file in internal storage
-    fun writeToFile(fileName: String, content: String): Boolean {
+    // Write to a file in the cache directory
+    fun writeToCache(fileName: String, content: String): Boolean {
         return try {
-            context.openFileOutput(fileName, Context.MODE_PRIVATE).use { stream ->
+            val file = File(context.cacheDir, fileName)
+            FileOutputStream(file).use { stream ->
                 stream.write(content.toByteArray())
             }
             true
@@ -35,10 +37,11 @@ class InternalStorageHelper(private val context: Context) {
         }
     }
 
-    // Read from a file in internal storage
-    fun readFromFile(fileName: String): String {
+    // Read from a file in the cache directory
+    fun readFromCache(fileName: String): String {
         return try {
-            context.openFileInput(fileName).bufferedReader().use { reader ->
+            val file = File(context.cacheDir, fileName)
+            file.bufferedReader().use { reader ->
                 reader.readText()
             }
         } catch (e: IOException) {
@@ -47,18 +50,19 @@ class InternalStorageHelper(private val context: Context) {
         }
     }
 
-    // List all files in internal storage
+    // Delete a file from the cache directory
+    fun deleteFromCache(fileName: String): Boolean {
+        val file = File(context.cacheDir, fileName)
+        return file.delete()
+    }
+
+    // Return the cache directory
+    fun getCacheDirectory(): File {
+        return context.cacheDir
+    }
+
+    // List all files in the cache directory
     fun listFiles(): Array<String> {
-        return context.fileList()
-    }
-
-    // Delete a file in internal storage
-    fun deleteFile(fileName: String): Boolean {
-        return context.deleteFile(fileName)
-    }
-
-    // Return the internal files directory
-    fun getFilesDirectory(): File {
-        return context.filesDir
+        return context.cacheDir.list() ?: emptyArray()
     }
 }
