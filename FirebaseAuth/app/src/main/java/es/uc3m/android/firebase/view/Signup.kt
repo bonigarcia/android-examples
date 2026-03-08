@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase.screens
+package es.uc3m.android.firebase.view
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

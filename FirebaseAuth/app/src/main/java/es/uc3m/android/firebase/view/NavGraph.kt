@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase.screens
+package es.uc3m.android.firebase.view
 
 const val LOGIN_ROUTE = "login"
 const val SIGNUP_ROUTE = "signup"

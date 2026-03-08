@@ -27,7 +27,7 @@ import com.google.firebase.firestore.toObject
 import es.uc3m.android.firebase.R
 import es.uc3m.android.firebase.model.NOTES_COLLECTION
 import es.uc3m.android.firebase.model.Note
-import es.uc3m.android.firebase.screens.NavGraph
+import es.uc3m.android.firebase.view.NavGraph
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -139,13 +139,11 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun logout() {
-        viewModelScope.launch {
-            try {
-                auth.signOut()
-                navigateTo(NavGraph.Login.route) // Go to login screen
-            } catch (e: Exception) {
-                setSnackMessage(e.message ?: getString(R.string.logout_error))
-            }
+        try {
+            auth.signOut() // Synchronous operation, so coroutine is not needed
+            navigateTo(NavGraph.Login.route) // Go to login screen
+        } catch (e: Exception) {
+            setSnackMessage(e.message ?: getString(R.string.logout_error))
         }
     }
 

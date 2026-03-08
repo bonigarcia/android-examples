@@ -28,10 +28,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import es.uc3m.android.firebase.screens.HomeScreen
-import es.uc3m.android.firebase.screens.LoginScreen
-import es.uc3m.android.firebase.screens.NavGraph
-import es.uc3m.android.firebase.screens.SignUpScreen
+import es.uc3m.android.firebase.view.HomeScreen
+import es.uc3m.android.firebase.view.LoginScreen
+import es.uc3m.android.firebase.view.NavGraph
+import es.uc3m.android.firebase.view.SignUpScreen
 import es.uc3m.android.firebase.ui.theme.MyAppTheme
 import es.uc3m.android.firebase.viewmodel.MyViewModel
 

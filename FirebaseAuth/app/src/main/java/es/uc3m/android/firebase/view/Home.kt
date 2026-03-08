@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.firebase.screens
+package es.uc3m.android.firebase.view
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -46,7 +46,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -56,7 +55,6 @@ import androidx.compose.ui.unit.dp
 import es.uc3m.android.firebase.R
 import es.uc3m.android.firebase.model.Note
 import es.uc3m.android.firebase.viewmodel.MyViewModel
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,19 +62,14 @@ fun HomeScreen(viewModel: MyViewModel) {
     val showAddNoteDialog = remember { mutableStateOf(false) }
     val noteToEdit = remember { mutableStateOf<Note?>(null) }
     val snackHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
 
     val notes by viewModel.notes.collectAsState()
     val snackMessage by viewModel.snackMessage.collectAsState()
 
-    viewModel.fetchNotes()
-
     Scaffold(topBar = {
         TopAppBar(title = {}, actions = {
             IconButton(onClick = {
-                scope.launch {
-                    viewModel.logout()
-                }
+                viewModel.logout()
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_logout_24),
