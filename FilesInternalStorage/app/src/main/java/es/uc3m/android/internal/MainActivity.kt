@@ -136,10 +136,6 @@ fun MainScreen(modifier: Modifier = Modifier) {
         Text(text = stringResource(R.string.content, fileContent))
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Display files directory path
-        Text(text = stringResource(R.string.files_directory, viewModel.filesDirectory))
-        Spacer(modifier = Modifier.height(16.dp))
-
         // Display list of files
         Text(text = stringResource(R.string.files_in_internal_storage))
         fileList.forEach { file ->

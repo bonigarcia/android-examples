@@ -17,7 +17,6 @@
 package es.uc3m.android.internal.model
 
 import android.content.Context
-import java.io.File
 import java.io.IOException
 
 class InternalStorageHelper(private val context: Context) {
@@ -57,8 +56,4 @@ class InternalStorageHelper(private val context: Context) {
         return context.deleteFile(fileName)
     }
 
-    // Return the internal files directory
-    fun getFilesDirectory(): File {
-        return context.filesDir
-    }
 }

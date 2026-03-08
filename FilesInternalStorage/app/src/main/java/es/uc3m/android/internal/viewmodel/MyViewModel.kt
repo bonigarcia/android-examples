@@ -32,8 +32,6 @@ class MyViewModel(private val internalStorageHelper: InternalStorageHelper) : Vi
     private val _fileList = MutableStateFlow<List<String>>(emptyList())
     val fileList: StateFlow<List<String>> = _fileList.asStateFlow()
 
-    val filesDirectory: String = internalStorageHelper.getFilesDirectory().absolutePath
-
     fun writeToFile(fileName: String, content: String) {
         viewModelScope.launch {
             val success = internalStorageHelper.writeToFile(fileName, content)

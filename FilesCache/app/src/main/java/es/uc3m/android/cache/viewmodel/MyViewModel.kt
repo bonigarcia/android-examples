@@ -31,8 +31,6 @@ class MyViewModel(private val cacheFileHelper: CacheFileHelper) : ViewModel() {
     private val _fileList = MutableStateFlow<List<String>>(emptyList())
     val fileList: StateFlow<List<String>> get() = _fileList
 
-    val cacheDirectory: String = cacheFileHelper.getCacheDirectory().absolutePath
-
     init {
         refreshFileList()
     }

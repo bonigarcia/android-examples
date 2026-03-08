@@ -56,11 +56,6 @@ class CacheFileHelper(private val context: Context) {
         return file.delete()
     }
 
-    // Return the cache directory
-    fun getCacheDirectory(): File {
-        return context.cacheDir
-    }
-
     // List all files in the cache directory
     fun listFiles(): Array<String> {
         return context.cacheDir.list() ?: emptyArray()

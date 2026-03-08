@@ -5,6 +5,5 @@
     <string name="save_file">Save File</string>
     <string name="read_file">Read File</string>
     <string name="delete_file">Delete File</string>
-    <string name="cache_directory">Cache Directory: %1$s</string>
     <string name="files_in_cache_storage">Files in Cache Storage:</string>
 </resources>

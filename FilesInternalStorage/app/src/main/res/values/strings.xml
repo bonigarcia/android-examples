@@ -7,5 +7,4 @@
     <string name="delete_file">Delete File</string>
     <string name="content">File Content: %1$s</string>
     <string name="files_in_internal_storage">Files in Internal Storage:</string>
-    <string name="files_directory">Files Directory: %1$s</string>
 </resources>

@@ -139,11 +139,6 @@ fun CacheFileScreen(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Display cache directory path
-        Text(text = stringResource(R.string.cache_directory, viewModel.cacheDirectory))
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         // Display list of files
         Text(text = stringResource(R.string.files_in_cache_storage))
         fileList.forEach { file ->
