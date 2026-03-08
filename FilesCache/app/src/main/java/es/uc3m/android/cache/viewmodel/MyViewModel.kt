@@ -19,9 +19,11 @@ package es.uc3m.android.cache.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.uc3m.android.cache.model.CacheFileHelper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MyViewModel(private val cacheFileHelper: CacheFileHelper) : ViewModel() {
 
@@ -37,36 +39,38 @@ class MyViewModel(private val cacheFileHelper: CacheFileHelper) : ViewModel() {
 
     fun writeToCache(fileName: String, content: String) {
         viewModelScope.launch {
-            val success = cacheFileHelper.writeToCache(fileName, content)
+            val success = withContext(Dispatchers.IO) {
+                cacheFileHelper.writeToCache(fileName, content)
+            }
             if (success) {
-                _fileContent.value = "File saved successfully!"
                 refreshFileList()
-            } else {
-                _fileContent.value = "Failed to save file."
             }
         }
     }
 
     fun readFromCache(fileName: String) {
         viewModelScope.launch {
-            _fileContent.value = cacheFileHelper.readFromCache(fileName)
+            _fileContent.value = withContext(Dispatchers.IO) {
+                cacheFileHelper.readFromCache(fileName)
+            }
         }
     }
 
     fun refreshFileList() {
         viewModelScope.launch {
-            _fileList.value = cacheFileHelper.listFiles().toList()
+            _fileList.value = withContext(Dispatchers.IO) {
+                cacheFileHelper.listFiles().toList()
+            }
         }
     }
 
     fun deleteFromCache(fileName: String) {
         viewModelScope.launch {
-            val success = cacheFileHelper.deleteFromCache(fileName)
+            val success = withContext(Dispatchers.IO) {
+                cacheFileHelper.deleteFromCache(fileName)
+            }
             if (success) {
-                _fileContent.value = "File deleted successfully!"
                 refreshFileList()
-            } else {
-                _fileContent.value = "Failed to delete file."
             }
         }
     }

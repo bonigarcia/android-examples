@@ -19,10 +19,12 @@ package es.uc3m.android.internal.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.uc3m.android.internal.model.InternalStorageHelper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MyViewModel(private val internalStorageHelper: InternalStorageHelper) : ViewModel() {
 
@@ -34,7 +36,9 @@ class MyViewModel(private val internalStorageHelper: InternalStorageHelper) : Vi
 
     fun writeToFile(fileName: String, content: String) {
         viewModelScope.launch {
-            val success = internalStorageHelper.writeToFile(fileName, content)
+            val success = withContext(Dispatchers.IO) {
+                internalStorageHelper.writeToFile(fileName, content)
+            }
             if (success) {
                 refreshFileList()
             }
@@ -43,19 +47,25 @@ class MyViewModel(private val internalStorageHelper: InternalStorageHelper) : Vi
 
     fun readFromFile(fileName: String) {
         viewModelScope.launch {
-            _fileContent.value = internalStorageHelper.readFromFile(fileName)
+            _fileContent.value = withContext(Dispatchers.IO) {
+                internalStorageHelper.readFromFile(fileName)
+            }
         }
     }
 
     fun refreshFileList() {
         viewModelScope.launch {
-            _fileList.value = internalStorageHelper.listFiles().toList()
+            _fileList.value = withContext(Dispatchers.IO) {
+                internalStorageHelper.listFiles().toList()
+            }
         }
     }
 
     fun deleteFile(fileName: String) {
         viewModelScope.launch {
-            val success = internalStorageHelper.deleteFile(fileName)
+            val success = withContext(Dispatchers.IO) {
+                internalStorageHelper.deleteFile(fileName)
+            }
             if (success) {
                 refreshFileList()
             }

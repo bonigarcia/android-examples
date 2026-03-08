@@ -23,19 +23,22 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import es.uc3m.android.external.R
 import es.uc3m.android.external.model.ExternalStorageHelper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MyViewModel(
     application: Application, private val externalStorageHelper: ExternalStorageHelper
 ) : AndroidViewModel(application) {
 
     private val _fileContent = MutableStateFlow("")
-    val fileContent: StateFlow<String> get() = _fileContent
+    val fileContent: StateFlow<String> = _fileContent.asStateFlow()
 
     private val _loadedImage = MutableStateFlow<Bitmap?>(null)
-    val loadedImage: StateFlow<Bitmap?> get() = _loadedImage
+    val loadedImage: StateFlow<Bitmap?> = _loadedImage.asStateFlow()
 
     val externalFilesDirectory: String =
         externalStorageHelper.getExternalFilesDirectory()?.absolutePath ?: "N/A"
@@ -49,24 +52,31 @@ class MyViewModel(
     // App-specific storage
     fun writeToAppSpecific(fileName: String, content: String) {
         viewModelScope.launch {
-            if (externalStorageHelper.writeToAppSpecificStorage(fileName, content)) {
-                _fileContent.value = getString(R.string.saved_app_specific)
+            val success = withContext(Dispatchers.IO) {
+                externalStorageHelper.writeToAppSpecificStorage(fileName, content)
+            }
+            _fileContent.value = if (success) {
+                getString(R.string.saved_app_specific)
             } else {
-                _fileContent.value = getString(R.string.error_app_specific)
+                getString(R.string.error_app_specific)
             }
         }
     }
 
     fun readFromAppSpecific(fileName: String) {
         viewModelScope.launch {
-            _fileContent.value = externalStorageHelper.readFromAppSpecificStorage(fileName)
+            _fileContent.value = withContext(Dispatchers.IO) {
+                externalStorageHelper.readFromAppSpecificStorage(fileName)
+            }
         }
     }
 
     // MediaStore
     fun saveImageToMediaStore(bitmap: Bitmap, displayName: String) {
         viewModelScope.launch {
-            val uri = externalStorageHelper.saveImageToMediaStore(bitmap, displayName)
+            val uri = withContext(Dispatchers.IO) {
+                externalStorageHelper.saveImageToMediaStore(bitmap, displayName)
+            }
             lastSavedImageUri = uri
             _fileContent.value = if (uri != null) {
                 getString(R.string.saved_media_store, uri.toString())
@@ -79,7 +89,9 @@ class MyViewModel(
     fun readImageFromMediaStore() {
         viewModelScope.launch {
             lastSavedImageUri?.let { uri ->
-                val bitmap = externalStorageHelper.readImageFromUri(uri)
+                val bitmap = withContext(Dispatchers.IO) {
+                    externalStorageHelper.readImageFromUri(uri)
+                }
                 _loadedImage.value = bitmap
                 if (bitmap != null) {
                     _fileContent.value = getString(R.string.image_loaded)
@@ -95,17 +107,22 @@ class MyViewModel(
     // SAF (Storage Access Framework)
     fun writeToUri(uri: Uri, content: String) {
         viewModelScope.launch {
-            if (externalStorageHelper.writeToUri(uri, content)) {
-                _fileContent.value = getString(R.string.saved_saf)
+            val success = withContext(Dispatchers.IO) {
+                externalStorageHelper.writeToUri(uri, content)
+            }
+            _fileContent.value = if (success) {
+                getString(R.string.saved_saf)
             } else {
-                _fileContent.value = getString(R.string.error_saf)
+                getString(R.string.error_saf)
             }
         }
     }
 
     fun readFromUri(uri: Uri) {
         viewModelScope.launch {
-            _fileContent.value = externalStorageHelper.readFromUri(uri)
+            _fileContent.value = withContext(Dispatchers.IO) {
+                externalStorageHelper.readFromUri(uri)
+            }
         }
     }
 }
