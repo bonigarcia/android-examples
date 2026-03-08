@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.room
+package es.uc3m.android.room.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

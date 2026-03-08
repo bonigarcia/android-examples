@@ -40,17 +40,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import es.uc3m.android.room.model.Note
 import es.uc3m.android.room.ui.theme.MyAppTheme
+import es.uc3m.android.room.viewmodel.MyViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,72 +61,63 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyAppTheme {
-                NoteListScreen()
+                MainScreen()
             }
         }
     }
 }
 
 @Composable
-fun NoteListScreen(viewModel: NoteViewModel = viewModel()) {
-    var showAddNoteDialog by remember { mutableStateOf(false) }
-    var noteToEdit by remember { mutableStateOf<Note?>(null) }
-    val notes by viewModel.allNotes.observeAsState(emptyList())
+fun MainScreen(viewModel: MyViewModel = viewModel()) {
+    val showAddNoteDialog = remember { mutableStateOf(false) }
+    val noteToEdit = remember { mutableStateOf<Note?>(null) }
+    val notes by viewModel.notes.collectAsState(initial = emptyList())
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { showAddNoteDialog = true }) {
+            FloatingActionButton(onClick = { showAddNoteDialog.value = true }) {
                 Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_note))
             }
-        }
-    ) { padding ->
+        }) { padding ->
         Column(modifier = Modifier.padding(padding)) {
             LazyColumn {
                 items(notes) { note ->
                     NoteItem(
                         note = note,
-                        onNoteClick = { noteToEdit = it },
-                        onDeleteClick = { viewModel.deleteNote(it.id) }
-                    )
+                        onNoteClick = { noteToEdit.value = it },
+                        onDeleteClick = { viewModel.deleteNote(it.id) })
                 }
             }
         }
     }
 
-    if (showAddNoteDialog) {
-        AddNoteDialog(
-            onDismiss = { showAddNoteDialog = false },
-            onAddNote = { title, body ->
-                viewModel.addNote(title, body)
-                showAddNoteDialog = false
-            }
-        )
+    if (showAddNoteDialog.value) {
+        AddNoteDialog(onDismiss = { showAddNoteDialog.value = false }, onAddNote = { title, body ->
+            viewModel.addNote(title, body)
+            showAddNoteDialog.value = false
+        })
     }
 
-    noteToEdit?.let { note ->
+    noteToEdit.value?.let { note ->
         EditNoteDialog(
             note = note,
-            onDismiss = { noteToEdit = null },
+            onDismiss = { noteToEdit.value = null },
             onUpdateNote = { title, body ->
                 viewModel.updateNote(note.id, title, body)
-                noteToEdit = null
-            }
-        )
+                noteToEdit.value = null
+            })
     }
 }
 
 @Composable
 fun NoteItem(
-    note: Note,
-    onNoteClick: (Note) -> Unit,
-    onDeleteClick: (Note) -> Unit
+    note: Note, onNoteClick: (Note) -> Unit, onDeleteClick: (Note) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { onNoteClick(note) }
-    ) {
+            .clickable { onNoteClick(note) }) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = note.title, style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(4.dp))
@@ -138,95 +132,76 @@ fun NoteItem(
 
 @Composable
 fun AddNoteDialog(
-    onDismiss: () -> Unit,
-    onAddNote: (String, String) -> Unit
+    onDismiss: () -> Unit, onAddNote: (String, String) -> Unit
 ) {
-    var title by remember { mutableStateOf("") }
-    var body by remember { mutableStateOf("") }
+    var title by rememberSaveable { mutableStateOf("") }
+    var body by rememberSaveable { mutableStateOf("") }
 
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            Button(onClick = {
-                if (title.isNotBlank() && body.isNotBlank()) {
-                    onAddNote(title, body)
-                }
-            }) {
-                Text(stringResource(R.string.add))
+    AlertDialog(onDismissRequest = onDismiss, confirmButton = {
+        Button(onClick = {
+            if (title.isNotBlank() && body.isNotBlank()) {
+                onAddNote(title, body)
             }
-        },
-        dismissButton = {
-            Button(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel))
-            }
-        },
-        title = { Text(stringResource(R.string.add_note)) },
-        text = {
-            Column {
-                TextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text(stringResource(R.string.title)) }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                TextField(
-                    value = body,
-                    onValueChange = { body = it },
-                    label = { Text(stringResource(R.string.body)) }
-                )
-            }
+        }) {
+            Text(stringResource(R.string.add))
         }
-    )
+    }, dismissButton = {
+        Button(onClick = onDismiss) {
+            Text(stringResource(R.string.cancel))
+        }
+    }, title = { Text(stringResource(R.string.add_note)) }, text = {
+        Column {
+            TextField(
+                value = title,
+                onValueChange = { title = it },
+                label = { Text(stringResource(R.string.title)) })
+            Spacer(modifier = Modifier.height(8.dp))
+            TextField(
+                value = body,
+                onValueChange = { body = it },
+                label = { Text(stringResource(R.string.body)) })
+        }
+    })
 }
 
 @Composable
 fun EditNoteDialog(
-    note: Note,
-    onDismiss: () -> Unit,
-    onUpdateNote: (String, String) -> Unit
+    note: Note, onDismiss: () -> Unit, onUpdateNote: (String, String) -> Unit
 ) {
-    var title by remember { mutableStateOf(note.title) }
-    var body by remember { mutableStateOf(note.body) }
+    var title by rememberSaveable { mutableStateOf(note.title) }
+    var body by rememberSaveable { mutableStateOf(note.body) }
 
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            Button(onClick = {
-                if (title.isNotBlank() && body.isNotBlank()) {
-                    onUpdateNote(title, body)
-                }
-            }) {
-                Text(stringResource(R.string.update))
+    AlertDialog(onDismissRequest = onDismiss, confirmButton = {
+        Button(onClick = {
+            if (title.isNotBlank() && body.isNotBlank()) {
+                onUpdateNote(title, body)
             }
-        },
-        dismissButton = {
-            Button(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel))
-            }
-        },
-        title = { Text(stringResource(R.string.edit_note)) },
-        text = {
-            Column {
-                TextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text(stringResource(R.string.title)) }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                TextField(
-                    value = body,
-                    onValueChange = { body = it },
-                    label = { Text(stringResource(R.string.body)) }
-                )
-            }
+        }) {
+            Text(stringResource(R.string.update))
         }
-    )
+    }, dismissButton = {
+        Button(onClick = onDismiss) {
+            Text(stringResource(R.string.cancel))
+        }
+    }, title = { Text(stringResource(R.string.edit_note)) }, text = {
+        Column {
+            TextField(
+                value = title,
+                onValueChange = { title = it },
+                label = { Text(stringResource(R.string.title)) })
+            Spacer(modifier = Modifier.height(8.dp))
+            TextField(
+                value = body,
+                onValueChange = { body = it },
+                label = { Text(stringResource(R.string.body)) })
+        }
+    })
 }
 
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
     MyAppTheme {
-        NoteListScreen()
+        MainScreen()
     }
 }

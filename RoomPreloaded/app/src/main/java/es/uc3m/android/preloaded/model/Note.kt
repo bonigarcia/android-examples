@@ -14,26 +14,14 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.room
+package es.uc3m.android.preloaded.model
 
-import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Dao
-interface NoteDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(note: Note)
-
-    @Update
-    suspend fun update(note: Note)
-
-    @Query("DELETE FROM notes WHERE id = :id")
-    suspend fun delete(id: Int)
-
-    @Query("SELECT * FROM notes ORDER BY id DESC")
-    fun getAllNotes(): LiveData<List<Note>>
-}
+@Entity(tableName = "notes")
+data class Note(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0, // Auto-generated ID
+    val title: String,
+    val body: String
+)

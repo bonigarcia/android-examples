@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.room
+package es.uc3m.android.preloaded.model
 
 import android.content.Context
 import androidx.room.Database
@@ -35,7 +35,8 @@ abstract class NoteDatabase : RoomDatabase() {
                     context.applicationContext,
                     NoteDatabase::class.java,
                     "note_database.db"
-                ).build()
+                ).createFromAsset("preloaded_notes.db")
+                    .build()
                 INSTANCE = instance
                 instance
             }

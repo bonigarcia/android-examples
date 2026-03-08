@@ -14,14 +14,14 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.preloaded
+package es.uc3m.android.preloaded.model
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
@@ -35,5 +35,5 @@ interface NoteDao {
     suspend fun delete(id: Int)
 
     @Query("SELECT * FROM notes ORDER BY id DESC")
-    fun getAllNotes(): LiveData<List<Note>>
+    fun getAllNotes(): Flow<List<Note>>
 }

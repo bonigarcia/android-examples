@@ -14,14 +14,26 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.preloaded
+package es.uc3m.android.room.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
-@Entity(tableName = "notes")
-data class Note(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0, // Auto-generated ID
-    val title: String,
-    val body: String
-)
+@Dao
+interface NoteDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(note: Note)
+
+    @Update
+    suspend fun update(note: Note)
+
+    @Query("DELETE FROM notes WHERE id = :id")
+    suspend fun delete(id: Int)
+
+    @Query("SELECT * FROM notes ORDER BY id DESC")
+    fun getAllNotes(): Flow<List<Note>>
+}

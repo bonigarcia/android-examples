@@ -14,35 +14,37 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.preloaded
+package es.uc3m.android.room.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import es.uc3m.android.room.model.Note
+import es.uc3m.android.room.model.NoteDatabase
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class NoteViewModel(application: Application) : AndroidViewModel(application) {
-    private val noteDao = NoteDatabase.getDatabase(application).noteDao()
-    val allNotes: LiveData<List<Note>> = noteDao.getAllNotes()
+class MyViewModel(application: Application) : AndroidViewModel(application) {
+    private val _notesDao = NoteDatabase.getDatabase(application).noteDao()
+    val notes: Flow<List<Note>> = _notesDao.getAllNotes()
 
     fun addNote(title: String, body: String) {
         viewModelScope.launch {
             val note = Note(title = title, body = body)
-            noteDao.insert(note)
+            _notesDao.insert(note)
         }
     }
 
     fun updateNote(id: Int, title: String, body: String) {
         viewModelScope.launch {
             val note = Note(id = id, title = title, body = body)
-            noteDao.update(note)
+            _notesDao.update(note)
         }
     }
 
     fun deleteNote(id: Int) {
         viewModelScope.launch {
-            noteDao.delete(id)
+            _notesDao.delete(id)
         }
     }
 }
