@@ -43,7 +43,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import es.uc3m.android.content.MyDatabaseHelper.Companion.TABLE_NAME
+import es.uc3m.android.content.model.MyDatabaseHelper
+import es.uc3m.android.content.model.MyDatabaseHelper.Companion.TABLE_NAME
 import es.uc3m.android.content.ui.theme.MyAppTheme
 
 class MainActivity : ComponentActivity() {

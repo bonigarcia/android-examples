@@ -14,13 +14,14 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.content
+package es.uc3m.android.content.model
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class MyDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class MyDatabaseHelper(context: Context) :
+    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         const val DATABASE_NAME = "my_database"
@@ -31,9 +32,8 @@ class MyDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTable = ("CREATE TABLE $TABLE_NAME ("
-                + "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "$COLUMN_NAME TEXT)")
+        val createTable =
+            ("CREATE TABLE $TABLE_NAME (" + "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT," + "$COLUMN_NAME TEXT)")
         db?.execSQL(createTable)
     }
 

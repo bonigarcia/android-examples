@@ -21,14 +21,16 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
-import es.uc3m.android.content.MyDatabaseHelper.Companion.TABLE_NAME
+import es.uc3m.android.content.model.MyDatabaseHelper
+import es.uc3m.android.content.model.MyDatabaseHelper.Companion.TABLE_NAME
 
 class MyContentProvider : ContentProvider() {
 
     private lateinit var dbHelper: MyDatabaseHelper
 
     override fun onCreate(): Boolean {
-        dbHelper = MyDatabaseHelper(context!!)
+        val ctx = context ?: return false
+        dbHelper = MyDatabaseHelper(ctx)
         return true
     }
 
