@@ -51,6 +51,7 @@ class MyViewModel() : ViewModel() {
                 }
                 _notes.value = noteList
             } catch (e: Exception) {
+                e.printStackTrace()
                 setSnackMessage(e.message)
             }
         }
@@ -63,6 +64,7 @@ class MyViewModel() : ViewModel() {
                 firestore.collection(NOTES_COLLECTION).add(note).await()
                 fetchNotes() // Refresh notes list
             } catch (e: Exception) {
+                e.printStackTrace()
                 setSnackMessage(e.message)
             }
         }
@@ -75,6 +77,7 @@ class MyViewModel() : ViewModel() {
                 firestore.collection(NOTES_COLLECTION).document(id).set(updatedNote).await()
                 fetchNotes() // Refresh notes list
             } catch (e: Exception) {
+                e.printStackTrace()
                 setSnackMessage(e.message)
             }
         }
@@ -86,6 +89,7 @@ class MyViewModel() : ViewModel() {
                 firestore.collection(NOTES_COLLECTION).document(id).delete().await()
                 fetchNotes() // Refresh notes list
             } catch (e: Exception) {
+                e.printStackTrace()
                 setSnackMessage(e.message)
             }
         }

@@ -65,6 +65,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 _notes.value = noteList
             } catch (e: Exception) {
+                e.printStackTrace()
                 setSnackMessage(e.message ?: getString(R.string.read_error))
             }
         }
@@ -89,6 +90,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
                 firestore.collection(NOTES_COLLECTION).document(id).set(updatedNote).await()
                 fetchNotes() // Update notes list
             } catch (e: Exception) {
+                e.printStackTrace()
                 setSnackMessage(e.message ?: getString(R.string.update_error))
             }
         }
@@ -100,6 +102,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
                 firestore.collection(NOTES_COLLECTION).document(id).delete().await()
                 fetchNotes() // Update notes list
             } catch (e: Exception) {
+                e.printStackTrace()
                 setSnackMessage(e.message ?: getString(R.string.delete_error))
             }
         }
@@ -120,6 +123,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
                 navigateTo(NavGraph.Home.route) // Go to home screen
                 setSnackMessage(getString(R.string.sign_up_ok)) // Update snack message
             } catch (e: Exception) {
+                e.printStackTrace()
                 setSnackMessage(e.message ?: getString(R.string.signup_error))
             }
         }
@@ -133,6 +137,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
                 navigateTo(NavGraph.Home.route) // Go to home screen
                 setSnackMessage(getString(R.string.login_ok)) // Update snack message
             } catch (e: Exception) {
+                e.printStackTrace()
                 setSnackMessage(e.message ?: getString(R.string.login_error))
             }
         }
@@ -143,6 +148,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
             auth.signOut() // Synchronous operation, so coroutine is not needed
             navigateTo(NavGraph.Login.route) // Go to login screen
         } catch (e: Exception) {
+            e.printStackTrace()
             setSnackMessage(e.message ?: getString(R.string.logout_error))
         }
     }
