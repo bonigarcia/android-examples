@@ -46,6 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.uc3m.android.geocoding.ui.theme.MyAppTheme
+import es.uc3m.android.geocoding.viewmodel.MyViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +65,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun GeocodingApp(modifier: Modifier = Modifier, viewModel: GeocodingViewModel = viewModel()) {
+fun GeocodingApp(modifier: Modifier = Modifier, viewModel: MyViewModel = viewModel()) {
     val context = LocalContext.current
 
     // State for text fields

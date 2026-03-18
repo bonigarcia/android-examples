@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.geocoding
+package es.uc3m.android.geocoding.viewmodel
 
 import android.content.Context
 import android.location.Geocoder
@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-class GeocodingViewModel : ViewModel() {
+class MyViewModel : ViewModel() {
     private val _address = MutableStateFlow("")
     val address: StateFlow<String> = _address
 
