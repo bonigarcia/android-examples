@@ -14,24 +14,19 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.test.dummyjson
+package es.uc3m.android.test.model
 
-data class Todos(
-    val todos: List<Todo>,
-    val total: Long,
-    val skip: Long,
-    val limit: Long,
-)
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-data class Todo(
-    val id: Long,
-    val todo: String,
-    val completed: Boolean,
-    val userId: Long,
-)
+object DummyJsonClient {
+    private const val BASE_URL = "https://dummyjson.com/"
 
-data class Recipe(
-    val id: Long? = null,
-    val name: String,
-    val ingredients: String,
-)
+    val apiService: DummyJsonService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(DummyJsonService::class.java)
+    }
+}

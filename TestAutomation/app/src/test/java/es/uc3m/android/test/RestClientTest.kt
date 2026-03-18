@@ -16,7 +16,7 @@
  */
 package es.uc3m.android.test
 
-import es.uc3m.android.test.dummyjson.DummyJsonClient
+import es.uc3m.android.test.model.DummyJsonClient
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Test

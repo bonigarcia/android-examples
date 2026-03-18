@@ -55,7 +55,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.compose.material.icons.core)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.awaitility)

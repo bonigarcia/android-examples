@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.test.dummyjson
+package es.uc3m.android.test.model
 
 import retrofit2.Response
 import retrofit2.http.Body
