@@ -17,7 +17,6 @@
 package es.uc3m.android.rest
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -40,6 +39,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -51,16 +52,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import es.uc3m.android.rest.dummyjson.Recipe
-import es.uc3m.android.rest.dummyjson.Todo
+import es.uc3m.android.rest.model.Recipe
+import es.uc3m.android.rest.model.Todo
 import es.uc3m.android.rest.ui.theme.MyAppTheme
 import es.uc3m.android.rest.viewmodel.RestViewModel
-import kotlin.toString
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,28 +67,28 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyAppTheme {
-                TodosScreen()
+                MainScreen()
             }
         }
     }
 }
 
 @Composable
-fun TodosScreen(viewModel: RestViewModel = viewModel()) {
-    val context = LocalContext.current
+fun MainScreen(viewModel: RestViewModel = viewModel()) {
     val todos by viewModel.todos.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    val snackMessage by viewModel.snackMessage.collectAsState()
+
     var showDialog by remember { mutableStateOf(false) }
-    val toastMessage by viewModel.toastMessage.collectAsState()
     var isHome by remember { mutableStateOf(true) }
     var fetching by remember { mutableStateOf(false) }
+    val snackHostState = remember { SnackbarHostState() }
 
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(onClick = { showDialog = true }) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add))
-            }
-        }) { padding ->
+    Scaffold(floatingActionButton = {
+        FloatingActionButton(onClick = { showDialog = true }) {
+            Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add))
+        }
+    }, snackbarHost = { SnackbarHost(hostState = snackHostState) }) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -109,6 +108,7 @@ fun TodosScreen(viewModel: RestViewModel = viewModel()) {
             } else if (isLoading) {
                 CircularProgressIndicator()
             } else {
+                // ...
                 Text(
                     style = MaterialTheme.typography.headlineSmall,
                     text = stringResource(R.string.my_todos)
@@ -131,11 +131,11 @@ fun TodosScreen(viewModel: RestViewModel = viewModel()) {
         })
     }
 
-    LaunchedEffect(toastMessage) {
-        toastMessage?.let { message ->
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            // Reset message to avoid blocking further messages
-            viewModel.showToast(null)
+    LaunchedEffect(snackMessage) {
+        snackMessage?.let { message ->
+            snackHostState.showSnackbar(message)
+            // Reset message to avoid showing it repeatedly (e.g., on configuration changes)
+            viewModel.setSnackMessage(null)
         }
     }
 }

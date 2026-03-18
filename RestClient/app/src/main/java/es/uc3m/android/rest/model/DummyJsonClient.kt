@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.rest.dummyjson
+package es.uc3m.android.rest.model
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -14,19 +14,24 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.rest.dummyjson
+package es.uc3m.android.rest.model
 
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+data class Todos(
+    val todos: List<Todo>,
+    val total: Long,
+    val skip: Long,
+    val limit: Long,
+)
 
-interface DummyJsonService {
+data class Todo(
+    val id: Long,
+    val todo: String,
+    val completed: Boolean,
+    val userId: Long,
+)
 
-    @GET("todos")
-    suspend fun getTodos(): Response<Todos>
-
-    @POST("recipes/add")
-    suspend fun addRecipes(@Body recipe: Recipe): Response<Recipe>
-
-}
+data class Recipe(
+    val id: Long? = null,
+    val name: String,
+    val ingredients: String,
+)

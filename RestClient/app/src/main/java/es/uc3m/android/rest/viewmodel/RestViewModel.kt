@@ -18,22 +18,23 @@ package es.uc3m.android.rest.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.uc3m.android.rest.dummyjson.DummyJsonClient
-import es.uc3m.android.rest.dummyjson.Recipe
-import es.uc3m.android.rest.dummyjson.Todo
+import es.uc3m.android.rest.model.DummyJsonClient
+import es.uc3m.android.rest.model.Recipe
+import es.uc3m.android.rest.model.Todo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RestViewModel : ViewModel() {
     private val _todos = MutableStateFlow<List<Todo>>(emptyList())
-    val todos: StateFlow<List<Todo>> get() = _todos
+    val todos: StateFlow<List<Todo>> = _todos.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> get() = _isLoading
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
-    private val _toastMessage = MutableStateFlow<String?>(null)
-    val toastMessage: StateFlow<String?> get() = _toastMessage
+    private val _snackMessage = MutableStateFlow<String?>(null)
+    val snackMessage: StateFlow<String?> = _snackMessage.asStateFlow()
 
     fun fetchTodos() {
         viewModelScope.launch {
@@ -41,10 +42,10 @@ class RestViewModel : ViewModel() {
             try {
                 val response = DummyJsonClient.apiService.getTodos()
                 if (response.isSuccessful) {
-                    _todos.value = response.body()?.todos!!
+                    _todos.value = response.body()?.todos ?: emptyList()
                 }
             } catch (e: Exception) {
-                _toastMessage.value = e.message
+                _snackMessage.value = e.message
             } finally {
                 _isLoading.value = false
             }
@@ -54,16 +55,16 @@ class RestViewModel : ViewModel() {
     fun addRecipe(recipe: Recipe) {
         viewModelScope.launch {
             try {
-                val response = DummyJsonClient.apiService.addRecipes(recipe)
-                _toastMessage.value = response.code().toString() + " " + response.message()
+                val response = DummyJsonClient.apiService.addRecipe(recipe)
+                _snackMessage.value = response.code().toString() + " " + response.message()
             } catch (e: Exception) {
-                _toastMessage.value = e.message
+                _snackMessage.value = e.message
             }
         }
     }
 
-    fun showToast(message: String?) {
-        _toastMessage.value = message
+    fun setSnackMessage(message: String?) {
+        _snackMessage.value = message
     }
 
 }
