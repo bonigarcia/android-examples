@@ -108,7 +108,6 @@ fun MainScreen(viewModel: RestViewModel = viewModel()) {
             } else if (isLoading) {
                 CircularProgressIndicator()
             } else {
-                // ...
                 Text(
                     style = MaterialTheme.typography.headlineSmall,
                     text = stringResource(R.string.my_todos)
