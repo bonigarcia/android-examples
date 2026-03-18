@@ -53,15 +53,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyAppTheme {
-                ContentProviderDemoApp()
+                MainScreen()
             }
         }
     }
 }
 
-@SuppressLint("Range")
+@SuppressLint("Range", "LocalContextGetResourceValueCall")
 @Composable
-fun ContentProviderDemoApp() {
+fun MainScreen() {
     val context = LocalContext.current
     var text by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
@@ -123,6 +123,6 @@ fun ContentProviderDemoApp() {
 @Composable
 fun Preview() {
     MyAppTheme {
-        ContentProviderDemoApp()
+        MainScreen()
     }
 }

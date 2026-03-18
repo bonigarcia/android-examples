@@ -33,7 +33,7 @@ class MyDatabaseHelper(context: Context) :
 
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable =
-            ("CREATE TABLE $TABLE_NAME (" + "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT," + "$COLUMN_NAME TEXT)")
+            ("CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,$COLUMN_NAME TEXT)")
         db?.execSQL(createTable)
     }
 
