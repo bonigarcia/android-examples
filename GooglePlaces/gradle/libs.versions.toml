@@ -11,7 +11,7 @@ espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.13.0"
 composeBom = "2026.03.00"
-mapsCompose = "8.0.0"
+mapsCompose = "8.2.2"
 playServicesMaps = "20.0.0"
 
 [libraries]
@@ -38,4 +38,3 @@ play-services-maps = { module = "com.google.android.gms:play-services-maps", ver
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 secrets-gradle = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets-gradle" }
-

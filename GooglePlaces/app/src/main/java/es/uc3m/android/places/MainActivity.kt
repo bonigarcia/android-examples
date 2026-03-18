@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
@@ -52,6 +51,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.uc3m.android.places.ui.theme.MyAppTheme
+import es.uc3m.android.places.viewmovel.PlaceAutocomplete
+import es.uc3m.android.places.viewmovel.PlaceDetails
+import es.uc3m.android.places.viewmovel.PlacesViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -165,8 +167,7 @@ fun PlaceDetailsCard(place: PlaceDetails) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Image(
-                bitmap = place.bitmap.asImageBitmap(),
-                contentDescription = place.name
+                bitmap = place.bitmap.asImageBitmap(), contentDescription = place.name
             )
         }
     }

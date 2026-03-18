@@ -14,22 +14,28 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.places
+package es.uc3m.android.places.viewmovel
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.FetchResolvedPhotoUriRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import es.uc3m.android.places.BuildConfig
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import java.net.URL
 
 class PlacesViewModel : ViewModel() {
     private lateinit var placesClient: PlacesClient
@@ -42,16 +48,18 @@ class PlacesViewModel : ViewModel() {
 
     fun initializePlaces(context: Context) {
         if (!Places.isInitialized()) {
-            Places.initialize(context, BuildConfig.MAPS_API_KEY)
+            Places.initializeWithNewPlacesApiEnabled(
+                context.applicationContext, BuildConfig.MAPS_API_KEY
+            )
         }
         placesClient = Places.createClient(context)
     }
 
     fun searchPlaces(query: String) {
         viewModelScope.launch {
-            val request = FindAutocompletePredictionsRequest.builder().setQuery(query).build()
-
-            placesClient.findAutocompletePredictions(request).addOnSuccessListener { response ->
+            try {
+                val request = FindAutocompletePredictionsRequest.builder().setQuery(query).build()
+                val response = placesClient.findAutocompletePredictions(request).await()
                 _predictions.value = response.autocompletePredictions.map { prediction ->
                     PlaceAutocomplete(
                         placeId = prediction.placeId,
@@ -59,40 +67,50 @@ class PlacesViewModel : ViewModel() {
                         secondaryText = prediction.getSecondaryText(null).toString()
                     )
                 }
-            }.addOnFailureListener { exception ->
-                exception.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
 
     fun getPlaceDetails(placeId: String) {
         viewModelScope.launch {
-            val placeFields = listOf(
-                Place.Field.ID,
-                Place.Field.NAME,
-                Place.Field.ADDRESS,
-                Place.Field.LAT_LNG,
-                Place.Field.PHOTO_METADATAS
-            )
-            val request = FetchPlaceRequest.builder(placeId, placeFields).build()
-
-            placesClient.fetchPlace(request).addOnSuccessListener { response ->
+            try {
+                val placeFields = listOf(
+                    Place.Field.ID,
+                    Place.Field.DISPLAY_NAME,
+                    Place.Field.FORMATTED_ADDRESS,
+                    Place.Field.LOCATION,
+                    Place.Field.PHOTO_METADATAS
+                )
+                val request = FetchPlaceRequest.builder(placeId, placeFields).build()
+                val response = placesClient.fetchPlace(request).await()
                 val place = response.place
-                place.photoMetadatas?.first()?.let {
-                    val photoRequest = FetchPhotoRequest.builder(it).build()
-                    placesClient.fetchPhoto(photoRequest).addOnSuccessListener { response ->
-                            _selectedPlace.value = PlaceDetails(
-                                name = place.displayName ?: "Unknown",
-                                address = place.formattedAddress ?: "No address",
-                                latLng = place.location ?: LatLng(0.0, 0.0),
-                                bitmap = response.bitmap
-                            )
-                        }.addOnFailureListener { exception ->
-                            exception.printStackTrace()
+
+                place.photoMetadatas?.firstOrNull()?.let { photoMetadata ->
+                    val photoRequest = FetchResolvedPhotoUriRequest.builder(photoMetadata).build()
+                    val photoResponse = placesClient.fetchResolvedPhotoUri(photoRequest).await()
+                    val photoUri = photoResponse.uri
+
+                    val bitmap = photoUri?.let { uri ->
+                        withContext(Dispatchers.IO) {
+                            URL(uri.toString()).openStream().use {
+                                BitmapFactory.decodeStream(it)
+                            }
                         }
+                    }
+
+                    if (bitmap != null) {
+                        _selectedPlace.value = PlaceDetails(
+                            name = place.displayName ?: "Unknown",
+                            address = place.formattedAddress ?: "No address",
+                            latLng = place.location ?: LatLng(0.0, 0.0),
+                            bitmap = bitmap
+                        )
+                    }
                 }
-            }.addOnFailureListener { exception ->
-                exception.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

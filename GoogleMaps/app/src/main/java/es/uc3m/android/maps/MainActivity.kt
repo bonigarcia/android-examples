@@ -31,8 +31,8 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberUpdatedMarkerState
 import es.uc3m.android.maps.ui.theme.MyAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -57,13 +57,13 @@ fun MapScreen(modifier: Modifier = Modifier) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(statueOfLiberty, 15f)
     }
+    val markerState = rememberUpdatedMarkerState(position = statueOfLiberty)
 
     GoogleMap(
-        modifier = modifier.fillMaxSize(),
-        cameraPositionState = cameraPositionState
+        modifier = modifier.fillMaxSize(), cameraPositionState = cameraPositionState
     ) {
         Marker(
-            state = MarkerState(position = statueOfLiberty),
+            state = markerState,
             title = stringResource(R.string.title),
             snippet = stringResource(R.string.description)
         )
