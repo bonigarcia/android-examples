@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Location</string>
     <string name="get_location">Get Location</string>
-    <string name="permissions_denied">Permissions denied</string>
-    <string name="lat_long">Lat: %1$f, Long: %2$f</string>
+    <string name="lat_lon">Lat: %1$f, Lon: %2$f</string>
+    <string name="permission_denied">Location permission denied</string>
+    <string name="waiting">Waiting for location...</string>
+    <string name="permission_error">Permission error</string>
 </resources>

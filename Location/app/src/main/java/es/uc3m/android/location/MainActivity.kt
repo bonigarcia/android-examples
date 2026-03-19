@@ -20,6 +20,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
@@ -40,9 +41,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -61,9 +61,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    MainScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -74,48 +72,61 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    var location by remember { mutableStateOf("") }
+    val permission = Manifest.permission.ACCESS_FINE_LOCATION
+    val locationManager = remember {
+        context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    }
+
+    var locationText by remember { mutableStateOf("") }
     var permissionsGranted by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
-                context, Manifest.permission.ACCESS_FINE_LOCATION
+                context, permission
             ) == PackageManager.PERMISSION_GRANTED
         )
     }
-    var trigger by remember { mutableIntStateOf(0) }
+    var startListening by remember { mutableStateOf(false) }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         permissionsGranted = isGranted
         if (isGranted) {
-            trigger++
+            startListening = true
         } else {
             Toast.makeText(
-                context, context.getString(R.string.permissions_denied), Toast.LENGTH_LONG
+                context, context.getString(R.string.permission_denied), Toast.LENGTH_LONG
             ).show()
         }
     }
 
-    if (permissionsGranted && trigger > 0) {
-        LaunchedEffect(trigger) {
-            val locationManager =
-                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val locationListener = LocationListener { loc ->
-                location = context.getString(R.string.lat_long, loc.latitude, loc.longitude)
+    if (permissionsGranted && startListening) {
+        DisposableEffect(Unit) {
+            val provider = LocationManager.GPS_PROVIDER
+            val listener = LocationListener { location: Location ->
+                locationText =
+                    context.getString(R.string.lat_lon, location.latitude, location.longitude)
             }
-
-            val providers = locationManager.getProviders(true)
-            for (provider in providers) {
-                locationManager.requestLocationUpdates(
-                    provider, 0L, 1f, locationListener
-                )
-                locationManager.getLastKnownLocation(provider)?.let { loc ->
-                    location = context.getString(R.string.lat_long, loc.latitude, loc.longitude)
+            try {
+                locationManager.getLastKnownLocation(provider)?.let { location ->
+                    locationText =
+                        context.getString(R.string.lat_lon, location.latitude, location.longitude)
+                } ?: run {
+                    locationText = context.getString(R.string.waiting)
                 }
+
+                locationManager.requestLocationUpdates(
+                    provider, 5000L, 10f, listener
+                )
+            } catch (e: SecurityException) {
+                locationText = e.message ?: context.getString(R.string.permission_error)
+            }
+            onDispose {
+                locationManager.removeUpdates(listener)
             }
         }
     }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -125,15 +136,15 @@ fun MainScreen(modifier: Modifier = Modifier) {
     ) {
         Button(
             onClick = {
-                if (permissionsGranted) {
-                    trigger++
-                } else {
-                    permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                if (!permissionsGranted) {
+                    permissionLauncher.launch(permission)
                 }
             }) {
             Text(stringResource(R.string.get_location))
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = location, style = MaterialTheme.typography.bodyLarge)
+        Text(
+            text = locationText, style = MaterialTheme.typography.bodyLarge
+        )
     }
 }
