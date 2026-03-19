@@ -16,6 +16,7 @@
  */
 package es.uc3m.android.geocoding
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -41,10 +42,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import es.uc3m.android.geocoding.model.GeocodingService
 import es.uc3m.android.geocoding.ui.theme.MyAppTheme
 import es.uc3m.android.geocoding.viewmodel.MyViewModel
 
@@ -65,8 +69,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun GeocodingApp(modifier: Modifier = Modifier, viewModel: MyViewModel = viewModel()) {
-    val context = LocalContext.current
+fun GeocodingApp(modifier: Modifier = Modifier) {
+    val viewModel: MyViewModel = viewModel(
+        factory = viewModelFactory {
+            initializer {
+                val application = this[APPLICATION_KEY] as Application
+                val geocoder = GeocodingService(application)
+                MyViewModel(application, geocoder)
+            }
+        })
 
     // State for text fields
     var addressInput by remember { mutableStateOf("") }
@@ -106,7 +117,7 @@ fun GeocodingApp(modifier: Modifier = Modifier, viewModel: MyViewModel = viewMod
 
         Button(
             onClick = {
-                viewModel.geocodeAddress(context, addressInput)
+                viewModel.geocodeAddress(addressInput)
             }, modifier = Modifier.padding(top = 8.dp)
         ) {
             Text(stringResource(R.string.get_coordinates))
@@ -114,8 +125,7 @@ fun GeocodingApp(modifier: Modifier = Modifier, viewModel: MyViewModel = viewMod
 
         if (coordinates.isNotEmpty()) {
             Text(
-                text = coordinates,
-                modifier = Modifier.padding(top = 8.dp)
+                text = coordinates, modifier = Modifier.padding(top = 8.dp)
             )
         }
 
@@ -151,7 +161,7 @@ fun GeocodingApp(modifier: Modifier = Modifier, viewModel: MyViewModel = viewMod
                 try {
                     val lat = latInput.toDouble()
                     val lng = lngInput.toDouble()
-                    viewModel.reverseGeocode(context, lat, lng)
+                    viewModel.reverseGeocode(lat, lng)
                 } catch (e: NumberFormatException) {
                     viewModel.setErrorMessage(e.message)
                 }
@@ -162,8 +172,7 @@ fun GeocodingApp(modifier: Modifier = Modifier, viewModel: MyViewModel = viewMod
 
         if (address.isNotEmpty()) {
             Text(
-                text = address,
-                modifier = Modifier.padding(top = 8.dp)
+                text = address, modifier = Modifier.padding(top = 8.dp)
             )
         }
 

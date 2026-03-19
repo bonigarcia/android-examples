@@ -16,58 +16,57 @@
  */
 package es.uc3m.android.geocoding.viewmodel
 
-import android.content.Context
-import android.location.Geocoder
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import es.uc3m.android.geocoding.model.GeocodingService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.Locale
 
-class MyViewModel : ViewModel() {
+class MyViewModel(
+    application: Application,
+    private val geocodingService: GeocodingService
+) : AndroidViewModel(application) {
+
     private val _address = MutableStateFlow("")
-    val address: StateFlow<String> = _address
+    val address: StateFlow<String> = _address.asStateFlow()
 
     private val _coordinates = MutableStateFlow("")
-    val coordinates: StateFlow<String> = _coordinates
+    val coordinates: StateFlow<String> = _coordinates.asStateFlow()
 
     private val _errorMessage = MutableStateFlow("")
-    val errorMessage: StateFlow<String> = _errorMessage
+    val errorMessage: StateFlow<String> = _errorMessage.asStateFlow()
 
-    fun geocodeAddress(context: Context, address: String) {
+    // Helper method to access strings from resources
+    private fun getString(resId: Int, vararg formatArgs: Any): String =
+        getApplication<Application>().getString(resId, *formatArgs)
+
+    fun geocodeAddress(address: String) {
         viewModelScope.launch {
-            try {
-                val geocoder = Geocoder(context, Locale.getDefault())
-                val addresses = geocoder.getFromLocationName(address, 1)
-                if (addresses?.isNotEmpty() == true) {
-                    val location = addresses[0]
-                    val lat = location.latitude
-                    val lng = location.longitude
-                    _coordinates.value = "Lat: $lat, Lng: $lng"
-                    _errorMessage.value = ""
-                }
-            } catch (e: Exception) {
-                setErrorMessage(e.message)
+            val result = geocodingService.geocodeAddress(address)
+
+            result.onSuccess { (lat, lng) ->
+                _coordinates.value = "Lat: $lat, Lng: $lng"
+                _errorMessage.value = ""
+            }.onFailure { error ->
+                _coordinates.value = ""
+                _errorMessage.value = error.message ?: "Unknown error"
             }
         }
     }
 
-    fun reverseGeocode(context: Context, lat: Double, lng: Double) {
+    fun reverseGeocode(lat: Double, lng: Double) {
         viewModelScope.launch {
-            try {
-                val geocoder = Geocoder(context, Locale.getDefault())
-                val addresses = geocoder.getFromLocation(lat, lng, 1)
-                if (addresses?.isNotEmpty() == true) {
-                    val address = addresses[0]
-                    val addressText = (0..address.maxAddressLineIndex).joinToString("\n") {
-                        address.getAddressLine(it)
-                    }
-                    _address.value = addressText
-                    _errorMessage.value = ""
-                }
-            } catch (e: Exception) {
-                setErrorMessage(e.message)
+            val result = geocodingService.reverseGeocode(lat, lng)
+
+            result.onSuccess { addressText ->
+                _address.value = addressText
+                _errorMessage.value = ""
+            }.onFailure { error ->
+                _address.value = ""
+                _errorMessage.value = error.message ?: "Unknown error"
             }
         }
     }
