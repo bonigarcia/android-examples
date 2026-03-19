@@ -37,7 +37,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,15 +44,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.uc3m.android.places.ui.theme.MyAppTheme
+import es.uc3m.android.places.viewmovel.MyViewModel
 import es.uc3m.android.places.viewmovel.PlaceAutocomplete
 import es.uc3m.android.places.viewmovel.PlaceDetails
-import es.uc3m.android.places.viewmovel.PlacesViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,14 +71,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun PlacesScreen(modifier: Modifier = Modifier) {
-    val viewModel: PlacesViewModel = viewModel()
-    val context = LocalContext.current
+    val viewModel: MyViewModel = viewModel()
     var searchQuery by remember { mutableStateOf("") }
-
-    // Initialize Places API
-    LaunchedEffect(Unit) {
-        viewModel.initializePlaces(context)
-    }
 
     Column(
         modifier = modifier

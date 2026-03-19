@@ -16,10 +16,10 @@
  */
 package es.uc3m.android.places.viewmovel
 
-import android.content.Context
+import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
@@ -29,6 +29,7 @@ import com.google.android.libraries.places.api.net.FetchResolvedPhotoUriRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import es.uc3m.android.places.BuildConfig
+import es.uc3m.android.places.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,8 +38,8 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.net.URL
 
-class PlacesViewModel : ViewModel() {
-    private lateinit var placesClient: PlacesClient
+class MyViewModel(application: Application) : AndroidViewModel(application) {
+    private var placesClient: PlacesClient
 
     private val _predictions = MutableStateFlow<List<PlaceAutocomplete>>(emptyList())
     val predictions: StateFlow<List<PlaceAutocomplete>> = _predictions
@@ -46,13 +47,13 @@ class PlacesViewModel : ViewModel() {
     private val _selectedPlace = MutableStateFlow<PlaceDetails?>(null)
     val selectedPlace: StateFlow<PlaceDetails?> = _selectedPlace
 
-    fun initializePlaces(context: Context) {
+    init {
         if (!Places.isInitialized()) {
             Places.initializeWithNewPlacesApiEnabled(
-                context.applicationContext, BuildConfig.MAPS_API_KEY
+                application, BuildConfig.MAPS_API_KEY
             )
         }
-        placesClient = Places.createClient(context)
+        placesClient = Places.createClient(application)
     }
 
     fun searchPlaces(query: String) {
@@ -102,8 +103,8 @@ class PlacesViewModel : ViewModel() {
 
                     if (bitmap != null) {
                         _selectedPlace.value = PlaceDetails(
-                            name = place.displayName ?: "Unknown",
-                            address = place.formattedAddress ?: "No address",
+                            name = place.displayName ?: getString(R.string.unknown),
+                            address = place.formattedAddress ?: getString(R.string.no_address),
                             latLng = place.location ?: LatLng(0.0, 0.0),
                             bitmap = bitmap
                         )
@@ -115,8 +116,11 @@ class PlacesViewModel : ViewModel() {
         }
     }
 
-}
+    // Helper method to access strings from resources
+    private fun getString(resId: Int, vararg formatArgs: Any): String =
+        getApplication<Application>().getString(resId, *formatArgs)
 
+}
 
 data class PlaceAutocomplete(
     val placeId: String, val primaryText: String, val secondaryText: String

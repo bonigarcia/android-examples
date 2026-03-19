@@ -4,4 +4,6 @@
     <string name="location">Location: %1$s, %2$s</string>
     <string name="search_results">Search Results</string>
     <string name="selected_place">Selected Place</string>
+    <string name="unknown">Unknown</string>
+    <string name="no_address">No address</string>
 </resources>
