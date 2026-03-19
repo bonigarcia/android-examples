@@ -37,6 +37,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -53,9 +54,9 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberUpdatedMarkerState
 import com.google.maps.model.DirectionsResult
 import com.google.maps.model.DirectionsRoute
 import com.google.maps.model.TravelMode
@@ -150,8 +151,7 @@ fun RouteMapView(routes: List<DirectionsRoute>) {
     // Default to first route's start location
     val firstRoute = routes.first()
     val startLocation = LatLng(
-        firstRoute.legs[0].startLocation.lat,
-        firstRoute.legs[0].startLocation.lng
+        firstRoute.legs[0].startLocation.lat, firstRoute.legs[0].startLocation.lng
     )
 
     // Camera position state
@@ -160,7 +160,7 @@ fun RouteMapView(routes: List<DirectionsRoute>) {
     }
 
     // For route selection if multiple routes exist
-    var selectedRouteIndex by remember { mutableStateOf(0) }
+    var selectedRouteIndex by remember { mutableIntStateOf(0) }
 
     Column(Modifier.fillMaxSize()) {
         // Route selector if multiple routes
@@ -179,24 +179,24 @@ fun RouteMapView(routes: List<DirectionsRoute>) {
             // Draw the selected route
             val selectedRoute = routes[selectedRouteIndex]
             DrawRoute(selectedRoute)
+            val starMarker = rememberUpdatedMarkerState(
+                position = LatLng(
+                    selectedRoute.legs[0].startLocation.lat, selectedRoute.legs[0].startLocation.lng
+                )
+            )
+            val endMarker = rememberUpdatedMarkerState(
+                position = LatLng(
+                    selectedRoute.legs[0].endLocation.lat, selectedRoute.legs[0].endLocation.lng
+                )
+            )
 
             // Add markers for start and end
             Marker(
-                state = MarkerState(
-                    position = LatLng(
-                        selectedRoute.legs[0].startLocation.lat,
-                        selectedRoute.legs[0].startLocation.lng
-                    )
-                ),
+                state = starMarker,
                 title = stringResource(R.string.start, selectedRoute.legs[0].startAddress)
             )
             Marker(
-                state = MarkerState(
-                    position = LatLng(
-                        selectedRoute.legs[0].endLocation.lat,
-                        selectedRoute.legs[0].endLocation.lng
-                    )
-                ),
+                state = endMarker,
                 title = stringResource(R.string.end, selectedRoute.legs[0].endAddress)
             )
         }
@@ -212,17 +212,13 @@ fun DrawRoute(route: DirectionsRoute) {
 
     // Draw the polyline
     Polyline(
-        points = pathPoints,
-        color = Color.Blue,
-        width = 8f
+        points = pathPoints, color = Color.Blue, width = 8f
     )
 }
 
 @Composable
 fun RouteSelector(
-    routes: List<DirectionsRoute>,
-    selectedIndex: Int,
-    onSelectionChanged: (Int) -> Unit
+    routes: List<DirectionsRoute>, selectedIndex: Int, onSelectionChanged: (Int) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -240,8 +236,7 @@ fun RouteSelector(
                 )
             ) {
                 Text(
-                    text = stringResource(R.string.route_label, index + 1),
-                    maxLines = 1
+                    text = stringResource(R.string.route_label, index + 1), maxLines = 1
                 )
             }
             if (index < routes.size - 1) Spacer(modifier = Modifier.width(4.dp))
