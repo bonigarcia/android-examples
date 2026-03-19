@@ -16,19 +16,17 @@
  */
 package es.uc3m.android.geocoding.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.uc3m.android.geocoding.model.GeocodingService
+import es.uc3m.android.geocoding.geocoder.GeocodingService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MyViewModel(
-    application: Application,
     private val geocodingService: GeocodingService
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private val _address = MutableStateFlow("")
     val address: StateFlow<String> = _address.asStateFlow()
@@ -39,20 +37,16 @@ class MyViewModel(
     private val _errorMessage = MutableStateFlow("")
     val errorMessage: StateFlow<String> = _errorMessage.asStateFlow()
 
-    // Helper method to access strings from resources
-    private fun getString(resId: Int, vararg formatArgs: Any): String =
-        getApplication<Application>().getString(resId, *formatArgs)
-
     fun geocodeAddress(address: String) {
         viewModelScope.launch {
             val result = geocodingService.geocodeAddress(address)
 
-            result.onSuccess { (lat, lng) ->
-                _coordinates.value = "Lat: $lat, Lng: $lng"
+            result.onSuccess { latLon ->
+                _coordinates.value = latLon
                 _errorMessage.value = ""
             }.onFailure { error ->
                 _coordinates.value = ""
-                _errorMessage.value = error.message ?: "Unknown error"
+                setErrorMessage(error.message)
             }
         }
     }
@@ -66,7 +60,7 @@ class MyViewModel(
                 _errorMessage.value = ""
             }.onFailure { error ->
                 _address.value = ""
-                _errorMessage.value = error.message ?: "Unknown error"
+                setErrorMessage(error.message)
             }
         }
     }
@@ -74,4 +68,5 @@ class MyViewModel(
     fun setErrorMessage(message: String?) {
         _errorMessage.value = message.orEmpty()
     }
+
 }

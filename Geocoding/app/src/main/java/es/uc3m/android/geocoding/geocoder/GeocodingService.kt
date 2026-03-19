@@ -14,11 +14,12 @@
  * limitations under the License.
  *
  */
-package es.uc3m.android.geocoding.model
+package es.uc3m.android.geocoding.geocoder
 
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
+import es.uc3m.android.geocoding.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Locale
@@ -26,44 +27,33 @@ import java.util.Locale
 class GeocodingService(context: Context) {
 
     private val appContext = context.applicationContext
+    private val geocoder = Geocoder(appContext, Locale.getDefault())
 
-    suspend fun geocodeAddress(address: String): Result<Pair<Double, Double>> =
-        withContext(Dispatchers.IO) {
-            try {
-                if (!Geocoder.isPresent()) {
-                    return@withContext Result.failure(
-                        IllegalStateException("Geocoder not available")
+
+    suspend fun geocodeAddress(address: String): Result<String> = withContext(Dispatchers.IO) {
+        try {
+            val results = geocoder.getFromLocationName(address, 1)
+            if (results.isNullOrEmpty()) {
+                Result.failure(NoSuchElementException(getString(R.string.no_results)))
+            } else {
+                val location = results[0]
+                Result.success(
+                    getString(
+                        R.string.lat_lon, location.latitude, location.longitude
                     )
-                }
-
-                val geocoder = Geocoder(appContext, Locale.getDefault())
-                val results = geocoder.getFromLocationName(address, 1)
-
-                if (results.isNullOrEmpty()) {
-                    Result.failure(NoSuchElementException("No results found"))
-                } else {
-                    val location = results[0]
-                    Result.success(location.latitude to location.longitude)
-                }
-            } catch (e: Exception) {
-                Result.failure(e)
+                )
             }
+        } catch (e: Exception) {
+            Result.failure(e)
         }
+    }
 
     suspend fun reverseGeocode(lat: Double, lng: Double): Result<String> =
         withContext(Dispatchers.IO) {
             try {
-                if (!Geocoder.isPresent()) {
-                    return@withContext Result.failure(
-                        IllegalStateException("Geocoder not available")
-                    )
-                }
-
-                val geocoder = Geocoder(appContext, Locale.getDefault())
                 val results = geocoder.getFromLocation(lat, lng, 1)
-
                 if (results.isNullOrEmpty()) {
-                    Result.failure(NoSuchElementException("No results found"))
+                    Result.failure(NoSuchElementException(getString(R.string.no_results)))
                 } else {
                     val address = results[0]
                     val addressText = buildAddressText(address)
@@ -74,6 +64,7 @@ class GeocodingService(context: Context) {
             }
         }
 
+    // Helper method to build text address from Address object
     private fun buildAddressText(address: Address): String {
         return if (address.maxAddressLineIndex >= 0) {
             (0..address.maxAddressLineIndex).joinToString("\n") { index ->
@@ -87,4 +78,9 @@ class GeocodingService(context: Context) {
             ).joinToString(", ")
         }
     }
+
+    // Helper method to access strings from resources
+    private fun getString(resId: Int, vararg formatArgs: Any): String =
+        appContext.getString(resId, *formatArgs)
+
 }

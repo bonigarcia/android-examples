@@ -8,4 +8,6 @@
     <string name="error">Error: %1$s</string>
     <string name="get_address">Get Address</string>
     <string name="get_coordinates">Get coordinates</string>
+    <string name="no_results">No results found</string>
+    <string name="lat_lon">Lat: %1$s, Lng: %2$s</string>
 </resources>

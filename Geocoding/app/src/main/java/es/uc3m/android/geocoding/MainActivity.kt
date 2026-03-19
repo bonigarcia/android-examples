@@ -48,7 +48,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import es.uc3m.android.geocoding.model.GeocodingService
+import es.uc3m.android.geocoding.geocoder.GeocodingService
 import es.uc3m.android.geocoding.ui.theme.MyAppTheme
 import es.uc3m.android.geocoding.viewmodel.MyViewModel
 
@@ -75,7 +75,7 @@ fun GeocodingApp(modifier: Modifier = Modifier) {
             initializer {
                 val application = this[APPLICATION_KEY] as Application
                 val geocoder = GeocodingService(application)
-                MyViewModel(application, geocoder)
+                MyViewModel(geocoder)
             }
         })
 
