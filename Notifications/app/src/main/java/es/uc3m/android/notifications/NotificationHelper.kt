@@ -55,6 +55,7 @@ class NotificationHelper(private val context: Context) {
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
                 description = STANDARD_CHANNEL_DESCRIPTION
+                setShowBadge(true)
             }
 
             // Channel for heads-up notifications
@@ -114,7 +115,7 @@ class NotificationHelper(private val context: Context) {
             .setContentIntent(getPendingIntent())
             .setAutoCancel(true)
             .setNumber(5) // This makes the badge appear
-            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
+            .setBadgeIconType(NotificationCompat.BADGE_ICON_NONE)
             .build()
 
         with(NotificationManagerCompat.from(context)) {

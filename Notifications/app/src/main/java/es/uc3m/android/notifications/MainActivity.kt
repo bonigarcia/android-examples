@@ -16,6 +16,7 @@
  */
 package es.uc3m.android.notifications
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -33,9 +34,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.uc3m.android.notifications.ui.theme.MyAppTheme
@@ -56,10 +59,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun NotificationDemoApp(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val notificationHelper = NotificationHelper(context)
+    val notificationHelper = remember { NotificationHelper(context) }
 
     // Notification permission launcher for Android 13+
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -92,7 +96,7 @@ fun NotificationDemoApp(modifier: Modifier = Modifier) {
                 )
             }, modifier = Modifier.padding(8.dp)
         ) {
-            Text(context.getString(R.string.status_bar_button))
+            Text(stringResource(R.string.status_bar_button))
         }
 
         Button(
@@ -103,7 +107,7 @@ fun NotificationDemoApp(modifier: Modifier = Modifier) {
                 )
             }, modifier = Modifier.padding(8.dp)
         ) {
-            Text(context.getString(R.string.heads_up_button))
+            Text(stringResource(R.string.heads_up_button))
         }
 
         Button(
@@ -114,7 +118,7 @@ fun NotificationDemoApp(modifier: Modifier = Modifier) {
                 )
             }, modifier = Modifier.padding(8.dp)
         ) {
-            Text(context.getString(R.string.badge_button))
+            Text(stringResource(R.string.badge_button))
         }
     }
 }
