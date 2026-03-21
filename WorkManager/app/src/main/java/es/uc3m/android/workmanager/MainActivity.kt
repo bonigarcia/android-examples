@@ -31,7 +31,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
@@ -81,13 +81,13 @@ fun WorkManagerDemoScreen(modifier: Modifier = Modifier) {
             workManager.getWorkInfoByIdFlow(id)
         } ?: emptyFlow()
     }
-    val oneTimeInfo by oneTimeFlow.collectAsState(initial = null)
+    val oneTimeInfo by oneTimeFlow.collectAsStateWithLifecycle(initialValue = null)
     val oneTimeStatus = oneTimeInfo?.state?.name ?: stringResource(R.string.not_scheduled)
 
     val periodicFlow = remember {
         workManager.getWorkInfosForUniqueWorkFlow(PERIODIC_WORK_NAME)
     }
-    val periodicInfos by periodicFlow.collectAsState(initial = emptyList())
+    val periodicInfos by periodicFlow.collectAsStateWithLifecycle(initialValue = emptyList())
     val periodicStatus =
         periodicInfos.firstOrNull()?.state?.name ?: stringResource(R.string.not_scheduled)
 
