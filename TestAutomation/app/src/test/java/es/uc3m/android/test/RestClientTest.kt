@@ -30,7 +30,7 @@ class RestClientTest {
 
         // Verify
         assertTrue(response.isSuccessful)
-        var todos = response.body()?.todos!!
+        val todos = response.body()?.todos!!
         println(">>> todos: $todos")
         assertTrue(todos.isNotEmpty())
     }

@@ -27,6 +27,6 @@ interface DummyJsonService {
     suspend fun getTodos(): Response<Todos>
 
     @POST("recipes/add")
-    suspend fun addRecipes(@Body recipe: Recipe): Response<Recipe>
+    suspend fun addRecipe(@Body recipe: Recipe): Response<Recipe>
 
 }
