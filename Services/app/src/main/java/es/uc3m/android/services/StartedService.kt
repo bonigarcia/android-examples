@@ -39,8 +39,10 @@ class StartedService : Service() {
 
         CoroutineScope(Dispatchers.IO).launch {
             for (i in 1..10) {
-                @SuppressLint("StringFormatMatches")
-                Log.d(TAG, getString(R.string.processing, input, i))
+                @SuppressLint("StringFormatMatches") Log.d(
+                    TAG,
+                    getString(R.string.processing, input, i)
+                )
                 delay(1000)
             }
             stopSelf(startId)

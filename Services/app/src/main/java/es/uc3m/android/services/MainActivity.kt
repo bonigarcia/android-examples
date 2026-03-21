@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@SuppressLint("UnrememberedMutableState")
+@SuppressLint("UnrememberedMutableState", "LocalContextGetResourceValueCall")
 @Composable
 fun ServiceDemoApp(modifier: Modifier = Modifier) {
     var serviceBound by remember { mutableStateOf(false) }
