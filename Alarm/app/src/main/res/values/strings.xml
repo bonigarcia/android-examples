@@ -9,4 +9,5 @@
     <string name="repeating_alarm_canceled">Cancel Repeating Alarm</string>
     <string name="one_time_alarm_msg">This is a one-time alarm!</string>
     <string name="repeating_alarm_msg">This is a repeating alarm!</string>
+    <string name="permission_denied">Notification permission denied</string>
 </resources>

@@ -16,12 +16,17 @@
  */
 package es.uc3m.android.alarms
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,6 +36,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -42,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import es.uc3m.android.alarms.ui.theme.MyAppTheme
 
 const val MSG_KEY = "MESSAGE"
+const val ONE_TIME_ALARM_REQUEST_CODE = 122
 const val REPEATING_ALARM_REQUEST_CODE = 123
 
 class MainActivity : ComponentActivity() {
@@ -60,12 +67,29 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun AlarmApp(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val alarmState = remember { mutableStateOf("") }
-    val alarmsHelper = AlarmsHelper(context, alarmManager)
+    val alarmsHelper = remember { AlarmsHelper(context, alarmManager) }
+
+    // Notification permission launcher for Android 13+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (!isGranted) {
+            Toast.makeText(
+                context, context.getString(R.string.permission_denied), Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+    LaunchedEffect(Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
 
     Column(
         modifier = modifier
