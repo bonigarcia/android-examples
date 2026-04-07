@@ -19,20 +19,31 @@ package es.uc3m.android.geocoding.geocoder
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
+import android.os.Build
 import es.uc3m.android.geocoding.R
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import java.util.Locale
+import kotlin.coroutines.resume
 
+@Suppress("DEPRECATION")
 class GeocodingService(context: Context) {
 
     private val appContext = context.applicationContext
     private val geocoder = Geocoder(appContext, Locale.getDefault())
 
-
     suspend fun geocodeAddress(address: String): Result<String> = withContext(Dispatchers.IO) {
         try {
-            val results = geocoder.getFromLocationName(address, 1)
+            val results = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                suspendCancellableCoroutine<List<Address>?> { cont ->
+                    geocoder.getFromLocationName(address, 1) { list ->
+                        if (cont.isActive) cont.resume(list)
+                    }
+                }
+            } else {
+                geocoder.getFromLocationName(address, 1)
+            }
             if (results.isNullOrEmpty()) {
                 Result.failure(NoSuchElementException(getString(R.string.no_results)))
             } else {
@@ -51,7 +62,15 @@ class GeocodingService(context: Context) {
     suspend fun reverseGeocode(lat: Double, lng: Double): Result<String> =
         withContext(Dispatchers.IO) {
             try {
-                val results = geocoder.getFromLocation(lat, lng, 1)
+                val results = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    suspendCancellableCoroutine<List<Address>?> { cont ->
+                        geocoder.getFromLocation(lat, lng, 1) { list ->
+                            if (cont.isActive) cont.resume(list)
+                        }
+                    }
+                } else {
+                    geocoder.getFromLocation(lat, lng, 1)
+                }
                 if (results.isNullOrEmpty()) {
                     Result.failure(NoSuchElementException(getString(R.string.no_results)))
                 } else {
