@@ -18,7 +18,6 @@ package es.uc3m.android.test
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -33,25 +32,25 @@ class AddRecipeTest {
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val testRule = createAndroidComposeRule<MainActivity>()
 
     @Test
     fun addRecipeTest() {
         // Exercise: click on +
         val add = context.getString(R.string.add)
-        composeTestRule.onNodeWithContentDescription(add).performClick()
+        testRule.onNodeWithContentDescription(add).performClick()
 
         // Exercise: add recipe
-        composeTestRule.onNode(hasText(context.getString(R.string.name)))
+        testRule.onNodeWithText(context.getString(R.string.name))
             .performTextInput("My recipe")
-        composeTestRule.onNode(hasText(context.getString(R.string.ingredients)))
+        testRule.onNodeWithText(context.getString(R.string.ingredients))
             .performTextInput("My ingredients")
         val accept = context.getString(R.string.accept)
-        composeTestRule.onNodeWithText(accept).performClick()
+        testRule.onNodeWithText(accept).performClick()
 
         // Verify: we're back to home
-        composeTestRule.onNodeWithContentDescription(accept).assertIsNotDisplayed()
-        composeTestRule.onNodeWithContentDescription(add).assertIsDisplayed()
+        testRule.onNodeWithContentDescription(accept).assertIsNotDisplayed()
+        testRule.onNodeWithContentDescription(add).assertIsDisplayed()
     }
 
 }

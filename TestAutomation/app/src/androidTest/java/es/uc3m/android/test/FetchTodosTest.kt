@@ -23,6 +23,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -42,7 +43,8 @@ class FetchTodosTest {
         composeTestRule.waitUntil(5000) {
             composeTestRule.onNodeWithText(context.getString(R.string.my_todos)).isDisplayed()
         }
-        composeTestRule.onNodeWithTag("todos").onChildren().fetchSemanticsNodes().isNotEmpty()
+        val todoItems = composeTestRule.onNodeWithTag("todos").onChildren().fetchSemanticsNodes()
+        assertTrue(todoItems.isNotEmpty())
     }
 
 }
