@@ -12,10 +12,10 @@ These Android apps have been designed by [Boni García](https://bonigarcia.dev/)
 [3. Intents and broadcast receivers in Android](https://bonigarcia.dev/learning/mobile-applications/MA_03-android_intents_broadcast_receivers_v1.pdf)\
 [4. Persistent storage in Android](https://bonigarcia.dev/learning/mobile-applications/MA_04-android_persistent_storage_v2.pdf)\
 [5. REST APIs in Android](https://bonigarcia.dev/learning/mobile-applications/MA_05-android_rest_apis_v1.pdf)\
-6. Maps and location-based services for Android (TBD)\
-7. Services, notifications, and alarms in Android (TBD)\
-8. Test automation in Android (TBD)\
-9. Introduction to cross-platform apps development (TBD)
+[6. Maps and location-based services in Android](https://bonigarcia.dev/learning/mobile-applications/MA_06-android_maps_location_v1.pdf)\
+[7. Background work, notifications, and alarms in Android](https://bonigarcia.dev/learning/mobile-applications/MA_07-android_background_notifications_alarms_v1.pdf)\
+[8. Test automation in Android](https://bonigarcia.dev/learning/mobile-applications/MA_08-android_test_automation_v1.pdf)\
+[9. Introduction to cross-platform apps development](https://bonigarcia.dev/learning/mobile-applications/MA_09-cross_platform_apps_intro_v1.pdf)
 
 ## About
 
